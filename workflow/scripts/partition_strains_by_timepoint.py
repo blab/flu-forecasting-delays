@@ -17,6 +17,7 @@ if __name__ == '__main__':
     parser.add_argument("metadata", help="tab-delimited metadata with columns for strain and date")
     parser.add_argument("timepoint", help="date for which strains should be partitioned")
     parser.add_argument("output", help="text file into which strains should be written for the given timepoint")
+    parser.add_argument("--date-field", default="date", help="partition strains by the given date field of the metadata")
     parser.add_argument("--years-back", type=int, help="Number of years prior to the given timepoint to limit strains to")
     parser.add_argument("--additional-years-back-for-references", type=int, default=5, help="Additional number of years prior to the given timepoint to allow reference strains")
     parser.add_argument("--reference-strains", help="text file containing list of reference strains that should be included from the original strains even if they were sampled prior to the minimum date determined by the requested number of years before the given timepoint")
@@ -31,7 +32,7 @@ if __name__ == '__main__':
 
     # Convert string dates with potential ambiguity (e.g., 2010-05-XX) into
     # floating point dates.
-    dates = get_numerical_dates(metadata, fmt="%Y-%m-%d")
+    dates = get_numerical_dates(metadata, date_col=args.date_field, fmt="%Y-%m-%d")
 
     # Setup reference strains.
     if args.reference_strains:

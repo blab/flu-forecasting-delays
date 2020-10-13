@@ -40,6 +40,50 @@
                 "validation_predictors": [
                     "cTiter_x-ne_star"
                 ]
+            },
+            "h3n2_realistic_delay": {
+                "description": "H3N2 forecasts with realistic submission delay based on empirical data from 2019-2020",
+                "dataset_sample": "h3n2",
+                "full_tree_build": "h3n2_realistic_delay_full_tree",
+                "sequences": "data/natural/h3n2/filtered_sequences.fasta",
+                "metadata": "data/natural/h3n2/strains_metadata.tsv",
+                "titers": "data/natural/h3n2/titers.tsv",
+                "partition_strains_by": "realistic_submission_date",
+                "start_date": "1990-10-01",
+                "end_date": "2015-10-01",
+                "pivot_interval": 3,
+                "min_years_per_build": 6,
+                "years_back_to_build_trees": 6,
+                "reference": "config/reference_h3n2_ha.gb",
+                "predictors": [
+                    "cTiter_x-ne_star"
+                ],
+                "best_predictor": "data/h3n2/models/cTiter_x-ne_star.json",
+                "validation_predictors": [
+                    "cTiter_x-ne_star"
+                ]
+            },
+            "h3n2_ideal_delay": {
+                "description": "H3N2 forecasts with ideal submission delay with a mean delay of approximately one month",
+                "dataset_sample": "h3n2",
+                "full_tree_build": "h3n2_ideal_delay_full_tree",
+                "sequences": "data/natural/h3n2/filtered_sequences.fasta",
+                "metadata": "data/natural/h3n2/strains_metadata.tsv",
+                "titers": "data/natural/h3n2/titers.tsv",
+                "partition_strains_by": "ideal_submission_date",
+                "start_date": "1990-10-01",
+                "end_date": "2015-10-01",
+                "pivot_interval": 3,
+                "min_years_per_build": 6,
+                "years_back_to_build_trees": 6,
+                "reference": "config/reference_h3n2_ha.gb",
+                "predictors": [
+                    "cTiter_x-ne_star"
+                ],
+                "best_predictor": "data/h3n2/models/cTiter_x-ne_star.json",
+                "validation_predictors": [
+                    "cTiter_x-ne_star"
+                ]
             }
         }
     },

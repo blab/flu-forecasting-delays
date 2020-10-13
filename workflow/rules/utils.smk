@@ -44,6 +44,9 @@ def _get_metadata_by_wildcards(wildcards):
 def _get_complete_metadata_by_wildcards(wildcards):
     return config["builds"][wildcards.type][wildcards.sample]["complete_metadata"]
 
+def _get_date_field_to_partition_strains_by(wildcards):
+    return config["builds"][wildcards.type][wildcards.sample]["partition_strains_by"]
+
 def _get_strains_by_wildcards(wildcards):
     return config["builds"][wildcards.type][wildcards.sample]["strains"]
 

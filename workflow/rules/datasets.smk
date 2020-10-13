@@ -271,8 +271,33 @@ if "RETHINK_HOST" in os.environ and "RETHINK_AUTH_KEY" in os.environ:
         conda: "../envs/anaconda.python3.yaml"
         shell:
             """
-            python3 scripts/filter_strains_with_ambiguous_dates.py \
+            python3 workflow/scripts/filter_strains_with_ambiguous_dates.py \
                 --metadata {input.metadata} \
+                --output {output.metadata}
+            """
+
+
+    rule annotate_hypothetical_submission_dates:
+        input:
+            metadata = DATA_NATURAL_ROOT_PATH + "filtered_metadata.tsv"
+        output:
+            metadata = DATA_NATURAL_ROOT_PATH + "annotated_metadata.tsv"
+        params:
+            date_field = "date",
+            submission_fields = "realistic_submission_date ideal_submission_date",
+            shapes = "1.87 1.87",
+            locations = "6.97 6.97",
+            scales = "51.93 17.31"
+        conda: "../envs/anaconda.python3.yaml"
+        shell:
+            """
+            python3 workflow/scripts/annotate_delays.py \
+                --metadata {input.metadata} \
+                --date-field {params.date_field} \
+                --submission-field {params.submission_fields} \
+                --shape {params.shapes} \
+                --location {params.locations} \
+                --scale {params.scales} \
                 --output {output.metadata}
             """
 
@@ -280,7 +305,7 @@ if "RETHINK_HOST" in os.environ and "RETHINK_AUTH_KEY" in os.environ:
     rule select_strains:
         input:
             sequences = rules.filter.output.sequences,
-            metadata = rules.filter_metadata.output.metadata,
+            metadata = rules.annotate_hypothetical_submission_dates.output.metadata,
             titers = rules.get_titers_by_passage.output.titers,
             include = _get_required_strains
         output:
@@ -312,13 +337,13 @@ if "RETHINK_HOST" in os.environ and "RETHINK_AUTH_KEY" in os.environ:
     rule extract_strain_metadata:
         input:
             strains = _get_strains_for_natural_data,
-            metadata = rules.filter_metadata.output.metadata
+            metadata = rules.annotate_hypothetical_submission_dates.output.metadata
         output:
             metadata = protected(DATA_NATURAL_ROOT_PATH + "strains_metadata.tsv")
         conda: "../envs/anaconda.python3.yaml"
         shell:
             """
-            python3 scripts/filter_metadata_by_strains.py \
+            python3 workflow/scripts/filter_metadata_by_strains.py \
                 --metadata {input.metadata} \
                 --strains {input.strains} \
                 --output {output.metadata}

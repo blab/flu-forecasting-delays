@@ -12,15 +12,17 @@ rule get_strains_by_timepoint:
     output:
         strains = BUILD_TIMEPOINT_PATH + "strains.txt"
     params:
+        date_field = _get_date_field_to_partition_strains_by,
         years_back = _get_years_back_to_build_trees,
         reference_strains = _get_required_strains_argument
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """
-        python3 scripts/partition_strains_by_timepoint.py \
+        python3 workflow/scripts/partition_strains_by_timepoint.py \
             {input.metadata} \
             {wildcards.timepoint} \
             {output} \
+            --date-field {params.date_field} \
             --years-back {params.years_back} \
             {params.reference_strains}
         """
