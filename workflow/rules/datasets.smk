@@ -55,7 +55,7 @@ rule standardize_simulated_sequence_dates:
         generations_per_year = 200.0
     shell:
         """
-        python3 scripts/standardize_simulated_sequence_dates.py \
+        python3 workflow/scripts/standardize_simulated_sequence_dates.py \
             --metadata {input.metadata} \
             --start-year {params.start_year} \
            --generations-per-year {params.generations_per_year} \
@@ -97,7 +97,7 @@ rule filter_metadata_simulated:
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """
-        python3 scripts/filter_simulated_metadata.py \
+        python3 workflow/scripts/filter_simulated_metadata.py \
             --sequences {input.sequences} \
             --metadata {input.metadata} \
             --output {output.metadata}
@@ -195,7 +195,7 @@ if "RETHINK_HOST" in os.environ and "RETHINK_AUTH_KEY" in os.environ:
         conda: "../envs/anaconda.python3.yaml"
         shell:
             """
-            python3 scripts/get_titers_by_passage.py \
+            python3 workflow/scripts/get_titers_by_passage.py \
                 --titers {input.titers} \
                 --passage-type {params.passage} \
                 --output {output.titers}
@@ -214,7 +214,7 @@ if "RETHINK_HOST" in os.environ and "RETHINK_AUTH_KEY" in os.environ:
         conda: "../envs/anaconda.python3.yaml"
         shell:
             """
-            python3 scripts/get_titers_by_passage.py \
+            python3 workflow/scripts/get_titers_by_passage.py \
                 --titers {input.titers} \
                 --passage-type {params.passage} \
                 --output {output.titers}
@@ -321,7 +321,7 @@ if "RETHINK_HOST" in os.environ and "RETHINK_AUTH_KEY" in os.environ:
         log: "logs/select_strains_natural_{sample}.log"
         shell:
             """
-            python3 scripts/select_strains.py \
+            python3 workflow/scripts/select_strains.py \
                 --sequences {input.sequences} \
                 --metadata {input.metadata} \
                 --segments {params.segment} \

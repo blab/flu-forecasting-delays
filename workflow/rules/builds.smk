@@ -37,7 +37,7 @@ rule extract:
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """
-        python3 scripts/extract_sequences.py \
+        python3 workflow/scripts/extract_sequences.py \
             --sequences {input.sequences} \
             --samples {input.strains} \
             --output {output}
@@ -185,7 +185,7 @@ rule estimate_frequencies:
     conda: "../envs/anaconda.python3.yaml"
     benchmark: "benchmarks/estimate_frequencies_" + BUILD_SEGMENT_LOG_STEM + ".txt"
     log: "logs/estimate_frequencies_" + BUILD_SEGMENT_LOG_STEM + ".log"
-    shell: """python3 scripts/frequencies.py {input.tree} {input.metadata} {output} \
+    shell: """python3 workflow/scripts/frequencies.py {input.tree} {input.metadata} {output} \
 --narrow-bandwidth {params.narrow_bandwidth} \
 --wide-bandwidth {params.wide_bandwidth} \
 --proportion-wide {params.proportion_wide} \
@@ -238,7 +238,7 @@ rule convert_frequencies_to_table:
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """
-        python3 scripts/frequencies_to_table.py \
+        python3 workflow/scripts/frequencies_to_table.py \
             --tree {input.tree} \
             --frequencies {input.frequencies} \
             --method {params.method} \
@@ -258,7 +258,7 @@ rule convert_diffusion_frequencies_to_table:
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """
-        python3 scripts/frequencies_to_table.py \
+        python3 workflow/scripts/frequencies_to_table.py \
             --tree {input.tree} \
             --frequencies {input.frequencies} \
             --method {params.method} \
@@ -341,7 +341,7 @@ rule convert_translations_to_json:
         gene_names = gene_names(segment="ha")
     shell:
         """
-        python3 scripts/convert_translations_to_json.py \
+        python3 workflow/scripts/convert_translations_to_json.py \
             --tree {input.tree} \
             --alignment {input.translations} \
             --gene-names {params.gene_names} \
@@ -362,7 +362,7 @@ rule clades_by_haplotype:
     log: "logs/find_clades_" + BUILD_SEGMENT_LOG_STEM + ".log"
     shell:
         """
-        python3 scripts/nonoverlapping_clades.py \
+        python3 workflow/scripts/nonoverlapping_clades.py \
             --tree {input.tree} \
             --translations {input.translations} \
             --gene-names {params.gene_names} \
@@ -385,7 +385,7 @@ rule delta_frequency:
     log: "logs/delta_frequency_" + BUILD_SEGMENT_LOG_STEM + ".log"
     shell:
         """
-        python3 scripts/calculate_delta_frequency.py \
+        python3 workflow/scripts/calculate_delta_frequency.py \
             --tree {input.tree} \
             --frequencies {input.frequencies} \
             --frequency-method {params.method} \
@@ -466,7 +466,7 @@ rule pairwise_distances:
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """
-        python3 scripts/pairwise_distances.py \
+        python3 workflow/scripts/pairwise_distances.py \
             --tree {input.tree} \
             --frequencies {input.frequencies} \
             --alignment {input.alignments} \
@@ -641,7 +641,7 @@ rule rename_fields_in_fra_titers_tree:
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """
-        python3 scripts/rename_fields_in_fra_titer_models.py \
+        python3 workflow/scripts/rename_fields_in_fra_titer_models.py \
             --titers-model {input.titers_model} \
             --output {output.titers_model}
         """
@@ -655,7 +655,7 @@ rule convert_titer_model_to_distance_map:
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """
-        python3 scripts/titer_model_to_distance_map.py \
+        python3 workflow/scripts/titer_model_to_distance_map.py \
             --model {input.model} \
             --output {output}
         """
@@ -679,7 +679,7 @@ rule pairwise_titer_distances:
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """
-        python3 scripts/pairwise_distances.py \
+        python3 workflow/scripts/pairwise_distances.py \
             --tree {input.tree} \
             --frequencies {input.frequencies} \
             --alignment {input.alignments} \
@@ -709,7 +709,7 @@ rule pairwise_titer_tree_distances:
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """
-        python3 scripts/pairwise_titer_tree_distances.py \
+        python3 workflow/scripts/pairwise_titer_tree_distances.py \
             --tree {input.tree} \
             --frequencies {input.frequencies} \
             --model {input.model} \
@@ -739,7 +739,7 @@ rule pairwise_fra_titer_tree_distances:
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """
-        python3 scripts/pairwise_titer_tree_distances.py \
+        python3 workflow/scripts/pairwise_titer_tree_distances.py \
             --tree {input.tree} \
             --frequencies {input.frequencies} \
             --model {input.model} \
@@ -840,7 +840,7 @@ rule normalize_fitness:
         preferred_frequency_method = config["frequencies"]["preferred_method"]
     shell:
         """
-        python3 scripts/normalize_fitness.py \
+        python3 workflow/scripts/normalize_fitness.py \
             --metadata {input.metadata} \
             --frequencies-table {input.frequencies} \
             --frequency-method {params.preferred_frequency_method} \
@@ -904,7 +904,7 @@ rule convert_node_data_to_table:
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """
-        python3 scripts/node_data_to_table.py \
+        python3 workflow/scripts/node_data_to_table.py \
             --tree {input.tree} \
             --metadata {input.metadata} \
             --jsons {input.node_data} \
@@ -928,7 +928,7 @@ rule merge_node_data_and_frequencies:
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """
-        python3 scripts/merge_node_data_and_frequencies.py \
+        python3 workflow/scripts/merge_node_data_and_frequencies.py \
             --node-data {input.node_data} \
             --kde-frequencies {input.kde_frequencies} \
             --diffusion-frequencies {input.diffusion_frequencies} \
@@ -945,7 +945,7 @@ rule collect_tip_attributes:
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """
-        python3 scripts/collect_tables.py \
+        python3 workflow/scripts/collect_tables.py \
             --tables {input} \
             --output {output.attributes}
         """
@@ -959,7 +959,7 @@ rule annotate_naive_tip_attribute:
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """
-        python3 scripts/annotate_naive_tip_attribute.py \
+        python3 workflow/scripts/annotate_naive_tip_attribute.py \
             --tip-attributes {input.attributes} \
             --output {output.attributes}
         """
@@ -977,7 +977,7 @@ rule target_distances:
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """
-        python3 scripts/calculate_target_distances.py \
+        python3 workflow/scripts/calculate_target_distances.py \
             --tip-attributes {input.attributes} \
             --delta-months {params.delta_months} \
             --sequence-attribute-name {params.sequence_attribute_name} \
@@ -1046,7 +1046,7 @@ rule extract_minimal_models_by_distances:
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """
-        python3 scripts/extract_minimal_models_by_distances.py \
+        python3 workflow/scripts/extract_minimal_models_by_distances.py \
             --model {input.model} \
             --output {output.model}
         """
@@ -1067,7 +1067,7 @@ rule annotate_distance_models:
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """
-        python3 scripts/annotate_model_tables.py \
+        python3 workflow/scripts/annotate_model_tables.py \
             --tip-attributes {input.attributes} \
             --model {input.model} \
             --errors-by-timepoint {input.errors} \
@@ -1087,7 +1087,7 @@ rule collect_annotated_tip_clade_tables:
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """
-        python3 scripts/collect_tables.py \
+        python3 workflow/scripts/collect_tables.py \
             --tables {input} \
             --output {output.tip_clade_table}
         """
@@ -1105,7 +1105,7 @@ rule select_clades:
     log: "logs/select_clades_" + BUILD_LOG_STEM + ".txt"
     shell:
         """
-        python3 scripts/select_clades.py \
+        python3 workflow/scripts/select_clades.py \
             --tip-attributes {input.attributes} \
             --tips-to-clades {input.tips_to_clades} \
             --delta-months {params.delta_months} \
@@ -1123,7 +1123,7 @@ rule plot_tree:
     log: "logs/plot_tree_" + BUILD_SEGMENT_LOG_STEM + ".log"
     shell:
         """
-        python3 scripts/plot_tree.py {input} {output} &> {log}
+        python3 workflow/scripts/plot_tree.py {input} {output} &> {log}
         """
 
 
@@ -1144,7 +1144,7 @@ rule target_distances_by_timepoint:
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """
-        python3 scripts/calculate_target_distances.py \
+        python3 workflow/scripts/calculate_target_distances.py \
             --tip-attributes {input.attributes} \
             --delta-months {params.delta_months} \
             --output {output}
@@ -1267,7 +1267,7 @@ rule annotate_test_distance_models:
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """
-        python3 scripts/annotate_model_tables.py \
+        python3 workflow/scripts/annotate_model_tables.py \
             --tip-attributes {input.attributes} \
             --model {input.model} \
             --errors-by-timepoint {input.errors} \
@@ -1301,7 +1301,7 @@ rule plot_validation_figure:
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """
-        python3 scripts/plot_validation_figure_by_population.py \
+        python3 workflow/scripts/plot_validation_figure_by_population.py \
             --tip-attributes {input.attributes} \
             --tips-to-clades {input.tips_to_clades} \
             --forecasts {input.forecasts} \
