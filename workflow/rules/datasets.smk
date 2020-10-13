@@ -287,7 +287,8 @@ if "RETHINK_HOST" in os.environ and "RETHINK_AUTH_KEY" in os.environ:
             submission_fields = "realistic_submission_date ideal_submission_date",
             shapes = "1.87 1.87",
             locations = "6.97 6.97",
-            scales = "51.93 17.31"
+            scales = "51.93 17.31",
+            random_seed = 314159
         conda: "../envs/anaconda.python3.yaml"
         shell:
             """
@@ -298,6 +299,7 @@ if "RETHINK_HOST" in os.environ and "RETHINK_AUTH_KEY" in os.environ:
                 --shape {params.shapes} \
                 --location {params.locations} \
                 --scale {params.scales} \
+                --random-seed {params.random_seed} \
                 --output {output.metadata}
             """
 

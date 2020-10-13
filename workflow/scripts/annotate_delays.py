@@ -12,9 +12,13 @@ if __name__ == "__main__":
     parser.add_argument("--shape", required=True, type=float, nargs="+", help="shape value(s) for gamma distribution(s)")
     parser.add_argument("--location", required=True, type=float, nargs="+", help="location value(s) for gamma distribution(s)")
     parser.add_argument("--scale", required=True, type=float, nargs="+", help="scale value(s) for gamma distribution(s)")
+    parser.add_argument("--random-seed", type=int, default=0, help="random seed for sampling from gamma distribution(s)")
     parser.add_argument("--output", required=True, help="metadata annotated with random submission dates")
 
     args = parser.parse_args()
+
+    # Set the random seed.
+    np.random.seed(args.random_seed)
 
     metadata = pd.read_csv(args.metadata, sep="\t")
 
