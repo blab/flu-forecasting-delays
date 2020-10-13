@@ -1,0 +1,6 @@
+.ipynb_checkpoints/
+.snakemake
+benchmarks/
+logs/
+*.fasta
+*.tsv

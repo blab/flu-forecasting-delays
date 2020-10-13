@@ -1,0 +1,19 @@
+name: flu_forecasting
+channels:
+- conda-forge
+- bioconda
+- defaults
+dependencies:
+- augur
+- conda
+- jupyter
+- nbconvert
+- opencv
+- pip
+- python=3.6*
+- scikit-learn
+- seaborn
+- statsmodels
+- pip:
+  - drmaa==0.7.9
+  - rethinkdb==2.2.0.post6
