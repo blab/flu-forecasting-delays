@@ -126,6 +126,22 @@
         "region_confidence",
         "sequence"
     ],
+    "cross_immunity": {
+        "h3n2": {
+            "ha": {
+                "simulated": {
+                    "distance_attributes": "ep_pairwise",
+                    "immunity_attributes": "ep_x",
+                    "decay_factors": "14.0"
+                },
+                "natural": {
+                    "distance_attributes": "ep_pairwise",
+                    "immunity_attributes": "ep_x",
+                    "decay_factors": "14.0"
+                }
+            }
+        }
+    },
     "fitness_model": {
         "min_freq": 0.01,
         "max_freq": 0.99,
