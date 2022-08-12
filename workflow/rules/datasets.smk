@@ -104,6 +104,33 @@ rule filter_metadata_simulated:
         """
 
 
+rule annotate_hypothetical_submission_dates_simulated:
+    input:
+        metadata = DATA_SIMULATED_ROOT_PATH + "filtered_metadata.tsv"
+    output:
+        metadata = DATA_SIMULATED_ROOT_PATH + "annotated_metadata.tsv"
+    params:
+        date_field = "date",
+        submission_fields = "realistic_submission_date ideal_submission_date",
+        shapes = "1.87 1.87",
+        locations = "6.97 6.97",
+        scales = "51.93 17.31",
+        random_seed = 314159
+    conda: "../envs/anaconda.python3.yaml"
+    shell:
+        """
+        python3 workflow/scripts/annotate_delays.py \
+            --metadata {input.metadata} \
+            --date-field {params.date_field} \
+            --submission-field {params.submission_fields} \
+            --shape {params.shapes} \
+            --location {params.locations} \
+            --scale {params.scales} \
+            --random-seed {params.random_seed} \
+            --output {output.metadata}
+        """
+
+
 #
 # Rules for natural datasets
 #

@@ -1,6 +1,13 @@
 {
-    "active_builds": "h3n2_no_delay",
+    "active_builds": "simulated_no_delay",
     "datasets": {
+        "simulated_sample_3": {
+            "description": "Highest density sampling of simulated populations as in Huddleston et al. 2020",
+            "seed": 3,
+            "lineage": "simulated",
+            "segment": "ha",
+            "viruses_per_month": 90
+        },
         "h3n2": {
             "lineage": "h3n2",
             "segment": "ha",
@@ -18,6 +25,29 @@
         }
     },
     "builds": {
+        "simulated": {
+            "simulated_no_delay": {
+                "description": "Simulated A/H3N2-like populations with no submission delay",
+                "dataset_sample": "simulated_sample_3",
+                "full_tree_build": "simulated_sample_3_full_test_tree",
+                "sequences": "data/simulated/simulated_sample_3/filtered_sequences.fasta",
+                "metadata": "data/simulated/simulated_sample_3/annotated_metadata.tsv",
+                "partition_strains_by": "date",
+                "start_date": "2010-10-01",
+                "end_date": "2040-10-01",
+                "pivot_interval": 6,
+                "min_years_per_build": 6,
+                "years_back_to_build_trees": 6,
+                "reference": "config/reference_h3n2_ha.gb",
+                "predictors": [
+                    "normalized_fitness"
+                ],
+                "best_predictor": "data/simulated/models/normalized_fitness.json",
+                "validation_predictors": [
+                    "normalized_fitness"
+                ]
+            }
+        },
         "natural": {
             "h3n2_no_delay": {
                 "description": "H3N2 forecasts with no submission delay",
