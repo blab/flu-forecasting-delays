@@ -12,7 +12,8 @@ python frequencies.py tree.json frequencies.json \
     --start-date 2006-10-01 --end-date 2018-04-01
 """
 import argparse
-from augur.utils import read_metadata, get_numerical_dates
+from augur.dates import get_numerical_dates
+from augur.io import read_metadata
 from augur.frequencies import TreeKdeFrequencies
 import Bio
 import Bio.Phylo
@@ -62,7 +63,7 @@ if __name__ == "__main__":
     tree = Bio.Phylo.read(args.tree, "newick")
 
     # Load metadata.
-    metadata, columns = read_metadata(args.metadata)
+    metadata = read_metadata(args.metadata)
     dates = get_numerical_dates(metadata, fmt='%Y-%m-%d')
 
     # Annotate tree with dates and other metadata.
@@ -71,7 +72,8 @@ if __name__ == "__main__":
 
         # Annotate tips with metadata to enable filtering and weighting of
         # frequencies by metadata attributes.
-        for key, value in metadata[tip.name].items():
+        for key in metadata.columns:
+            value = metadata.loc[tip.name, key]
             tip.attr[key] = value
 
     # Convert start and end dates to floats from time interval format.
