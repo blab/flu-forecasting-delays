@@ -1,5 +1,6 @@
 import argparse, sys, os
-from augur.utils import read_metadata, get_numerical_dates
+from augur.dates import get_numerical_dates
+from augur.io import read_metadata
 import Bio
 import Bio.SeqIO
 from collections import defaultdict
@@ -172,8 +173,7 @@ def determine_time_interval(time_interval, resolution):
 def parse_metadata(segments, metadata_files):
     metadata = {}
     for segment, fname in zip(segments, metadata_files):
-        tmp_meta, columns = read_metadata(fname)
-
+        tmp_meta = read_metadata(fname)
         numerical_dates = get_numerical_dates(tmp_meta, fmt='%Y-%m-%d')
         for x in tmp_meta:
             tmp_meta[x]['num_date'] = np.mean(numerical_dates[x])

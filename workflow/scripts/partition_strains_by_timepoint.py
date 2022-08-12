@@ -1,7 +1,8 @@
 """Partition a given list of strains by their metadata into the given timepoints.
 """
 import argparse
-from augur.utils import get_numerical_dates, read_metadata
+from augur.dates import get_numerical_dates
+from augur.io import read_metadata
 import numpy as np
 import pandas as pd
 from treetime.utils import numeric_date
@@ -28,7 +29,7 @@ if __name__ == '__main__':
     numeric_timepoint = np.around(numeric_date(timepoint), 2)
 
     # Load metadata with strain names and dates.
-    metadata, columns = read_metadata(args.metadata)
+    metadata = read_metadata(args.metadata)
 
     # Convert string dates with potential ambiguity (e.g., 2010-05-XX) into
     # floating point dates.
