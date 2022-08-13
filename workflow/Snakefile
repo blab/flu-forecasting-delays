@@ -7,9 +7,9 @@ import pprint
 from snakemake.logging import logger
 import sys
 
-envvars:
-    "RETHINK_HOST",
-    "RETHINK_AUTH_KEY"
+# envvars:
+#     "RETHINK_HOST",
+#     "RETHINK_AUTH_KEY"
 
 # Set snakemake directory
 SNAKEMAKE_DIR = os.path.dirname(workflow.snakefile)
