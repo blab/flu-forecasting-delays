@@ -29,10 +29,52 @@
             "simulated_no_delay": {
                 "description": "Simulated A/H3N2-like populations with no submission delay",
                 "dataset_sample": "simulated_sample_3",
-                "full_tree_build": "simulated_sample_3_full_test_tree",
+                "validation_build": "simulated_no_delay",
                 "sequences": "data/simulated/simulated_sample_3/filtered_sequences.fasta",
                 "metadata": "data/simulated/simulated_sample_3/annotated_metadata.tsv",
                 "partition_strains_by": "date",
+                "start_date": "2010-10-01",
+                "end_date": "2040-10-01",
+                "pivot_interval": 6,
+                "min_years_per_build": 6,
+                "years_back_to_build_trees": 6,
+                "reference": "config/reference_h3n2_ha.gb",
+                "predictors": [
+                    "normalized_fitness"
+                ],
+                "best_predictor": "data/simulated/models/normalized_fitness.json",
+                "validation_predictors": [
+                    "normalized_fitness"
+                ]
+            },
+            "simulated_realistic_delay": {
+                "description": "Simulated A/H3N2-like populations with realistic submission delay",
+                "dataset_sample": "simulated_sample_3",
+                "validation_build": "simulated_no_delay",
+                "sequences": "data/simulated/simulated_sample_3/filtered_sequences.fasta",
+                "metadata": "data/simulated/simulated_sample_3/annotated_metadata.tsv",
+                "partition_strains_by": "realistic_submission_date",
+                "start_date": "2010-10-01",
+                "end_date": "2040-10-01",
+                "pivot_interval": 6,
+                "min_years_per_build": 6,
+                "years_back_to_build_trees": 6,
+                "reference": "config/reference_h3n2_ha.gb",
+                "predictors": [
+                    "normalized_fitness"
+                ],
+                "best_predictor": "data/simulated/models/normalized_fitness.json",
+                "validation_predictors": [
+                    "normalized_fitness"
+                ]
+            },
+            "simulated_ideal_delay": {
+                "description": "Simulated A/H3N2-like populations with ideal submission delay",
+                "dataset_sample": "simulated_sample_3",
+                "validation_build": "simulated_no_delay",
+                "sequences": "data/simulated/simulated_sample_3/filtered_sequences.fasta",
+                "metadata": "data/simulated/simulated_sample_3/annotated_metadata.tsv",
+                "partition_strains_by": "ideal_submission_date",
                 "start_date": "2010-10-01",
                 "end_date": "2040-10-01",
                 "pivot_interval": 6,
