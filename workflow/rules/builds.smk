@@ -65,10 +65,22 @@ rule align:
         """
 
 
+def _get_alignment_by_wildcards(wildcards):
+    """Return filtered sequences for simulated builds, since these are already
+    aligned. Otherwise, return the name of the multiple sequence alignment
+    output.
+
+    """
+    if wildcards.type == "simulated":
+        return BUILD_TIMEPOINT_PATH + "filtered_sequences.fasta"
+    else:
+        return BUILD_TIMEPOINT_PATH + "aligned.fasta"
+
+
 rule tree:
     message: "Building tree ({wildcards})"
     input:
-        alignment = rules.align.output.alignment
+        alignment = _get_alignment_by_wildcards,
     output:
         tree = BUILD_TIMEPOINT_PATH + "tree_raw.nwk"
     conda: "../envs/anaconda.python3.yaml"
@@ -89,7 +101,7 @@ rule tree:
 rule refine:
     input:
         tree = rules.tree.output.tree,
-        alignment = rules.align.output.alignment,
+        alignment = _get_alignment_by_wildcards,
         metadata = _get_metadata_by_wildcards
     output:
         tree = BUILD_TIMEPOINT_PATH + "tree.nwk",
@@ -271,7 +283,7 @@ rule ancestral:
     message: "Reconstructing ancestral sequences and mutations for {wildcards}"
     input:
         tree = rules.refine.output.tree,
-        alignment = rules.align.output.alignment
+        alignment = _get_alignment_by_wildcards,
     output:
         node_data = BUILD_TIMEPOINT_PATH + "nt_muts.json"
     params:
