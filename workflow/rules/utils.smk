@@ -248,11 +248,16 @@ def _get_delta_months_to_forecast(wildcards):
 
 def _get_model_to_test_by_wildcards(wildcards):
     build = config["builds"][wildcards.type][wildcards.sample]
-    model_path = rules.extract_minimal_models_by_distances.output.model.format(
-        type=wildcards.type,
-        sample=build["validation_build"],
-        predictors=wildcards.predictors
-    )
+
+    if "best_predictor" in build:
+        model_path = build["best_predictor"]
+    else:
+        model_path = rules.extract_minimal_models_by_distances.output.model.format(
+            type=wildcards.type,
+            sample=build["validation_build"],
+            predictors=wildcards.predictors
+        )
+
     return model_path
 
 def _get_validation_sample_by_wildcards(wildcards):
