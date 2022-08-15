@@ -344,7 +344,7 @@ rule distance_models_errors:
     conda: "envs/anaconda.python3.yaml"
     shell:
         """
-        python3 scripts/concatenate_tables.py \
+        python3 workflow/scripts/concatenate_tables.py \
             --tables {input.errors} \
             --output {output.errors}
         """
@@ -357,7 +357,7 @@ rule distance_models_coefficients:
     conda: "envs/anaconda.python3.yaml"
     shell:
         """
-        python3 scripts/concatenate_tables.py \
+        python3 workflow/scripts/concatenate_tables.py \
             --tables {input.coefficients} \
             --output {output.coefficients}
         """
@@ -376,7 +376,7 @@ rule validation_figure_clades:
     conda: "envs/anaconda.python3.yaml"
     shell:
         """
-        python3 scripts/collect_tables.py \
+        python3 workflow/scripts/collect_tables.py \
           --tables {input} \
           --output {output.clades}
         """
@@ -389,7 +389,7 @@ rule validation_figure_ranks:
     conda: "envs/anaconda.python3.yaml"
     shell:
         """
-        python3 scripts/collect_tables.py \
+        python3 workflow/scripts/collect_tables.py \
           --tables {input} \
           --output {output.ranks}
         """
