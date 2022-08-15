@@ -1275,7 +1275,6 @@ rule annotate_test_distance_models:
         coefficients = BUILD_PATH + "annotated_test_models_by_distances_coefficients/{predictors}.tsv"
     params:
         delta_months = config["fitness_model"]["delta_months_to_fit"],
-        sample = _get_validation_sample_by_wildcards
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """
@@ -1287,7 +1286,7 @@ rule annotate_test_distance_models:
             --annotated-errors-by-timepoint {output.errors} \
             --annotated-coefficients-by-timepoint {output.coefficients} \
             --delta-months {params.delta_months} \
-            --annotations type="{wildcards.type}" sample="{params.sample}" error_type="test"
+            --annotations type="{wildcards.type}" sample="{wildcards.sample}" error_type="test"
         """
 
 
