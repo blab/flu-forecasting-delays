@@ -207,38 +207,6 @@ rule estimate_frequencies:
 --include-internal-nodes &> {log}"""
 
 
-rule estimate_diffusion_frequencies:
-    message:
-        """
-        Estimating diffusion frequencies for {input.tree}
-        """
-    input:
-        tree = rules.refine.output.tree,
-        metadata = _get_metadata_by_wildcards
-    output:
-        frequencies = BUILD_TIMEPOINT_PATH + "diffusion_frequencies.json"
-    params:
-        pivot_frequency = _get_pivot_interval,
-        stiffness = config["frequencies"]["stiffness"],
-        inertia = config["frequencies"]["inertia"],
-        min_date = _get_min_date_for_diffusion_frequencies_by_wildcards,
-        max_date = _get_max_date_for_augur_frequencies_by_wildcards
-    conda: "../envs/anaconda.python3.yaml"
-    benchmark: "benchmarks/estimate_diffusion_frequencies_" + BUILD_SEGMENT_LOG_STEM + ".txt"
-    log: "logs/estimate_diffusion_frequencies_" + BUILD_SEGMENT_LOG_STEM + ".log"
-    shell: """augur frequencies \
-        --method diffusion \
-        --tree {input.tree} \
-        --metadata {input.metadata} \
-        --output {output} \
-        --include-internal-nodes \
-        --stiffness {params.stiffness} \
-        --inertia {params.inertia} \
-        --pivot-interval {params.pivot_frequency} \
-        --min-date {params.min_date} \
-        --max-date {params.max_date} &> {log}"""
-
-
 rule convert_frequencies_to_table:
     input:
         tree = rules.refine.output.tree,
@@ -247,26 +215,6 @@ rule convert_frequencies_to_table:
         table = BUILD_TIMEPOINT_PATH + "frequencies.tsv"
     params:
         method = "kde"
-    conda: "../envs/anaconda.python3.yaml"
-    shell:
-        """
-        python3 workflow/scripts/frequencies_to_table.py \
-            --tree {input.tree} \
-            --frequencies {input.frequencies} \
-            --method {params.method} \
-            --output {output} \
-            --annotations timepoint={wildcards.timepoint}
-        """
-
-
-rule convert_diffusion_frequencies_to_table:
-    input:
-        tree = rules.refine.output.tree,
-        frequencies = rules.estimate_diffusion_frequencies.output.frequencies
-    output:
-        table = BUILD_TIMEPOINT_PATH + "diffusion_frequencies.tsv"
-    params:
-        method = "diffusion"
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """
@@ -381,28 +329,6 @@ rule clades_by_haplotype:
             --annotations timepoint={wildcards.timepoint} \
             --output {output.clades} \
             --output-tip-clade-table {output.tip_clade_table} &> {log}
-        """
-
-
-rule delta_frequency:
-    input:
-        tree = rules.refine.output.tree,
-        frequencies = rules.estimate_diffusion_frequencies.output.frequencies
-    output:
-        delta_frequency = BUILD_TIMEPOINT_PATH + "delta_frequency.json"
-    params:
-        delta_pivots = config["delta_pivots"],
-        method = "diffusion"
-    conda: "../envs/anaconda.python3.yaml"
-    log: "logs/delta_frequency_" + BUILD_SEGMENT_LOG_STEM + ".log"
-    shell:
-        """
-        python3 workflow/scripts/calculate_delta_frequency.py \
-            --tree {input.tree} \
-            --frequencies {input.frequencies} \
-            --frequency-method {params.method} \
-            --delta-pivots {params.delta_pivots} \
-            --output {output.delta_frequency} &> {log}
         """
 
 
@@ -870,7 +796,6 @@ def _get_node_data_for_export(wildcards):
         rules.translate.output.node_data,
         rules.convert_translations_to_json.output.translations,
         rules.clades_by_haplotype.output.clades,
-        rules.delta_frequency.output.delta_frequency,
         rules.distances.output.distances,
         rules.cross_immunities.output.cross_immunities,
         rules.lbi.output.lbi
@@ -932,7 +857,6 @@ rule merge_node_data_and_frequencies:
     input:
         node_data = rules.convert_node_data_to_table.output.table,
         kde_frequencies = rules.convert_frequencies_to_table.output.table,
-        diffusion_frequencies = rules.convert_diffusion_frequencies_to_table.output.table
     output:
         table = BUILD_TIMEPOINT_PATH + "tip_attributes.tsv"
     params:
@@ -943,7 +867,6 @@ rule merge_node_data_and_frequencies:
         python3 workflow/scripts/merge_node_data_and_frequencies.py \
             --node-data {input.node_data} \
             --kde-frequencies {input.kde_frequencies} \
-            --diffusion-frequencies {input.diffusion_frequencies} \
             --preferred-frequency-method {params.preferred_frequency_method} \
             --output {output.table}
         """
