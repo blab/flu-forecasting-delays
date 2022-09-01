@@ -53,6 +53,11 @@ rule align:
     conda: "../envs/anaconda.python3.yaml"
     benchmark: "benchmarks/align_" + BUILD_SEGMENT_LOG_STEM + ".txt"
     threads: 4
+    resources:
+        mem_mb=16000,
+        runtime="0:30:00",
+        partition="campus-new",
+        qos="campus-new",
     shell:
         """
         augur align \
@@ -88,6 +93,11 @@ rule tree:
     benchmark: "benchmarks/tree_" + BUILD_SEGMENT_LOG_STEM + ".txt"
     log: "logs/tree_" + BUILD_SEGMENT_LOG_STEM + ".log"
     threads: 4
+    resources:
+        mem_mb=16000,
+        runtime="2:00:00",
+        partition="campus-new",
+        qos="campus-new",
     shell:
         """
         augur tree \
@@ -114,6 +124,11 @@ rule refine:
     conda: "../envs/anaconda.python3.yaml"
     benchmark: "benchmarks/refine_" + BUILD_SEGMENT_LOG_STEM + ".txt"
     log: "logs/refine_" + BUILD_SEGMENT_LOG_STEM + ".log"
+    resources:
+        mem_mb=16000,
+        runtime="4:00:00",
+        partition="campus-new",
+        qos="campus-new",
     shell:
         """
         augur refine \
@@ -239,6 +254,9 @@ rule ancestral:
     conda: "../envs/anaconda.python3.yaml"
     benchmark: "benchmarks/ancestral_" + BUILD_SEGMENT_LOG_STEM + ".txt"
     log: "logs/ancestral_" + BUILD_SEGMENT_LOG_STEM + ".txt"
+    resources:
+        mem_mb=4000,
+        runtime="0:15:00",
     shell:
         """
         augur ancestral \
@@ -280,6 +298,8 @@ rule reconstruct_translations:
     conda: "../envs/anaconda.python3.yaml"
     benchmark: "benchmarks/reconstruct_translations_{gene}_" + BUILD_SEGMENT_LOG_STEM + ".txt"
     log: "logs/reconstruct_translations_{gene}_" + BUILD_SEGMENT_LOG_STEM + ".txt"
+    resources:
+        mem_mb=4000,
     shell:
         """
         augur reconstruct-sequences \
@@ -370,6 +390,9 @@ rule distances:
     output:
         distances = BUILD_TIMEPOINT_PATH + "distances.json",
     conda: "../envs/anaconda.python3.yaml"
+    resources:
+        mem_mb=8000,
+        runtime="00:30:00",
     shell:
         """
         augur distance \
@@ -442,6 +465,8 @@ rule cross_immunities:
     output:
         cross_immunities = BUILD_TIMEPOINT_PATH + "cross_immunity.json",
     conda: "../envs/anaconda.python3.yaml"
+    resources:
+        mem_mb=8000,
     shell:
         """
         python3 src/cross_immunity.py \
@@ -645,6 +670,9 @@ rule pairwise_titer_tree_distances:
     benchmark: "benchmarks/pairwise_titer_tree_distances_" + BUILD_SEGMENT_LOG_STEM + ".txt"
     log: "logs/pairwise_titer_tree_distances_" + BUILD_SEGMENT_LOG_STEM + ".txt"
     conda: "../envs/anaconda.python3.yaml"
+    resources:
+        mem_mb=4000,
+        runtime="0:10:00",
     shell:
         """
         python3 workflow/scripts/pairwise_titer_tree_distances.py \
@@ -955,6 +983,11 @@ rule fit_models_by_distances:
     conda: "../envs/anaconda.python3.yaml"
     benchmark: "benchmarks/fitness_model_distances_" + BUILD_LOG_STEM + "_{predictors}.txt"
     log: "logs/fitness_model_distances_" + BUILD_LOG_STEM + "_{predictors}.txt"
+    resources:
+        mem_mb=20000,
+        runtime="06:00:00",
+        partition="campus-new",
+        qos="campus-new",
     shell:
         """
         python3 src/fit_model.py \
@@ -1182,6 +1215,11 @@ rule test_distance_models:
     conda: "../envs/anaconda.python3.yaml"
     benchmark: "benchmarks/test_fitness_model_distances_" + BUILD_LOG_STEM + "_{delta_month}_{predictors}.txt"
     log: "logs/test_fitness_model_distances_" + BUILD_LOG_STEM + "_{delta_month}_{predictors}.txt"
+    resources:
+        mem_mb=20000,
+        runtime="0:20:00",
+        partition="campus-new",
+        qos="campus-new",
     shell:
         """
         nextcast fit \
