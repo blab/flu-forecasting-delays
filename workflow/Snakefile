@@ -17,7 +17,9 @@ SNAKEMAKE_DIR = os.path.dirname(workflow.snakefile)
 wildcard_constraints:
     type="(natural|simulated)",
     sample="\w+",
-    timepoint="\d{4}-\d{2}-\d{2}"
+    timepoint="\d{4}-\d{2}-\d{2}",
+    output_type="(errors|coefficients)",
+    delta_month="(6|12)",
 
 # Load configuration parameters.
 configfile: "config/config.json"

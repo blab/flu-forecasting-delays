@@ -1161,25 +1161,36 @@ rule forecast_all_tips:
         """
 
 
+def _get_target_tip_attributes_by_wildcards(wildcards):
+    validation_build = _get_validation_sample_by_wildcards(wildcards)
+    wildcards_dict = dict(wildcards)
+    wildcards_dict["sample"] = validation_build
+    return (BUILD_PATH + "tip_attributes_with_naive_predictor.tsv").format(
+        **wildcards_dict,
+    )
+
+
 rule test_distance_models:
     input:
-        attributes = rules.annotate_weighted_distances_for_tip_attributes.output.attributes,
-        distances = rules.target_distances.output.distances,
-        model = _get_model_to_test_by_wildcards
+        attributes = rules.annotate_naive_tip_attribute.output.attributes,
+        target_attributes = _get_target_tip_attributes_by_wildcards,
+        model = _get_model_to_test_by_wildcards,
     output:
-        model = BUILD_PATH + "test_models_by_distances/{predictors}.json",
-        errors = BUILD_PATH + "test_models_by_distances_errors/{predictors}.tsv",
-        coefficients = BUILD_PATH + "test_models_by_distances_coefficients/{predictors}.tsv"
+        model = BUILD_PATH + "test_models_by_distances/{delta_month}/{predictors}.json",
+        errors = BUILD_PATH + "test_models_by_distances_errors/{delta_month}/{predictors}.tsv",
+        coefficients = BUILD_PATH + "test_models_by_distances_coefficients/{delta_month}/{predictors}.tsv"
     conda: "../envs/anaconda.python3.yaml"
-    benchmark: "benchmarks/test_fitness_model_distances_" + BUILD_LOG_STEM + "_{predictors}.txt"
-    log: "logs/test_fitness_model_distances_" + BUILD_LOG_STEM + "_{predictors}.txt"
+    benchmark: "benchmarks/test_fitness_model_distances_" + BUILD_LOG_STEM + "_{delta_month}_{predictors}.txt"
+    log: "logs/test_fitness_model_distances_" + BUILD_LOG_STEM + "_{delta_month}_{predictors}.txt"
     shell:
         """
-        python3 src/fit_model.py \
+        nextcast fit \
             --tip-attributes {input.attributes} \
+            --target-tip-attributes {input.target_attributes} \
             --target distances \
-            --distances {input.distances} \
             --fixed-model {input.model} \
+            --delta-months {wildcards.delta_month} \
+            --prefer-user-delta-months \
             --errors-by-timepoint {output.errors} \
             --coefficients-by-timepoint {output.coefficients} \
             --include-scores \
@@ -1189,15 +1200,13 @@ rule test_distance_models:
 
 rule annotate_test_distance_models:
     input:
-        attributes = rules.annotate_weighted_distances_for_tip_attributes.output.attributes,
+        attributes = rules.annotate_naive_tip_attribute.output.attributes,
         model = rules.test_distance_models.output.model,
         errors = rules.test_distance_models.output.errors,
         coefficients = rules.test_distance_models.output.coefficients
     output:
-        errors = BUILD_PATH + "annotated_test_models_by_distances_errors/{predictors}.tsv",
-        coefficients = BUILD_PATH + "annotated_test_models_by_distances_coefficients/{predictors}.tsv"
-    params:
-        delta_months = config["fitness_model"]["delta_months_to_fit"],
+        errors = BUILD_PATH + "annotated_test_models_by_distances_errors_by_horizon/{delta_month}/{predictors}.tsv",
+        coefficients = BUILD_PATH + "annotated_test_models_by_distances_coefficients_by_horizon/{delta_month}/{predictors}.tsv"
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """
@@ -1208,8 +1217,22 @@ rule annotate_test_distance_models:
             --coefficients-by-timepoint {input.coefficients} \
             --annotated-errors-by-timepoint {output.errors} \
             --annotated-coefficients-by-timepoint {output.coefficients} \
-            --delta-months {params.delta_months} \
-            --annotations type="{wildcards.type}" sample="{wildcards.sample}" error_type="test"
+            --delta-months {wildcards.delta_month} \
+            --annotations type="{wildcards.type}" sample="{wildcards.sample}" error_type="test" delta_month="{wildcards.delta_month}"
+        """
+
+
+rule aggregate_annotated_test_distance_models_errors:
+    input:
+        errors = expand(BUILD_PATH.replace("{", "{{").replace("}", "}}") + "annotated_test_models_by_distances_errors_by_horizon/{delta_month}/{{predictors}}.tsv", delta_month=config["fitness_model"]["delta_months"]),
+    output:
+        errors = BUILD_PATH + "annotated_test_models_by_distances_errors/{predictors}.tsv",
+    conda: "../envs/anaconda.python3.yaml"
+    shell:
+        """
+        python3 workflow/scripts/concatenate_tables.py \
+            --tables {input.errors} \
+            --output {output.errors}
         """
 
 
