@@ -1,5 +1,5 @@
 {
-    "active_builds": "simulated_no_delay",
+    "active_builds": "simulated_no_delay simulated_realistic_delay simulated_ideal_delay",
     "datasets": {
         "simulated_sample_3": {
             "description": "Highest density sampling of simulated populations as in Huddleston et al. 2020",
