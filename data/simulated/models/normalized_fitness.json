@@ -1,0 +1,24 @@
+{
+ "predictors": [
+  "normalized_fitness"
+ ],
+ "cv_error_mean": 6.817056468038848,
+ "cv_error_std": 1.496353095945869,
+ "coefficients_mean": [
+  9.372627382268105
+ ],
+ "coefficients_std": [
+  0.9052231621018456
+ ],
+ "mean_stds_mean": [
+  0.13364766467272857
+ ],
+ "mean_stds_std": [
+  0.0028292539934032445
+ ],
+ "cost_function": "diffsum",
+ "l1_lambda": 0.1,
+ "delta_months": 12,
+ "training_window": 6,
+ "pseudocount": null
+}
