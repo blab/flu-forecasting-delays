@@ -35,8 +35,8 @@ conda-frontend: mamba
 default-resources:
   - mem_mb=256
   - runtime="0:05:00"
-  - partition="restart-new"
-  - qos="restart-new"
+  - partition="campus-new"
+  - qos="campus-new"
 
 # Submit jobs to the cluster with the SLURM sbatch command. The string
 # associated with this key tells Snakemake how to connect cluster resources with
