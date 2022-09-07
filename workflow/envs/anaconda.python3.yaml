@@ -4,16 +4,15 @@ channels:
 - bioconda
 - defaults
 dependencies:
-- augur
-- conda
+- augur==17.1.0
 - jupyter
 - nbconvert
 - opencv
 - pip
-- python=3.6*
+- python=3.9
 - scikit-learn
 - seaborn
 - statsmodels
 - pip:
-  - drmaa==0.7.9
+  - popcast==1.0.1
   - rethinkdb==2.2.0.post6
