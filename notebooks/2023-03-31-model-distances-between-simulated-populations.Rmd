@@ -1,0 +1,126 @@
+---
+title: "Model distances between simulated populations"
+output: html_document
+date: "2023-03-31"
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE, root.dir = "/Users/jhuddlesfredhutch.org/projects/flu-forecasting-delays")
+
+library(dplyr)
+library(readr)
+library(ggplot2)
+library(rethinking)
+```
+
+## Load and prepare data
+
+Load distances between populations at a given current timepoint and a corresponding future timepoint.
+The future timepoint corresponds to the forecast horizon (in months) used to make the forecast.
+
+```{r}
+distances <- read_csv("results/model_inputs.csv")
+```
+
+Standardize submission delay and forecast horizon values for use in models.
+
+```{r}
+distances$delta_month_s <- (distances$delta_month - mean(distances$delta_month)) / sd(distances$delta_month)
+distances$mean_delay_s <- (distances$mean_delay - mean(distances$mean_delay)) / sd(distances$mean_delay)
+```
+
+## Fit a simple model
+
+Fit a simple linear model with a single intercept to represent the average distance between populations across all samples when standardized delay and horizon values are zero.
+
+```{r}
+simple.model <- ulam(
+  alist(
+    distance ~ dgamma2(mu, scale),
+    scale ~ dexp(5),
+    log(mu) <- a + b_s * mean_delay_s + b_h * delta_month_s,
+    a ~ dnorm(0, 0.03),
+    b_s ~ dnorm(0, 0.03),
+    b_h ~ dnorm(0, 0.03)
+  ),
+  data=distances,
+  iter=10000,
+  chains=4,
+  cores=4
+)
+```
+
+Summarize the model.
+
+```{r}
+precis(simple.model)
+```
+
+Plot the model coefficients and HPDI (?).
+
+```{r}
+plot(simple.model)
+```
+
+Most of the variation in model parameters appears in the "scale" parameter of the gamma distribution.
+To figure out what that distribution looks like, we need to convert posterior samples into mu values for the gamma.
+As a first pass, though, we could assume mu=1 and get something like this.
+
+```{r}
+hist(rgamma2(10000, 1, 4.45))
+```
+
+The estimated scale value from the simple model places more of the distribution closer to zero.
+
+Just to see what happens, I tried plotting the relationship between different predictors and distance using the rethinking code examples from page 113.
+
+```{r}
+horizon.seq <- c(min(distances$delta_month_s), max(distances$delta_month_s))
+delay.seq <- rep(max(distances$mean_delay_s), 2)
+pred_dat <- list(delta_month_s=horizon.seq, mean_delay_s=delay.seq)
+mu <- link(simple.model, data=pred_dat)
+mu.mean <- apply(mu, 2, mean)
+mu.PI <- apply(mu, 2, PI, prob=0.89)
+sim.distance <- sim(simple.model, data=pred_dat)
+distance.PI <- apply(sim.distance, 2, PI, prob=0.89)
+```
+
+Plot the results.
+
+```{r}
+boxplot(distance ~ delta_month_s, distances)
+```
+
+```{r}
+mu.mean
+mu.PI
+```
+
+```{r}
+distance.PI
+```
+
+We also see from the coefficients above that the two predictors have almost no effect on the distance output compared to the intercept and scale.
+
+### Posterior predictive checks
+
+```{r}
+horizons <- unique(distances$delta_month_s)
+delays <- unique(distances$mean_delay_s)
+horizons_delays <- expand.grid(mean_delay_s=delays, delta_month_s=horizons)
+post <- sim(simple.model, horizons_delays)
+```
+
+Map treatments to posterior samples.
+TODO: Do this a better way.
+
+```{r}
+all.post <- rbind(data.frame(horizon=6, delay=0, distance=post[,1]), data.frame(horizon=6, delay=97, distance=post[,2]), data.frame(horizon=6, delay=32, distance=post[,3]), data.frame(horizon=12, delay=0, distance=post[,4]), data.frame(horizon=12, delay=97, distance=post[,5]), data.frame(horizon=12, delay=32, distance=post[,6]))
+```
+
+Plot the posterior distributions by treatment.
+
+```{r}
+ggplot(all.post, aes(as.factor(horizon), distance, colour=as.factor(delay))) + geom_boxplot() + theme_classic()
+```
