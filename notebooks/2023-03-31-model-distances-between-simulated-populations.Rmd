@@ -24,10 +24,72 @@ distances <- read_csv("results/model_inputs.csv")
 ```
 
 Standardize submission delay and forecast horizon values for use in models.
+Both predictors use units of "months".
 
 ```{r}
-distances$delta_month_s <- (distances$delta_month - mean(distances$delta_month)) / sd(distances$delta_month)
-distances$mean_delay_s <- (distances$mean_delay - mean(distances$mean_delay)) / sd(distances$mean_delay)
+distances$horizon_s <- (distances$horizon - mean(distances$horizon)) / sd(distances$horizon)
+distances$delay_s <- (distances$delay - mean(distances$delay)) / sd(distances$delay)
+```
+
+## Run prior predictive checks
+
+Determine priors for each model parameter such that the possible output is within realistic bounds.
+
+```{r}
+# Make combinations of horizons and delays.
+horizons <- unique(distances$horizon)
+delays <- unique(distances$delay)
+horizons_delays <- expand.grid(delay=delays, horizon=horizons)
+
+# Define total samples.
+n_samples_per_input <- 5000
+n_inputs <- length(horizons_delays$delay)
+n_samples <- n_samples_per_input * n_inputs
+
+# Make vectors of horizons and delays.
+horizon <- rep(horizons_delays$horizon, n_samples_per_input)
+delay <- rep(horizons_delays$delay, n_samples_per_input)
+```
+
+Sample from the appropriate distribution for each prior.
+
+```{r}
+# Sample scale values.
+prior.scale <- rexp(n_samples, 5)
+
+# Sample intercept and coefficients.
+a <- rnorm(n_samples, 0, 0.03)
+b_s <- rnorm(n_samples, 0, 0.03)
+b_h <- rnorm(n_samples, 0, 0.03)
+
+# Calculate the rate of the gamma distribution.
+prior.mu <- exp(a + (b_s * delay) + (b_h * horizon))
+
+# Sample distances to the future.
+prior.distance <- rgamma2(n_samples, prior.mu, prior.scale)
+```
+
+Build a data frame of the prior results.
+
+```{r}
+priors <- data.frame(
+  horizon=horizon,
+  delay=delay,
+  distance=prior.distance
+)
+```
+
+Summarize prior distances by feature.
+
+```{r}
+priors %>% group_by(horizon, delay) %>% summarize(median=median(distance), mean=mean(distance))
+```
+
+Plot prior distributions.
+
+```{r}
+ggplot(priors, aes(as.factor(horizon), distance, colour=as.factor(delay))) + geom_boxplot() + theme_classic()
+ggsave("prior-predictive-simulation.png")
 ```
 
 ## Fit a simple model
@@ -39,7 +101,7 @@ simple.model <- ulam(
   alist(
     distance ~ dgamma2(mu, scale),
     scale ~ dexp(5),
-    log(mu) <- a + b_s * mean_delay_s + b_h * delta_month_s,
+    log(mu) <- a + b_s * delay + b_h * horizon,
     a ~ dnorm(0, 0.03),
     b_s ~ dnorm(0, 0.03),
     b_h ~ dnorm(0, 0.03)
@@ -47,7 +109,8 @@ simple.model <- ulam(
   data=distances,
   iter=10000,
   chains=4,
-  cores=4
+  cores=4,
+  log_lik=TRUE
 )
 ```
 
@@ -64,21 +127,14 @@ plot(simple.model)
 ```
 
 Most of the variation in model parameters appears in the "scale" parameter of the gamma distribution.
-To figure out what that distribution looks like, we need to convert posterior samples into mu values for the gamma.
-As a first pass, though, we could assume mu=1 and get something like this.
-
-```{r}
-hist(rgamma2(10000, 1, 4.45))
-```
-
-The estimated scale value from the simple model places more of the distribution closer to zero.
 
 Just to see what happens, I tried plotting the relationship between different predictors and distance using the rethinking code examples from page 113.
+In this example, I fixed the submission delay to the maximum value which is the "realistic" delay.
 
 ```{r}
-horizon.seq <- c(min(distances$delta_month_s), max(distances$delta_month_s))
-delay.seq <- rep(max(distances$mean_delay_s), 2)
-pred_dat <- list(delta_month_s=horizon.seq, mean_delay_s=delay.seq)
+horizon.seq <- c(min(distances$horizon), max(distances$horizon))
+delay.seq <- rep(max(distances$delay), 2)
+pred_dat <- list(horizon=horizon.seq, delay=delay.seq)
 mu <- link(simple.model, data=pred_dat)
 mu.mean <- apply(mu, 2, mean)
 mu.PI <- apply(mu, 2, PI, prob=0.89)
@@ -89,11 +145,16 @@ distance.PI <- apply(sim.distance, 2, PI, prob=0.89)
 Plot the results.
 
 ```{r}
-boxplot(distance ~ delta_month_s, distances)
+sim.distance.df <- cbind(data.frame(horizon_start=6, distance_start=sim.distance[, 1]), data.frame(horizon_end=12, distance_end=sim.distance[, 2]))
+ggplot(sim.distance.df, aes(x=horizon_start, xend=horizon_end, y=distance_start, yend=distance_end)) + geom_segment(alpha=0.1) + theme_classic() + geom_point(aes(x=6, y=mu.mean[1], col="red")) + geom_point(aes(x=12, y=mu.mean[2], col="red")) + labs(x="Forecast horizon (months)", y="Distance to the future (AAs)") + theme(legend.position="none")
+ggsave("posterior-simulations-with-realistic-delay.png")
 ```
 
 ```{r}
 mu.mean
+```
+
+```{r}
 mu.PI
 ```
 
@@ -103,12 +164,62 @@ distance.PI
 
 We also see from the coefficients above that the two predictors have almost no effect on the distance output compared to the intercept and scale.
 
+To figure out what that distribution looks like, we need to convert posterior samples into mu values for the gamma.
+As a first pass, though, we could assume mu=1 and get something like this.
+
+```{r}
+hist(rgamma2(10000, mu.mean[1], 1.08))
+```
+
+```{r}
+hist(rgamma2(10000, mu.mean[2], 1.08))
+```
+
+Next, I wanted to see the distributions of the predictor coefficients at a higher resolution than the precis plot above.
+
+```{r}
+prior.samples <- extract.prior(simple.model, n=10000)
+post.samples <- extract.samples(simple.model)
+```
+
+Coefficient for submission delay.
+
+```{r}
+plot(density(post.samples$b_s), xlim=c(-0.1, 0.16))
+lines(density(prior.samples$b_s), col="red")
+abline(v=mean(post.samples$b_s), lty=2)
+```
+
+Coefficient for forecast horizon.
+
+```{r}
+plot(density(post.samples$b_h), xlim=c(-0.1, 0.18))
+lines(density(prior.samples$b_h), col="red")
+abline(v=mean(post.samples$b_h), lty=2)
+```
+
+Intercept representing average distance to the future across timepoints.
+
+```{r}
+plot(density(post.samples$a), xlim=c(-0.125, 0.3))
+lines(density(prior.samples$a), col="red")
+abline(v=mean(post.samples$a), lty=2)
+```
+
+Scale of gamma distribution representing the variance around the central rate.
+
+```{r}
+plot(density(post.samples$scale), xlim=c(-0.125, 1.75))
+lines(density(prior.samples$scale), col="red")
+abline(v=mean(post.samples$scale), lty=2)
+```
+
 ### Posterior predictive checks
 
 ```{r}
-horizons <- unique(distances$delta_month_s)
-delays <- unique(distances$mean_delay_s)
-horizons_delays <- expand.grid(mean_delay_s=delays, delta_month_s=horizons)
+horizons <- unique(distances$horizon)
+delays <- unique(distances$delay)
+horizons_delays <- expand.grid(delay=delays, horizon=horizons)
 post <- sim(simple.model, horizons_delays)
 ```
 
@@ -116,11 +227,134 @@ Map treatments to posterior samples.
 TODO: Do this a better way.
 
 ```{r}
-all.post <- rbind(data.frame(horizon=6, delay=0, distance=post[,1]), data.frame(horizon=6, delay=97, distance=post[,2]), data.frame(horizon=6, delay=32, distance=post[,3]), data.frame(horizon=12, delay=0, distance=post[,4]), data.frame(horizon=12, delay=97, distance=post[,5]), data.frame(horizon=12, delay=32, distance=post[,6]))
+all.post <- rbind(
+  data.frame(horizon=6, delay=0, distance=post[,1]),
+  data.frame(horizon=6, delay=1, distance=post[,2]),
+  data.frame(horizon=6, delay=3, distance=post[,3]),
+  data.frame(horizon=12, delay=0, distance=post[,4]),
+  data.frame(horizon=12, delay=1, distance=post[,5]),
+  data.frame(horizon=12, delay=3, distance=post[,6])
+)
 ```
 
 Plot the posterior distributions by treatment.
 
 ```{r}
-ggplot(all.post, aes(as.factor(horizon), distance, colour=as.factor(delay))) + geom_boxplot() + theme_classic()
+ggplot(all.post, aes(as.factor(horizon), distance, colour=as.factor(delay))) + geom_boxplot() + theme_classic() + labs(x="Forecast horizon (months)", y="Distance to the future (AAs)", colour="Mean submission delay (months)") + theme(legend.position=c(0.25, 0.8))
+ggsave("posterior-predictive-simulations-across-treatments.png")
 ```
+
+Summarize distances from observed data.
+
+```{r}
+distances %>% group_by(horizon, delay) %>% summarize(median=median(distance))
+```
+
+Then, summarize the corresponding distances from posterior predictive simulations.
+
+```{r}
+all.post %>% group_by(horizon, delay) %>% summarize(median=median(distance))
+```
+
+The simple model systematically underestimates the distance to the future for 6-month forecasts and overestimates the distance for 12-month forecasts.
+I wonder whether allowing each timepoint to have its own intercept in a multilevel model would better account for this issue.
+
+## Fit a multilevel model
+
+Assigns an intercept to each timepoint with a shared mean, allowing the model to account for timepoint-specific variation.
+
+```{r}
+full.model <- ulam(
+  alist(
+    distance ~ dgamma2(mu, scale),
+    scale ~ dexp(5),
+    log(mu) <- a_timepoint[t] + b_s * delay + b_h * horizon,
+    a_timepoint[t] ~ dnorm(a, sigma),
+    a ~ dnorm(0, 0.03),
+    sigma ~ dexp(1),
+    b_s ~ dnorm(0, 0.03),
+    b_h ~ dnorm(0, 0.03)
+  ),
+  data=distances,
+  iter=10000,
+  chains=4,
+  cores=4,
+  log_lik=TRUE
+)
+```
+
+Summarize top-level model.
+
+```{r}
+precis(full.model)
+```
+
+Plot primary model parameters.
+
+```{r}
+plot(full.model)
+```
+
+```{r}
+full.post.samples <- extract.samples(full.model)
+```
+
+```{r}
+hist(rgamma2(10000, 1.0, 1.08))
+```
+
+```{r}
+hist(rgamma2(10000, 1.0, 0.22))
+```
+
+Summarize complete model.
+
+```{r}
+precis(full.model, depth=2)
+```
+
+Plot all model parameters.
+
+```{r fig.width=6, fig.height=10}
+plot(full.model, depth=2)
+```
+
+### Posterior predictive checks
+
+```{r}
+post <- sim(full.model, horizons_delays)
+```
+
+Map treatments to posterior samples.
+TODO: Do this a better way.
+
+```{r}
+all.post <- rbind(
+  data.frame(horizon=6, delay=0, distance=post[,1]),
+  data.frame(horizon=6, delay=1, distance=post[,2]),
+  data.frame(horizon=6, delay=3, distance=post[,3]),
+  data.frame(horizon=12, delay=0, distance=post[,4]),
+  data.frame(horizon=12, delay=1, distance=post[,5]),
+  data.frame(horizon=12, delay=3, distance=post[,6])
+)
+```
+
+Plot the posterior distributions by treatment.
+
+```{r}
+ggplot(all.post, aes(as.factor(horizon), distance, colour=as.factor(delay))) + geom_boxplot() + theme_classic() + labs(x="Forecast horizon (months)", y="Distance to the future (AAs)", colour="Mean submission delay (months)") + theme(legend.position=c(0.25, 0.8))
+ggsave("posterior-predictive-simulations-across-treatments.png")
+```
+
+Summarize distances from observed data.
+
+```{r}
+distances %>% group_by(horizon, delay) %>% summarize(median=median(distance))
+```
+Then, summarize the corresponding distances from posterior predictive simulations.
+
+```{r}
+all.post %>% group_by(horizon, delay) %>% summarize(median=median(distance))
+```
+The simple model systematically underestimates the distance to the future for 6-month forecasts and overestimates the distance for 12-month forecasts.
+I wonder whether allowing each timepoint to have its own intercept in a multilevel model would better account for this issue.
