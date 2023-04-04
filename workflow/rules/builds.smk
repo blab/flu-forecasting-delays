@@ -319,6 +319,7 @@ rule convert_translations_to_json:
         translations = BUILD_TIMEPOINT_PATH + "aa_seq.json"
     params:
         gene_names = gene_names(segment="ha")
+    conda: "../envs/anaconda.python3.yaml"
     shell:
         """
         python3 workflow/scripts/convert_translations_to_json.py \
@@ -804,6 +805,7 @@ rule normalize_fitness:
         fitness = BUILD_TIMEPOINT_PATH + "normalized_fitness.json"
     params:
         preferred_frequency_method = config["frequencies"]["preferred_method"]
+    conda: "../envs/anaconda.python3.yaml"
     shell:
         """
         python3 workflow/scripts/normalize_fitness.py \
@@ -956,6 +958,7 @@ rule annotate_weighted_distances_for_tip_attributes:
         attributes = BUILD_PATH + "tip_attributes_with_weighted_distances.tsv"
     params:
         delta_months = config["fitness_model"]["delta_months_to_fit"]
+    conda: "../envs/anaconda.python3.yaml"
     shell:
         """
         python3 src/weighted_distances.py \
@@ -1099,6 +1102,7 @@ rule aggregate_tree_plots:
     input: _get_tree_plots_by_wildcards
     output:
         trees="results/figures/trees_" + BUILD_LOG_STEM + ".pdf"
+    conda: "../envs/anaconda.python3.yaml"
     shell: "gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile={output} {input}"
 
 
@@ -1222,7 +1226,7 @@ rule test_distance_models:
         qos="campus-new",
     shell:
         """
-        nextcast fit \
+        popcast fit \
             --tip-attributes {input.attributes} \
             --target-tip-attributes {input.target_attributes} \
             --target distances \
