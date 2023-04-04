@@ -127,6 +127,7 @@ rule annotate_hypothetical_submission_dates_simulated:
             --location {params.locations} \
             --scale {params.scales} \
             --random-seed {params.random_seed} \
+            --bias-delay-by-fitness \
             --output {output.metadata}
         """
 
