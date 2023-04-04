@@ -116,7 +116,7 @@ rule annotate_hypothetical_submission_dates_simulated:
         locations = "6.97 6.97",
         scales = "51.93 17.31",
         random_seed = 314159,
-        bias_delay_by_fitness_arg = lambda wildcards: "--bias-delay-by-fitness" if config["builds"][wildcards.type][wildcards.sample].get("bias_delay_by_fitness", False) else "",
+        bias_delay_by_fitness_arg = lambda wildcards: "--bias-delay-by-fitness" if config["datasets"][wildcards.sample].get("bias_delay_by_fitness", False) else "",
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """

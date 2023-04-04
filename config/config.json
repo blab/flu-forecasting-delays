@@ -8,6 +8,14 @@
             "segment": "ha",
             "viruses_per_month": 90
         },
+        "simulated_sample_4": {
+            "description": "Highest density sampling of simulated populations as in Huddleston et al. 2020",
+            "seed": 4,
+            "lineage": "simulated",
+            "segment": "ha",
+            "viruses_per_month": 90,
+            "bias_delay_by_fitness": true
+        },
         "h3n2": {
             "lineage": "h3n2",
             "segment": "ha",
@@ -74,6 +82,69 @@
                 "validation_build": "simulated_no_delay",
                 "sequences": "data/simulated/simulated_sample_3/filtered_sequences.fasta",
                 "metadata": "data/simulated/simulated_sample_3/annotated_metadata.tsv",
+                "partition_strains_by": "ideal_submission_date",
+                "start_date": "2010-10-01",
+                "end_date": "2040-10-01",
+                "pivot_interval": 6,
+                "min_years_per_build": 6,
+                "years_back_to_build_trees": 6,
+                "reference": "config/reference_h3n2_ha.gb",
+                "predictors": [
+                    "normalized_fitness"
+                ],
+                "best_predictor": "data/simulated/models/normalized_fitness.json",
+                "validation_predictors": [
+                    "normalized_fitness"
+                ]
+            },
+            "simulated_no_delay_with_bias": {
+                "description": "Simulated A/H3N2-like populations with no submission delay and delay biased by fitness",
+                "dataset_sample": "simulated_sample_4",
+                "validation_build": "simulated_no_delay_with_bias",
+                "sequences": "data/simulated/simulated_sample_4/filtered_sequences.fasta",
+                "metadata": "data/simulated/simulated_sample_4/annotated_metadata.tsv",
+                "partition_strains_by": "date",
+                "start_date": "2010-10-01",
+                "end_date": "2040-10-01",
+                "pivot_interval": 6,
+                "min_years_per_build": 6,
+                "years_back_to_build_trees": 6,
+                "reference": "config/reference_h3n2_ha.gb",
+                "predictors": [
+                    "normalized_fitness"
+                ],
+                "best_predictor": "data/simulated/models/normalized_fitness.json",
+                "validation_predictors": [
+                    "normalized_fitness"
+                ]
+            },
+            "simulated_realistic_delay_with_bias": {
+                "description": "Simulated A/H3N2-like populations with realistic submission delay and delay biased by fitness",
+                "dataset_sample": "simulated_sample_4",
+                "validation_build": "simulated_no_delay_with_bias",
+                "sequences": "data/simulated/simulated_sample_4/filtered_sequences.fasta",
+                "metadata": "data/simulated/simulated_sample_4/annotated_metadata.tsv",
+                "partition_strains_by": "realistic_submission_date",
+                "start_date": "2010-10-01",
+                "end_date": "2040-10-01",
+                "pivot_interval": 6,
+                "min_years_per_build": 6,
+                "years_back_to_build_trees": 6,
+                "reference": "config/reference_h3n2_ha.gb",
+                "predictors": [
+                    "normalized_fitness"
+                ],
+                "best_predictor": "data/simulated/models/normalized_fitness.json",
+                "validation_predictors": [
+                    "normalized_fitness"
+                ]
+            },
+            "simulated_ideal_delay_with_bias": {
+                "description": "Simulated A/H3N2-like populations with ideal submission delay and delay biased by fitness",
+                "dataset_sample": "simulated_sample_4",
+                "validation_build": "simulated_no_delay_with_bias",
+                "sequences": "data/simulated/simulated_sample_4/filtered_sequences.fasta",
+                "metadata": "data/simulated/simulated_sample_4/annotated_metadata.tsv",
                 "partition_strains_by": "ideal_submission_date",
                 "start_date": "2010-10-01",
                 "end_date": "2040-10-01",
