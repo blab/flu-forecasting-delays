@@ -5,8 +5,8 @@ date: "2023-03-31"
 ---
 
 ```{r setup, include=FALSE}
-
-knitr::opts_chunk$set(echo = TRUE, root.dir = "/Users/jhuddlesfredhutch.org/projects/flu-forecasting-delays")
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = "/Users/jhuddlesfredhutch.org/projects/flu-forecasting-delays")
 
 library(dplyr)
 library(readr)
@@ -55,12 +55,12 @@ Sample from the appropriate distribution for each prior.
 
 ```{r}
 # Sample scale values.
-prior.scale <- rexp(n_samples, 5)
+prior.scale <- rexp(n_samples, 1)
 
 # Sample intercept and coefficients.
-a <- rnorm(n_samples, 0, 0.03)
-b_s <- rnorm(n_samples, 0, 0.03)
-b_h <- rnorm(n_samples, 0, 0.03)
+a <- rnorm(n_samples, 0, 0.075)
+b_s <- rnorm(n_samples, 0, 0.075)
+b_h <- rnorm(n_samples, 0, 0.075)
 
 # Calculate the rate of the gamma distribution.
 prior.mu <- exp(a + (b_s * delay) + (b_h * horizon))
@@ -100,11 +100,11 @@ Fit a simple linear model with a single intercept to represent the average dista
 simple.model <- ulam(
   alist(
     distance ~ dgamma2(mu, scale),
-    scale ~ dexp(5),
+    scale ~ dexp(1),
     log(mu) <- a + b_s * delay + b_h * horizon,
-    a ~ dnorm(0, 0.03),
-    b_s ~ dnorm(0, 0.03),
-    b_h ~ dnorm(0, 0.03)
+    a ~ dnorm(0, 0.075),
+    b_s ~ dnorm(0, 0.075),
+    b_h ~ dnorm(0, 0.075)
   ),
   data=distances,
   iter=10000,
@@ -132,8 +132,8 @@ Just to see what happens, I tried plotting the relationship between different pr
 In this example, I fixed the submission delay to the maximum value which is the "realistic" delay.
 
 ```{r}
-horizon.seq <- c(min(distances$horizon), max(distances$horizon))
-delay.seq <- rep(max(distances$delay), 2)
+horizon.seq <- unique(distances$horizon)
+delay.seq <- rep(max(distances$delay), length(horizon.seq))
 pred_dat <- list(horizon=horizon.seq, delay=delay.seq)
 mu <- link(simple.model, data=pred_dat)
 mu.mean <- apply(mu, 2, mean)
@@ -145,8 +145,17 @@ distance.PI <- apply(sim.distance, 2, PI, prob=0.89)
 Plot the results.
 
 ```{r}
-sim.distance.df <- cbind(data.frame(horizon_start=6, distance_start=sim.distance[, 1]), data.frame(horizon_end=12, distance_end=sim.distance[, 2]))
-ggplot(sim.distance.df, aes(x=horizon_start, xend=horizon_end, y=distance_start, yend=distance_end)) + geom_segment(alpha=0.1) + theme_classic() + geom_point(aes(x=6, y=mu.mean[1], col="red")) + geom_point(aes(x=12, y=mu.mean[2], col="red")) + labs(x="Forecast horizon (months)", y="Distance to the future (AAs)") + theme(legend.position="none")
+sim.distance.df <- cbind(
+  data.frame(
+    horizon_start=3,
+    distance_start=sim.distance[, 1]
+  ),
+  data.frame(
+    horizon_end=12,
+    distance_end=sim.distance[, 4]
+  )
+)
+ggplot(sim.distance.df, aes(x=horizon_start, xend=horizon_end, y=distance_start, yend=distance_end)) + geom_segment(alpha=0.1) + theme_classic() + geom_point(aes(x=3, y=mu.mean[1], col="red")) + geom_point(aes(x=6, y=mu.mean[2], col="red")) + geom_point(aes(x=9, y=mu.mean[3], col="red")) + geom_point(aes(x=12, y=mu.mean[4], col="red")) + labs(x="Forecast horizon (months)", y="Distance to the future (AAs)") + theme(legend.position="none") + scale_x_continuous(breaks=horizon.seq)
 ggsave("posterior-simulations-with-realistic-delay.png")
 ```
 
@@ -168,11 +177,11 @@ To figure out what that distribution looks like, we need to convert posterior sa
 As a first pass, though, we could assume mu=1 and get something like this.
 
 ```{r}
-hist(rgamma2(10000, mu.mean[1], 1.08))
+hist(rgamma2(10000, mu.mean[1], coef(simple.model)["scale"]))
 ```
 
 ```{r}
-hist(rgamma2(10000, mu.mean[2], 1.08))
+hist(rgamma2(10000, mu.mean[4], coef(simple.model)["scale"]))
 ```
 
 Next, I wanted to see the distributions of the predictor coefficients at a higher resolution than the precis plot above.
@@ -201,7 +210,7 @@ abline(v=mean(post.samples$b_h), lty=2)
 Intercept representing average distance to the future across timepoints.
 
 ```{r}
-plot(density(post.samples$a), xlim=c(-0.125, 0.3))
+plot(density(post.samples$a), xlim=c(-0.125, 1.5))
 lines(density(prior.samples$a), col="red")
 abline(v=mean(post.samples$a), lty=2)
 ```
@@ -228,12 +237,18 @@ TODO: Do this a better way.
 
 ```{r}
 all.post <- rbind(
-  data.frame(horizon=6, delay=0, distance=post[,1]),
-  data.frame(horizon=6, delay=1, distance=post[,2]),
-  data.frame(horizon=6, delay=3, distance=post[,3]),
-  data.frame(horizon=12, delay=0, distance=post[,4]),
-  data.frame(horizon=12, delay=1, distance=post[,5]),
-  data.frame(horizon=12, delay=3, distance=post[,6])
+  data.frame(horizon=3, delay=0, distance=post[,1]),
+  data.frame(horizon=3, delay=1, distance=post[,2]),
+  data.frame(horizon=3, delay=3, distance=post[,3]),
+  data.frame(horizon=6, delay=0, distance=post[,4]),
+  data.frame(horizon=6, delay=1, distance=post[,5]),
+  data.frame(horizon=6, delay=3, distance=post[,6]),
+  data.frame(horizon=9, delay=0, distance=post[,7]),
+  data.frame(horizon=9, delay=1, distance=post[,8]),
+  data.frame(horizon=9, delay=3, distance=post[,9]),
+  data.frame(horizon=12, delay=0, distance=post[,10]),
+  data.frame(horizon=12, delay=1, distance=post[,11]),
+  data.frame(horizon=12, delay=3, distance=post[,12])
 )
 ```
 
@@ -244,16 +259,38 @@ ggplot(all.post, aes(as.factor(horizon), distance, colour=as.factor(delay))) + g
 ggsave("posterior-predictive-simulations-across-treatments.png")
 ```
 
-Summarize distances from observed data.
+Plot observed distances.
 
 ```{r}
-distances %>% group_by(horizon, delay) %>% summarize(median=median(distance))
+ggplot(distances, aes(as.factor(horizon), distance, colour=as.factor(delay))) + geom_boxplot() + theme_classic() + labs(x="Forecast horizon (months)", y="Distance to the future (AAs)", colour="Mean submission delay (months)") + theme(legend.position=c(0.25, 0.8))
+ggsave("observed-distances-for-simulations-across-treatments.png")
+```
+
+Summarize distances from observed data.
+
+```{r, rows.print=20}
+observed.median.distances <- distances %>% group_by(horizon, delay) %>% summarize(median=median(distance))
+observed.median.distances
 ```
 
 Then, summarize the corresponding distances from posterior predictive simulations.
 
+```{r, rows.print=20}
+post.median.distances <- all.post %>% group_by(horizon, delay) %>% summarize(median=median(distance))
+post.median.distances
+```
+
 ```{r}
-all.post %>% group_by(horizon, delay) %>% summarize(median=median(distance))
+observed.median.distances$type <- "observed"
+post.median.distances$type <- "posterior"
+all.median.distances <- rbind(observed.median.distances, post.median.distances)
+```
+
+Plot observed and median distances by factor.
+
+```{r}
+ggplot(all.median.distances, aes(as.factor(horizon), median, colour=as.factor(delay))) + geom_point(aes(shape=type)) + theme_classic() + labs(x="Forecast horizon (months)", y="Distance to the future (AAs)", colour="Mean submission delay (months)", shape="Type") + theme(legend.position=c(0.25, 0.7))
+ggsave("observed-and-posterior-median-distances-for-simulations-across-treatments.png")
 ```
 
 The simple model systematically underestimates the distance to the future for 6-month forecasts and overestimates the distance for 12-month forecasts.
@@ -263,17 +300,17 @@ I wonder whether allowing each timepoint to have its own intercept in a multilev
 
 Assigns an intercept to each timepoint with a shared mean, allowing the model to account for timepoint-specific variation.
 
-```{r}
+```{r, include=FALSE}
 full.model <- ulam(
   alist(
     distance ~ dgamma2(mu, scale),
-    scale ~ dexp(5),
-    log(mu) <- a_timepoint[t] + b_s * delay + b_h * horizon,
-    a_timepoint[t] ~ dnorm(a, sigma),
-    a ~ dnorm(0, 0.03),
+    scale ~ dexp(1),
+    log(mu) <- a + a_timepoint[t] + b_s * delay + b_h * horizon,
+    a_timepoint[t] ~ dnorm(0, sigma),
+    a ~ dnorm(0, 0.075),
     sigma ~ dexp(1),
-    b_s ~ dnorm(0, 0.03),
-    b_h ~ dnorm(0, 0.03)
+    b_s ~ dnorm(0, 0.075),
+    b_h ~ dnorm(0, 0.075)
   ),
   data=distances,
   iter=10000,
@@ -300,11 +337,13 @@ full.post.samples <- extract.samples(full.model)
 ```
 
 ```{r}
-hist(rgamma2(10000, 1.0, 1.08))
+dens(full.post.samples$sigma, xlim=c(-0.25, 3), ylim=c(0, 25))
+dens(full.post.samples$a, add=TRUE)
 ```
 
 ```{r}
-hist(rgamma2(10000, 1.0, 0.22))
+dens(full.post.samples$b_s, col="blue", ylim=c(0, 300), xlim=c(0, 0.1))
+dens(full.post.samples$b_h, add=TRUE, col="orange")
 ```
 
 Summarize complete model.
@@ -317,6 +356,20 @@ Plot all model parameters.
 
 ```{r fig.width=6, fig.height=10}
 plot(full.model, depth=2)
+```
+
+Plot variation of timepoint intercepts in temporal order.
+
+```{r}
+plot(coef(full.model)[2:97], type="l")
+```
+
+```{r}
+hist(coef(full.model)[2:97])
+```
+
+```{r}
+compare(simple.model, full.model)
 ```
 
 ### Posterior predictive checks
@@ -358,3 +411,59 @@ all.post %>% group_by(horizon, delay) %>% summarize(median=median(distance))
 ```
 The simple model systematically underestimates the distance to the future for 6-month forecasts and overestimates the distance for 12-month forecasts.
 I wonder whether allowing each timepoint to have its own intercept in a multilevel model would better account for this issue.
+
+## Fit a multilevel model with a Gaussian process
+
+The high variance of the variance parameter for time-specific intercepts in the full model and relatively high degree of overfitting by that model compared to the simple model suggested that something we wrong with the full model.
+Reading more about these models, I realized that my varying intercept variable of time is a continuous variable with correlated values.
+As such, I should probably use a Gaussian process (GP) to represent the covariance between timepoints.
+
+Read in the pairwise distances between timepoints.
+
+```{r}
+distances.between.years <- as.matrix(read.csv("results/distance_in_years.csv"))
+```
+
+Fit the model with a GP.
+
+```{r}
+gp.model <- ulam(
+  alist(
+    distance ~ dgamma2(mu, scale),
+    scale ~ dexp(1),
+    log(mu) <- a + a_timepoint[t] + b_s * delay + b_h * horizon,
+    vector[96]: a_timepoint ~ multi_normal( 0 , SIGMAT ),
+    matrix[96,96]: SIGMAT <- cov_GPL2( Dmat , etasq , rhosq , sigmasq ),
+    etasq ~ dexp(1),
+    rhosq ~ dexp(1),
+    sigmasq ~ dexp(1),
+    a ~ dnorm(0, 0.075),
+    b_s ~ dnorm(0, 0.075),
+    b_h ~ dnorm(0, 0.075)
+  ),
+  data=list(
+    t=distances$t,
+    delay=distances$delay,
+    horizon=distances$horizon,
+    Dmat=distances.between.years,
+    distance=distances$distance
+  ),
+  iter=10000,
+  chains=4,
+  cores=4,
+  log_lik=TRUE
+)
+```
+
+```{r}
+precis(gp.model)
+```
+
+```{r}
+plot(precis(gp.model))
+```
+
+```{r}
+compare(simple.model, full.model, gp.model)
+```
+
