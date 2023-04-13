@@ -199,17 +199,234 @@ shade(mu.HPDI, horizon.seq)
 shade(distance.PI, horizon.seq)
 ```
 
-To figure out what that distribution looks like, we need to convert posterior samples into mu values for the gamma.
-As a first pass, though, we could assume mu=1 and get something like this.
+Plot the distribution of average distances to the present when all data are available.
 
 ```{r}
-hist(rgamma2(10000, mu.mean[1], coef(simple.model)["scale"]))
+average.distance.to.present <- rgamma2(length(post.samples$a), exp(post.samples$a), post.samples$scale)
+mean.average.distance.to.present <- mean(average.distance.to.present)
+HPDI.average.distance.to.present <- HPDI(average.distance.to.present)
+hist(average.distance.to.present, xlab="average distance to present without delay (AAs)")
+abline(v=mean.average.distance.to.present, col="red", lw=2)
+abline(v=HPDI.average.distance.to.present[1], col="red", lw=2, lty="dashed")
+abline(v=HPDI.average.distance.to.present[2], col="red", lw=2, lty="dashed")
 ```
+
+Mean of the average distance to the present without delay:
 
 ```{r}
-hist(rgamma2(10000, mu.mean[4], coef(simple.model)["scale"]))
+mean.average.distance.to.present
 ```
 
+HPDI of the average distance to present without delay:
+
+```{r}
+HPDI(average.distance.to.present)
+```
+
+Summarize the effect of the forecast horizon on distance to the future.
+This is the additional distance to the future on top of the average distance to the present represented by the intercept measured in AAs per year.
+
+```{r}
+additional.distance.to.future <- (exp(post.samples$a + post.samples$b_h) - exp(post.samples$a)) * 12
+mean.additional.distance.to.future <- mean(additional.distance.to.future)
+HPDI.additional.distance.to.future <- HPDI(additional.distance.to.future)
+hist(additional.distance.to.future, xlab="rate of distance to the future (AAs/year)")
+abline(v=mean.additional.distance.to.future, col="red", lw=2)
+abline(v=HPDI.additional.distance.to.future[1], col="red", lw=2, lty="dashed")
+abline(v=HPDI.additional.distance.to.future[2], col="red", lw=2, lty="dashed")
+```
+
+Mean additional distance to the future (AAs per year):
+
+```{r}
+mean.additional.distance.to.future
+```
+
+HPDI additional distance to the future (AAs per year):
+
+```{r}
+HPDI.additional.distance.to.future
+```
+
+Summarize the effect of submission delays on distance to the present.
+This is the additional distance to the present on top of the average distance to the present represented by the intercept measured in AAs per year.
+
+```{r}
+additional.distance.to.present <- (exp(post.samples$a + post.samples$b_s) - exp(post.samples$a)) * 12
+mean.additional.distance.to.present <- mean(additional.distance.to.present)
+HPDI.additional.distance.to.present <- HPDI(additional.distance.to.present)
+hist(additional.distance.to.present, xlab="rate of distance to the present (AAs/year)")
+abline(v=mean.additional.distance.to.present, col="red", lw=2)
+abline(v=HPDI.additional.distance.to.present[1], col="red", lw=2, lty="dashed")
+abline(v=HPDI.additional.distance.to.present[2], col="red", lw=2, lty="dashed")
+```
+
+Mean additional distance to the present (AAs per year):
+
+```{r}
+mean.additional.distance.to.present
+```
+
+HPDI additional distance to the present (AAs per year):
+
+```{r}
+HPDI.additional.distance.to.present
+```
+
+We might consider three possible realistic scenarios for future practice of influenza genomic surveillance and vaccine development:
+
+1. A change in vaccine development reduces the required forecast horizon from 12 months to 6 months (e.g., through adoption of mRNA-based vaccines).
+2. A change in genomic surveillance capacity and policy reduces the average submission delay of genomes to GISAID from 3 months to 1 month.
+3. Both changes to vaccine development and genomic surveillance occur at once.
+
+In the first scenario, we fix the submission delay to 3 months on average and calculate the difference between distances to the future for forecast horizon values of 12 and 6 months.
+
+```{r}
+fixed.delay <- 3
+scenario.1.horizons <- c(6, 12)
+
+scenario.1.distances <- sapply(scenario.1.horizons, function(horizon)
+  rgamma2(
+    length(post.samples$a),
+    exp(post.samples$a + post.samples$b_s * fixed.delay + post.samples$b_h * horizon),
+    post.samples$scale
+  )
+)
+
+# Reduction in distance to the future expected by reducing forecast horizon from 12 to 6 months.
+scenario.1.improvement <- scenario.1.distances[, 2] - scenario.1.distances[, 1]
+mean.scenario.1.improvement <- mean(scenario.1.improvement)
+HPDI.scenario.1.improvement <- HPDI(scenario.1.improvement)
+hist(scenario.1.improvement, xlab="Reduction in distance to future for 12- to 6-month horizon (AAs)")
+abline(v=mean.scenario.1.improvement, col="red", lwd=2)
+abline(v=HPDI.scenario.1.improvement[1], col="red", lwd=2, lty="dashed")
+abline(v=HPDI.scenario.1.improvement[2], col="red", lwd=2, lty="dashed")
+```
+
+Mean improvement:
+
+```{r}
+mean.scenario.1.improvement
+```
+
+89% HPDI improvement:
+
+```{r}
+HPDI.scenario.1.improvement
+```
+
+In the second scenario, we fix the forecast horizon to 12 months and calculate the difference between distances to the future for average submission delays of 3 and 1 months.
+
+```{r}
+fixed.horizon <- 12
+scenario.2.delays <- c(1, 3)
+
+scenario.2.distances <- sapply(scenario.2.delays, function(delay)
+  rgamma2(
+    length(post.samples$a),
+    exp(post.samples$a + post.samples$b_s * delay + post.samples$b_h * fixed.horizon),
+    post.samples$scale
+  )
+)
+
+# Reduction in distance to the future expected by reducing average submission delay from 3 months to 1 month.
+scenario.2.improvement <- scenario.2.distances[, 2] - scenario.2.distances[, 1]
+mean.scenario.2.improvement <- mean(scenario.2.improvement)
+HPDI.scenario.2.improvement <- HPDI(scenario.2.improvement)
+hist(scenario.2.improvement, xlab="Reduction in distance to future for 3- to 1-month delay (AAs)")
+abline(v=mean.scenario.2.improvement, col="red", lwd=2)
+abline(v=HPDI.scenario.2.improvement[1], col="red", lwd=2, lty="dashed")
+abline(v=HPDI.scenario.2.improvement[2], col="red", lwd=2, lty="dashed")
+```
+
+Mean improvement:
+
+```{r}
+mean.scenario.2.improvement
+```
+
+89% HPDI improvement:
+
+```{r}
+HPDI.scenario.2.improvement
+```
+
+In the last scenario, we calculate the difference between distances to the future for the status quo (horizon=12 months, delay=3 months) and the scenario outcome (horizon=6 months, delay=1 month).
+
+```{r}
+scenario.3.params <- rbind(
+  list(horizon=6, delay=1),
+  list(horizon=12, delay=3)
+)
+
+scenario.3.link <- function(horizon, delay) {
+  rgamma2(
+    length(post.samples$a),
+    exp(post.samples$a + post.samples$b_s * delay + post.samples$b_h * horizon),
+    post.samples$scale
+  )
+}
+
+scenario.3a.distances <- scenario.3.link(scenario.3.params[1, ]$horizon, scenario.3.params[1, ]$delay)
+scenario.3b.distances <- scenario.3.link(scenario.3.params[2, ]$horizon, scenario.3.params[2, ]$delay)
+
+# Reduction in distance to the future expected by reducing forecast horizon from 12 to 6 months
+# and average submission delay from 3 months to 1 month.
+scenario.3.improvement <- scenario.3b.distances - scenario.3a.distances
+mean.scenario.3.improvement <- mean(scenario.3.improvement)
+HPDI.scenario.3.improvement <- HPDI(scenario.3.improvement)
+hist(scenario.3.improvement, xlab="Reduction in distance to future for 6-month horizon, 1-month delay (AAs)")
+abline(v=mean.scenario.3.improvement, col="red", lwd=2)
+abline(v=HPDI.scenario.3.improvement[1], col="red", lwd=2, lty="dashed")
+abline(v=HPDI.scenario.3.improvement[2], col="red", lwd=2, lty="dashed")
+```
+
+Mean improvement:
+
+```{r}
+mean.scenario.3.improvement
+```
+
+89% HPDI improvement:
+
+```{r}
+HPDI.scenario.3.improvement
+```
+
+Combine the data from each scenario to produce a single summary figure.
+
+```{r}
+improvements <- rbind(
+  data.frame(id=1, scenario="Improved vaccine development (6-month horizon, 3-month delay)", improvement=scenario.1.improvement),
+  data.frame(id=2, scenario="Improved genomic surveillance (12-month horizon, 1-month delay)", improvement=scenario.2.improvement),
+  data.frame(id=3, scenario="Improved vaccine and surveillance (6-month horizon, 1-month delay)", improvement=scenario.3.improvement)
+)
+improvements$title <- reorder(improvements$scenario, improvements$id)
+```
+
+Combine summary statistics from each scenario.
+
+```{r}
+improvements.stats <- data.frame(
+  id=c(1, 2, 3),
+  scenario=c(
+    "Improved vaccine development (6-month horizon, 3-month delay)",
+    "Improved genomic surveillance (12-month horizon, 1-month delay)",
+    "Improved vaccine and surveillance (6-month horizon, 1-month delay)"
+  ),
+  mean=c(mean.scenario.1.improvement, mean.scenario.2.improvement, mean.scenario.3.improvement),
+  lower_hpdi=c(HPDI.scenario.1.improvement[1], HPDI.scenario.2.improvement[1], HPDI.scenario.3.improvement[1]),
+  upper_hpdi=c(HPDI.scenario.1.improvement[2], HPDI.scenario.2.improvement[2], HPDI.scenario.3.improvement[2])
+)
+improvements.stats$title <- reorder(improvements.stats$scenario, improvements.stats$id)
+```
+
+Plot improvements.
+
+```{r}
+ggplot(improvements, aes(x=improvement)) + geom_vline(aes(xintercept=0), colour="#999999") + geom_histogram(breaks=seq(-10, 15, 1)) + facet_wrap(vars(title), nrow=3, labeller=labeller(id=function(id) { })) + theme_classic() + labs(x="Reduction in distance to the future (AAs)", y="Number of posterior samples") + theme(strip.background = element_blank(), title=element_text(size=12), strip.text=element_text(size=12)) + geom_vline(data=improvements.stats, aes(xintercept=mean, colour="red"), show.legend=FALSE) + geom_vline(data=improvements.stats, aes(xintercept=lower_hpdi, colour="red"), linetype="dashed", show.legend=FALSE) + geom_vline(data=improvements.stats, aes(xintercept=upper_hpdi, colour="red"), linetype="dashed", show.legend=FALSE)
+ggsave("reduction-in-distance-to-future-by-scenario-for-simulated-populations.png")
+```
 Next, I wanted to see the distributions of the predictor coefficients at a higher resolution than the precis plot above.
 
 ```{r}
@@ -318,9 +535,6 @@ Plot observed and median distances by factor.
 ggplot(all.median.distances, aes(as.factor(horizon), median, colour=as.factor(delay))) + geom_point(aes(shape=type)) + theme_classic() + labs(x="Forecast horizon (months)", y="Distance to the future (AAs)", colour="Mean submission delay (months)", shape="Type") + theme(legend.position=c(0.25, 0.7))
 ggsave("observed-and-posterior-median-distances-for-simulations-across-treatments.png")
 ```
-
-The simple model systematically underestimates the distance to the future for 6-month forecasts and overestimates the distance for 12-month forecasts.
-I wonder whether allowing each timepoint to have its own intercept in a multilevel model would better account for this issue.
 
 ## Fit a multilevel model
 
