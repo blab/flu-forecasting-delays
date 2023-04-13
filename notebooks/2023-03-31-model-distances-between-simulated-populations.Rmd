@@ -171,7 +171,33 @@ mu.PI
 distance.PI
 ```
 
-We also see from the coefficients above that the two predictors have almost no effect on the distance output compared to the intercept and scale.
+Repeat the above analysis of the posterior with samples extracted from posterior directly.
+
+```{r}
+post.samples <- extract.samples(simple.model)
+fixed.delay <- 0
+sim.distance <- sapply(horizon.seq, function(horizon)
+  rgamma2(
+    length(post.samples$a),
+    exp(post.samples$a + post.samples$b_s * fixed.delay + post.samples$b_h * horizon),
+    post.samples$scale
+  )
+)
+mu.link <- function(horizon) exp(post.samples$a + post.samples$b_s * fixed.delay + post.samples$b_h * horizon)
+mu <- sapply(horizon.seq, mu.link)
+mu.mean <- apply(mu, 2 ,mean)
+mu.HPDI <- apply(mu, 2, HPDI, prob=0.89)
+distance.PI <- apply(sim.distance, 2, PI, prob=0.89)
+```
+
+Plot results.
+
+```{r}
+plot(distance ~ horizon, distances[distances$delay == fixed.delay,], col=col.alpha(rangi2, 0.5))
+lines(horizon.seq, mu.mean)
+shade(mu.HPDI, horizon.seq)
+shade(distance.PI, horizon.seq)
+```
 
 To figure out what that distribution looks like, we need to convert posterior samples into mu values for the gamma.
 As a first pass, though, we could assume mu=1 and get something like this.
