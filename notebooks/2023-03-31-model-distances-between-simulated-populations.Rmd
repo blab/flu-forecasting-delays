@@ -202,7 +202,8 @@ shade(distance.PI, horizon.seq)
 Plot the distribution of average distances to the present when all data are available.
 
 ```{r}
-average.distance.to.present <- rgamma2(length(post.samples$a), exp(post.samples$a), post.samples$scale)
+average.distance.to.present <-
+rgamma2(length(post.samples$a), exp(post.samples$a), post.samples$scale)
 mean.average.distance.to.present <- mean(average.distance.to.present)
 HPDI.average.distance.to.present <- HPDI(average.distance.to.present)
 hist(average.distance.to.present, xlab="average distance to present without delay (AAs)")
@@ -225,9 +226,10 @@ HPDI(average.distance.to.present)
 
 Summarize the effect of the forecast horizon on distance to the future.
 This is the additional distance to the future on top of the average distance to the present represented by the intercept measured in AAs per year.
+We expect this value to be effectively the substitution rate in AAs per year (~3 AAs / year).
 
 ```{r}
-additional.distance.to.future <- (exp(post.samples$a + post.samples$b_h) - exp(post.samples$a)) * 12
+additional.distance.to.future <- (exp(post.samples$a + post.samples$b_h * 12) - exp(post.samples$a))
 mean.additional.distance.to.future <- mean(additional.distance.to.future)
 HPDI.additional.distance.to.future <- HPDI(additional.distance.to.future)
 hist(additional.distance.to.future, xlab="rate of distance to the future (AAs/year)")
@@ -248,14 +250,36 @@ HPDI additional distance to the future (AAs per year):
 HPDI.additional.distance.to.future
 ```
 
+Next, I summarized the effect of one unit change in horizon (1 month) to enable comparison with the effect of one unit of change in submission delay.
+
+```{r}
+additional.distance.to.future.per.month <- (exp(post.samples$a + post.samples$b_h) - exp(post.samples$a))
+mean.additional.distance.to.future.per.month <- mean(additional.distance.to.future.per.month)
+HPDI.additional.distance.to.future.per.month <- HPDI(additional.distance.to.future.per.month)
+hist(additional.distance.to.future.per.month, xlab="rate of distance to the future (AAs/month)")
+abline(v=mean.additional.distance.to.future.per.month, col="red", lw=2)
+abline(v=HPDI.additional.distance.to.future.per.month[1], col="red", lw=2, lty="dashed")
+abline(v=HPDI.additional.distance.to.future.per.month[2], col="red", lw=2, lty="dashed")
+```
+
+```{r}
+mean.additional.distance.to.future.per.month
+```
+
+HPDI additional distance to the future (AAs per year):
+
+```{r}
+HPDI.additional.distance.to.future.per.month
+```
+
 Summarize the effect of submission delays on distance to the present.
 This is the additional distance to the present on top of the average distance to the present represented by the intercept measured in AAs per year.
 
 ```{r}
-additional.distance.to.present <- (exp(post.samples$a + post.samples$b_s) - exp(post.samples$a)) * 12
+additional.distance.to.present <- (exp(post.samples$a + post.samples$b_s) - exp(post.samples$a))
 mean.additional.distance.to.present <- mean(additional.distance.to.present)
 HPDI.additional.distance.to.present <- HPDI(additional.distance.to.present)
-hist(additional.distance.to.present, xlab="rate of distance to the present (AAs/year)")
+hist(additional.distance.to.present, xlab="rate of distance to the present (AAs/month)")
 abline(v=mean.additional.distance.to.present, col="red", lw=2)
 abline(v=HPDI.additional.distance.to.present[1], col="red", lw=2, lty="dashed")
 abline(v=HPDI.additional.distance.to.present[2], col="red", lw=2, lty="dashed")
@@ -427,6 +451,47 @@ Plot improvements.
 ggplot(improvements, aes(x=improvement)) + geom_vline(aes(xintercept=0), colour="#999999") + geom_histogram(breaks=seq(-10, 15, 1)) + facet_wrap(vars(title), nrow=3, labeller=labeller(id=function(id) { })) + theme_classic() + labs(x="Reduction in distance to the future (AAs)", y="Number of posterior samples") + theme(strip.background = element_blank(), title=element_text(size=12), strip.text=element_text(size=12)) + geom_vline(data=improvements.stats, aes(xintercept=mean, colour="red"), show.legend=FALSE) + geom_vline(data=improvements.stats, aes(xintercept=lower_hpdi, colour="red"), linetype="dashed", show.legend=FALSE) + geom_vline(data=improvements.stats, aes(xintercept=upper_hpdi, colour="red"), linetype="dashed", show.legend=FALSE)
 ggsave("reduction-in-distance-to-future-by-scenario-for-simulated-populations.png")
 ```
+```{r}
+improvements.stats
+```
+
+I also wanted to know how overly optimistic our current forecasts are when the 3-month average submission delay is ignored.
+Here, I fix the horizon to 12 and compare distances between 0 and 3 month delays.
+
+```{r}
+fixed.horizon <- 12
+scenario.4.delays <- c(0, 3)
+
+scenario.4.distances <- sapply(scenario.4.delays, function(delay)
+  rgamma2(
+    length(post.samples$a),
+    exp(post.samples$a + post.samples$b_s * delay + post.samples$b_h * fixed.horizon),
+    post.samples$scale
+  )
+)
+
+# Reduction in distance to the future expected by reducing average submission delay from 3 months to 0 month.
+scenario.4.improvement <- scenario.4.distances[, 2] - scenario.4.distances[, 1]
+mean.scenario.4.improvement <- mean(scenario.4.improvement)
+HPDI.scenario.4.improvement <- HPDI(scenario.4.improvement)
+hist(scenario.4.improvement, xlab="Reduction in distance to future for 3- to 0-month delay (AAs)")
+abline(v=mean.scenario.4.improvement, col="red", lwd=2)
+abline(v=HPDI.scenario.4.improvement[1], col="red", lwd=2, lty="dashed")
+abline(v=HPDI.scenario.4.improvement[2], col="red", lwd=2, lty="dashed")
+```
+
+Mean improvement:
+
+```{r}
+mean.scenario.4.improvement
+```
+
+89% HPDI improvement:
+
+```{r}
+HPDI.scenario.4.improvement
+```
+
 Next, I wanted to see the distributions of the predictor coefficients at a higher resolution than the precis plot above.
 
 ```{r}
@@ -546,8 +611,8 @@ full.model <- ulam(
     distance ~ dgamma2(mu, scale),
     scale ~ dexp(1),
     log(mu) <- a + a_timepoint[t] + b_s * delay + b_h * horizon,
-    a_timepoint[t] ~ dnorm(0, sigma),
     a ~ dnorm(0, 0.075),
+    a_timepoint[t] ~ dnorm(0, sigma),
     sigma ~ dexp(1),
     b_s ~ dnorm(0, 0.075),
     b_h ~ dnorm(0, 0.075)
