@@ -202,8 +202,8 @@ shade(distance.PI, horizon.seq)
 Plot the distribution of average distances to the present when all data are available.
 
 ```{r}
-average.distance.to.present <-
-rgamma2(length(post.samples$a), exp(post.samples$a), post.samples$scale)
+average.distance.to.present <- exp(post.samples$a)
+#average.distance.to.present <- rgamma2(length(post.samples$a), exp(post.samples$a), post.samples$scale)
 mean.average.distance.to.present <- mean(average.distance.to.present)
 HPDI.average.distance.to.present <- HPDI(average.distance.to.present)
 hist(average.distance.to.present, xlab="average distance to present without delay (AAs)")
@@ -449,7 +449,7 @@ Plot improvements.
 
 ```{r}
 ggplot(improvements, aes(x=improvement)) + geom_vline(aes(xintercept=0), colour="#999999") + geom_histogram(breaks=seq(-10, 15, 1)) + facet_wrap(vars(title), nrow=3, labeller=labeller(id=function(id) { })) + theme_classic() + labs(x="Reduction in distance to the future (AAs)", y="Number of posterior samples") + theme(strip.background = element_blank(), title=element_text(size=12), strip.text=element_text(size=12)) + geom_vline(data=improvements.stats, aes(xintercept=mean, colour="red"), show.legend=FALSE) + geom_vline(data=improvements.stats, aes(xintercept=lower_hpdi, colour="red"), linetype="dashed", show.legend=FALSE) + geom_vline(data=improvements.stats, aes(xintercept=upper_hpdi, colour="red"), linetype="dashed", show.legend=FALSE)
-ggsave("reduction-in-distance-to-future-by-scenario-for-simulated-populations.png")
+ggsave("reduction-in-distance-to-future-by-scenario-for-simulated-populations.png", dpi=300)
 ```
 ```{r}
 improvements.stats
