@@ -1,5 +1,5 @@
 {
-    "active_builds": "simulated_no_delay simulated_realistic_delay simulated_ideal_delay",
+    "active_builds": "simulated_no_delay_with_bias simulated_realistic_delay_with_bias simulated_ideal_delay_with_bias h3n2_no_delay h3n2_realistic_delay h3n2_ideal_delay",
     "datasets": {
         "simulated_sample_3": {
             "description": "Highest density sampling of simulated populations as in Huddleston et al. 2020",
@@ -106,7 +106,7 @@
                 "partition_strains_by": "date",
                 "start_date": "2010-10-01",
                 "end_date": "2040-10-01",
-                "pivot_interval": 6,
+                "pivot_interval": 3,
                 "min_years_per_build": 6,
                 "years_back_to_build_trees": 6,
                 "reference": "config/reference_h3n2_ha.gb",
@@ -127,7 +127,7 @@
                 "partition_strains_by": "realistic_submission_date",
                 "start_date": "2010-10-01",
                 "end_date": "2040-10-01",
-                "pivot_interval": 6,
+                "pivot_interval": 3,
                 "min_years_per_build": 6,
                 "years_back_to_build_trees": 6,
                 "reference": "config/reference_h3n2_ha.gb",
@@ -148,7 +148,7 @@
                 "partition_strains_by": "ideal_submission_date",
                 "start_date": "2010-10-01",
                 "end_date": "2040-10-01",
-                "pivot_interval": 6,
+                "pivot_interval": 3,
                 "min_years_per_build": 6,
                 "years_back_to_build_trees": 6,
                 "reference": "config/reference_h3n2_ha.gb",
@@ -165,7 +165,7 @@
             "h3n2_no_delay": {
                 "description": "H3N2 forecasts with no submission delay",
                 "dataset_sample": "h3n2",
-                "full_tree_build": "h3n2_no_delay_full_tree",
+                "validation_build": "h3n2_no_delay",
                 "sequences": "data/natural/h3n2/filtered_sequences.fasta",
                 "metadata": "data/natural/h3n2/strains_metadata.tsv",
                 "titers": "data/natural/h3n2/titers.tsv",
@@ -177,17 +177,17 @@
                 "years_back_to_build_trees": 6,
                 "reference": "config/reference_h3n2_ha.gb",
                 "predictors": [
-                    "cTiter_x-ne_star"
+                    "ne_star-lbi"
                 ],
-                "best_predictor": "data/h3n2/models/cTiter_x-ne_star.json",
+                "best_predictor": "data/h3n2/models/ne_star-lbi.json",
                 "validation_predictors": [
-                    "cTiter_x-ne_star"
+                    "ne_star-lbi"
                 ]
             },
             "h3n2_realistic_delay": {
                 "description": "H3N2 forecasts with realistic submission delay based on empirical data from 2019-2020",
                 "dataset_sample": "h3n2",
-                "full_tree_build": "h3n2_realistic_delay_full_tree",
+                "validation_build": "h3n2_no_delay",
                 "sequences": "data/natural/h3n2/filtered_sequences.fasta",
                 "metadata": "data/natural/h3n2/strains_metadata.tsv",
                 "titers": "data/natural/h3n2/titers.tsv",
@@ -199,17 +199,17 @@
                 "years_back_to_build_trees": 6,
                 "reference": "config/reference_h3n2_ha.gb",
                 "predictors": [
-                    "cTiter_x-ne_star"
+                    "ne_star-lbi"
                 ],
-                "best_predictor": "data/h3n2/models/cTiter_x-ne_star.json",
+                "best_predictor": "data/h3n2/models/ne_star-lbi.json",
                 "validation_predictors": [
-                    "cTiter_x-ne_star"
+                    "ne_star-lbi"
                 ]
             },
             "h3n2_ideal_delay": {
                 "description": "H3N2 forecasts with ideal submission delay with a mean delay of approximately one month",
                 "dataset_sample": "h3n2",
-                "full_tree_build": "h3n2_ideal_delay_full_tree",
+                "validation_build": "h3n2_no_delay",
                 "sequences": "data/natural/h3n2/filtered_sequences.fasta",
                 "metadata": "data/natural/h3n2/strains_metadata.tsv",
                 "titers": "data/natural/h3n2/titers.tsv",
@@ -221,11 +221,11 @@
                 "years_back_to_build_trees": 6,
                 "reference": "config/reference_h3n2_ha.gb",
                 "predictors": [
-                    "cTiter_x-ne_star"
+                    "ne_star-lbi"
                 ],
-                "best_predictor": "data/h3n2/models/cTiter_x-ne_star.json",
+                "best_predictor": "data/h3n2/models/ne_star-lbi.json",
                 "validation_predictors": [
-                    "cTiter_x-ne_star"
+                    "ne_star-lbi"
                 ]
             }
         }
@@ -248,7 +248,7 @@
         "narrow_bandwidth": 0.1667,
         "wide_bandwidth": 0.25,
         "proportion_wide": 0.0,
-        "pivot_frequency": 6,
+        "pivot_frequency": 3,
         "min_mutation_frequency": 0.0,
         "stiffness": 20,
         "inertia": 0.2,
@@ -290,7 +290,7 @@
         "max_freq": 0.99,
         "training_window": 6,
         "delta_months_to_fit": 12,
-        "delta_months": [6, 12],
+        "delta_months": [3, 6, 9, 12],
         "primary_segment": "ha",
         "distance_cost_function": "diffsum",
         "l1_lambda": 0.1,
