@@ -13,4 +13,4 @@ if __name__ == "__main__":
     df = pd.read_csv(args.metadata, sep="\t")
 
     # Exclude strains with ambiguous collection dates.
-    df[~df[args.date_field].str.contains("XX")].to_csv(args.output, sep="\t", header=True, index=False)
+    df[(~df[args.date_field].str.contains("XX")) & (df[args.date_field] != "?")].to_csv(args.output, sep="\t", header=True, index=False)
