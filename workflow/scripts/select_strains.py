@@ -174,15 +174,17 @@ def parse_metadata(segments, metadata_files):
     metadata = {}
     for segment, fname in zip(segments, metadata_files):
         tmp_meta = read_metadata(fname)
-        numerical_dates = get_numerical_dates(tmp_meta, fmt='%Y-%m-%d')
-        for x in tmp_meta:
-            tmp_meta[x]['num_date'] = np.mean(numerical_dates[x])
-            tmp_meta[x]['year'] = int(tmp_meta[x]['num_date'])
 
-            # Extract month values starting at January == 1 for comparison with
-            # datetime objects.
-            tmp_meta[x]['month'] = int((tmp_meta[x]['num_date'] % 1) * 12) + 1
-        metadata[segment] = tmp_meta
+        numerical_dates = get_numerical_dates(tmp_meta, fmt='%Y-%m-%d')
+        tmp_meta['num_date'] = tmp_meta.index.map(numerical_dates).values
+        tmp_meta['year'] = tmp_meta['num_date'].astype(int)
+
+        # Extract month values starting at January == 1 for comparison with
+        # datetime objects.
+        tmp_meta['month'] = tmp_meta["num_date"].apply(lambda date: int((date % 1) * 12) + 1)
+
+        metadata[segment] = tmp_meta.to_dict(orient="index")
+
     return metadata
 
 def parse_sequences(segments, sequence_files):
