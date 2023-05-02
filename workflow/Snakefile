@@ -11,6 +11,11 @@ import sys
 #     "RETHINK_HOST",
 #     "RETHINK_AUTH_KEY"
 
+# Set the maximum recursion limit globally for all shell commands, to avoid
+# issues with large trees crashing the workflow.  Preserve Snakemake's default
+# use of Bash's "strict mode", as we rely on that behaviour.
+shell.prefix("set -euo pipefail; export AUGUR_RECURSION_LIMIT=10000; ")
+
 # Set snakemake directory
 SNAKEMAKE_DIR = os.path.dirname(workflow.snakefile)
 
