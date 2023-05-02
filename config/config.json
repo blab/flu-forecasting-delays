@@ -1,5 +1,5 @@
 {
-    "active_builds": "simulated_no_delay_with_bias simulated_realistic_delay_with_bias simulated_ideal_delay_with_bias h3n2_no_delay h3n2_realistic_delay h3n2_ideal_delay",
+    "active_builds": "simulated_no_delay_with_bias simulated_realistic_delay_with_bias simulated_ideal_delay_with_bias h3n2_no_delay h3n2_observed_delay h3n2_ideal_delay",
     "datasets": {
         "simulated_sample_3": {
             "description": "Highest density sampling of simulated populations as in Huddleston et al. 2020",
@@ -170,8 +170,8 @@
                 "metadata": "data/natural/h3n2/strains_metadata.tsv",
                 "titers": "data/natural/h3n2/titers.tsv",
                 "partition_strains_by": "date",
-                "start_date": "1990-10-01",
-                "end_date": "2015-10-01",
+                "start_date": "2005-04-01",
+                "end_date": "2019-10-01",
                 "pivot_interval": 3,
                 "min_years_per_build": 6,
                 "years_back_to_build_trees": 6,
@@ -184,16 +184,16 @@
                     "ne_star-lbi"
                 ]
             },
-            "h3n2_realistic_delay": {
-                "description": "H3N2 forecasts with realistic submission delay based on empirical data from 2019-2020",
+            "h3n2_observed_delay": {
+                "description": "H3N2 forecasts with observed submission delay",
                 "dataset_sample": "h3n2",
                 "validation_build": "h3n2_no_delay",
                 "sequences": "data/natural/h3n2/filtered_sequences.fasta",
                 "metadata": "data/natural/h3n2/strains_metadata.tsv",
                 "titers": "data/natural/h3n2/titers.tsv",
-                "partition_strains_by": "realistic_submission_date",
-                "start_date": "1990-10-01",
-                "end_date": "2015-10-01",
+                "partition_strains_by": "submission_date",
+                "start_date": "2005-04-01",
+                "end_date": "2019-10-01",
                 "pivot_interval": 3,
                 "min_years_per_build": 6,
                 "years_back_to_build_trees": 6,
@@ -214,8 +214,8 @@
                 "metadata": "data/natural/h3n2/strains_metadata.tsv",
                 "titers": "data/natural/h3n2/titers.tsv",
                 "partition_strains_by": "ideal_submission_date",
-                "start_date": "1990-10-01",
-                "end_date": "2015-10-01",
+                "start_date": "2005-04-01",
+                "end_date": "2019-10-01",
                 "pivot_interval": 3,
                 "min_years_per_build": 6,
                 "years_back_to_build_trees": 6,
