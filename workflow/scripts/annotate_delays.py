@@ -26,18 +26,13 @@ if __name__ == "__main__":
     # Set the random seed.
     np.random.seed(args.random_seed)
 
-    metadata = pd.read_csv(args.metadata, sep="\t")
+    metadata = pd.read_csv(args.metadata, sep="\t", parse_dates=[args.date_field])
 
     if args.bias_delay_by_fitness:
         # Normalize fitness values per generation to simplify the logic downstream.
         max_fitness_by_generation = metadata.groupby("generation")["fitness"].max().reset_index()
         metadata = metadata.merge(max_fitness_by_generation, on="generation", how="left", suffixes=["", "_max"])
         metadata["normalized_fitness"] = metadata["fitness"] / metadata["fitness_max"]
-
-    # Find indices of records with unambiguous dates.
-    has_unambiguous_dates = (~metadata["date"].str.contains("X"))
-    number_of_unambiguous_dates = has_unambiguous_dates.sum()
-    print(number_of_unambiguous_dates)
 
     # Generate samples from gamma distributions matching the given parameters
     # and store them in the given field name(s).
@@ -46,7 +41,7 @@ if __name__ == "__main__":
             a=shape,
             loc=location,
             scale=scale,
-            size=number_of_unambiguous_dates
+            size=metadata.shape[0]
         )
 
         if args.bias_delay_by_fitness:
@@ -59,7 +54,7 @@ if __name__ == "__main__":
                 a=shape,
                 loc=location,
                 scale=scale,
-                size=number_of_unambiguous_dates
+                size=metadata.shape[0]
             )
             random_samples = [
                 random_samples[i] if fitness < 1 else max(random_samples[i], alternate_random_samples[i])
@@ -71,9 +66,6 @@ if __name__ == "__main__":
             for days in random_samples
         ])
 
-        metadata.loc[
-            has_unambiguous_dates,
-            submission_field
-        ] = pd.to_datetime(metadata.loc[has_unambiguous_dates, args.date_field]) + random_offsets
+        metadata[submission_field] = metadata[args.date_field] + random_offsets
 
     metadata.to_csv(args.output, sep="\t", index=False, na_rep="N/A")
