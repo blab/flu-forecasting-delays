@@ -141,11 +141,12 @@ if __name__ == "__main__":
         if frequencies is not None:
             # extend frequencies
             for strain in frequencies.keys():
-                trajectory = frequencies[strain]['frequencies']
-                if strain in strain_to_projected_frequency:
-                    trajectory.append(strain_to_projected_frequency[strain])
-                else:
-                    trajectory.append(0.0)
+                if "frequencies" in frequencies[strain]:
+                    trajectory = frequencies[strain]['frequencies']
+                    if strain in strain_to_projected_frequency:
+                        trajectory.append(strain_to_projected_frequency[strain])
+                    else:
+                        trajectory.append(0.0)
 
             # extend pivots
             pivots.append(projection_pivot + delta_time)
