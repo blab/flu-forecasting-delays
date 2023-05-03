@@ -310,44 +310,29 @@ if "RETHINK_HOST" in os.environ and "RETHINK_AUTH_KEY" in os.environ:
         input:
             metadata = DATA_NATURAL_ROOT_PATH + "filtered_metadata.tsv"
         output:
-            metadata = DATA_NATURAL_ROOT_PATH + "initial_annotated_metadata.tsv"
+            metadata = DATA_NATURAL_ROOT_PATH + "annotated_metadata.tsv"
         params:
             date_field = "date",
-            submission_fields = "realistic_submission_date ideal_submission_date",
-            shapes = "1.60 1.60",
-            locations = "3.98 3.98",
-            scales = "61.56 20.52",
+            observed_submission_date_field = "submission_date",
+            submission_fields = "ideal_submission_date",
+            group_by = ["submitting_lab", "originating_lab", "submission_date"],
+            shapes = "1.60",
+            locations = "3.98",
+            scales = "20.52",
             random_seed = 314159
         conda: "../envs/anaconda.python3.yaml"
         shell:
             """
-            python3 workflow/scripts/annotate_delays.py \
+            python3 workflow/scripts/annotate_delays_for_natural_populations.py \
                 --metadata {input.metadata} \
                 --date-field {params.date_field} \
+                --observed-submission-date-field {params.observed_submission_date_field} \
                 --submission-field {params.submission_fields} \
+                --group-by {params.group_by:q} \
                 --shape {params.shapes} \
                 --location {params.locations} \
                 --scale {params.scales} \
                 --random-seed {params.random_seed} \
-                --output {output.metadata}
-            """
-
-
-    rule enforce_ideal_submission_date:
-        input:
-            metadata = DATA_NATURAL_ROOT_PATH + "initial_annotated_metadata.tsv"
-        output:
-            metadata = DATA_NATURAL_ROOT_PATH + "annotated_metadata.tsv"
-        params:
-            submission_date_field = "submission_date",
-            ideal_submission_date_field = "ideal_submission_date",
-        conda: "../envs/anaconda.python3.yaml"
-        shell:
-            """
-            python3 workflow/scripts/enforce_ideal_submission_date.py \
-                --metadata {input.metadata} \
-                --submission-date-field {params.submission_date_field} \
-                --ideal-submission-date-field {params.ideal_submission_date_field} \
                 --output {output.metadata}
             """
 
