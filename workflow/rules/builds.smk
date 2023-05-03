@@ -1164,7 +1164,7 @@ rule export:
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """
-        augur export \
+        augur export v1 \
             --tree {input.tree} \
             --metadata {input.metadata} \
             --node-data {input.node_data} {input.forecasts} \
@@ -1172,7 +1172,6 @@ rule export:
             --auspice-config {input.auspice_config} \
             --output-tree {output.auspice_tree} \
             --output-meta {output.auspice_metadata} \
-            --panels {params.panels} \
             --minify-json
         """
 
