@@ -20,7 +20,7 @@ Load distances between populations at a given current timepoint and a correspond
 The future timepoint corresponds to the forecast horizon (in months) used to make the forecast.
 
 ```{r}
-distances <- read_csv("results/model_inputs.csv")
+distances <- read_csv("results/model_inputs_for_natural_populations.csv")
 ```
 
 Standardize submission delay and forecast horizon values for use in models.
@@ -40,70 +40,10 @@ delay.mean <- mean(distances$delay)
 delay.sd <- sd(distances$delay)
 ```
 
-## Run prior predictive checks
-
-Determine priors for each model parameter such that the possible output is within realistic bounds.
-
-```{r}
-# Make combinations of horizons and delays.
-horizons <- unique(distances$horizon)
-delays <- unique(distances$delay)
-horizons_delays <- expand.grid(delay=delays, horizon=horizons)
-
-# Define total samples.
-n_samples_per_input <- 5000
-n_inputs <- length(horizons_delays$delay)
-n_samples <- n_samples_per_input * n_inputs
-
-# Make vectors of horizons and delays.
-horizon <- rep(horizons_delays$horizon, n_samples_per_input)
-delay <- rep(horizons_delays$delay, n_samples_per_input)
-```
-
-Sample from the appropriate distribution for each prior.
-
-```{r}
-# Sample scale values.
-prior.scale <- rexp(n_samples, 1)
-
-# Sample intercept and coefficients.
-a <- rnorm(n_samples, 0, 0.075)
-b_s <- rnorm(n_samples, 0, 0.075)
-b_h <- rnorm(n_samples, 0, 0.075)
-
-# Calculate the rate of the gamma distribution.
-prior.mu <- exp(a + (b_s * delay) + (b_h * horizon))
-
-# Sample distances to the future.
-prior.distance <- rgamma2(n_samples, prior.mu, prior.scale)
-```
-
-Build a data frame of the prior results.
-
-```{r}
-priors <- data.frame(
-  horizon=horizon,
-  delay=delay,
-  distance=prior.distance
-)
-```
-
-Summarize prior distances by feature.
-
-```{r}
-priors %>% group_by(horizon, delay) %>% summarize(median=median(distance), mean=mean(distance))
-```
-
-Plot prior distributions.
-
-```{r}
-ggplot(priors, aes(as.factor(horizon), distance, colour=as.factor(delay))) + geom_boxplot() + theme_classic()
-ggsave("prior-predictive-simulation.png")
-```
-
 ## Fit a simple model
 
-Fit a simple linear model with a single intercept to represent the average distance between populations across all samples when standardized delay and horizon values are zero.
+Fit a simple linear model with a single intercept to represent the average distance between populations across all samples.
+Predictor values are not standardized.
 
 ```{r}
 simple.model <- ulam(
@@ -167,19 +107,23 @@ Plot the standardized model coefficients and HPDI.
 plot(simple.model.standardized)
 ```
 
-Most of the variation in model parameters appears in the "scale" parameter of the gamma distribution.
-
-Just to see what happens, I tried plotting the relationship between different predictors and distance using the rethinking code examples from page 113.
-In this example, I fixed the submission delay to the maximum value which is the "realistic" delay.
+Compare simple models.
 
 ```{r}
-horizon.seq <- unique(distances$horizon)
-delay.seq <- rep(max(distances$delay), length(horizon.seq))
-pred_dat <- list(horizon=horizon.seq, delay=delay.seq)
-mu <- link(simple.model, data=pred_dat)
+compare(simple.model, simple.model.standardized)
+```
+
+Next, I plotted the relationship between different predictors and distance.
+In this example, I fixed the submission delay to the maximum value which is the "observed" delay.
+
+```{r}
+horizon.seq <- unique(distances$horizon_s)
+delay.seq <- rep(max(distances$delay_s), length(horizon.seq))
+pred_dat <- list(horizon_s=horizon.seq, delay_s=delay.seq)
+mu <- link(simple.model.standardized, data=pred_dat)
 mu.mean <- apply(mu, 2, mean)
 mu.PI <- apply(mu, 2, PI, prob=0.89)
-sim.distance <- sim(simple.model, data=pred_dat)
+sim.distance <- sim(simple.model.standardized, data=pred_dat)
 distance.PI <- apply(sim.distance, 2, PI, prob=0.89)
 ```
 
@@ -197,7 +141,7 @@ sim.distance.df <- cbind(
   )
 )
 ggplot(sim.distance.df, aes(x=horizon_start, xend=horizon_end, y=distance_start, yend=distance_end)) + geom_segment(alpha=0.1) + theme_classic() + geom_point(aes(x=3, y=mu.mean[1], col="red")) + geom_point(aes(x=6, y=mu.mean[2], col="red")) + geom_point(aes(x=9, y=mu.mean[3], col="red")) + geom_point(aes(x=12, y=mu.mean[4], col="red")) + labs(x="Forecast horizon (months)", y="Distance to the future (AAs)") + theme(legend.position="none") + scale_x_continuous(breaks=horizon.seq)
-ggsave("posterior-simulations-with-realistic-delay.png")
+ggsave("posterior-natural-population-with-observed-delay.png")
 ```
 
 ```{r}
@@ -215,8 +159,8 @@ distance.PI
 Repeat the above analysis of the posterior with samples extracted from posterior directly.
 
 ```{r}
-post.samples <- extract.samples(simple.model)
-fixed.delay <- 3
+post.samples <- extract.samples(simple.model.standardized)
+fixed.delay <- max(distances$delay_s)
 sim.distance <- sapply(horizon.seq, function(horizon)
   rgamma2(
     length(post.samples$a),
@@ -234,7 +178,7 @@ distance.PI <- apply(sim.distance, 2, PI, prob=0.89)
 Plot results.
 
 ```{r}
-plot(distance ~ horizon, distances[distances$delay == fixed.delay,], col=col.alpha(rangi2, 0.5))
+plot(distance ~ horizon_s, distances[distances$delay_s == fixed.delay,], col=col.alpha(rangi2, 0.5))
 lines(horizon.seq, mu.mean)
 shade(mu.HPDI, horizon.seq)
 shade(distance.PI, horizon.seq)
@@ -271,14 +215,17 @@ shade(distance.PI.for.delays, delay.seq)
 Plot the distribution of average distances to the present when all data are available.
 
 ```{r}
-average.distance.to.present <- exp(post.samples$a)
-#average.distance.to.present <- rgamma2(length(post.samples$a), exp(post.samples$a), post.samples$scale)
+#average.distance.to.present <- exp(post.samples$a)
+average.distance.to.present <- rgamma2(length(post.samples$a), exp(post.samples$a), post.samples$scale)
 mean.average.distance.to.present <- mean(average.distance.to.present)
 HPDI.average.distance.to.present <- HPDI(average.distance.to.present)
+
+png("average_distance_to_present_for_natural_populations.png", width=6, height=4, units="in", res=300)
 hist(average.distance.to.present, xlab="average distance to present without delay (AAs)")
 abline(v=mean.average.distance.to.present, col="red", lw=2)
 abline(v=HPDI.average.distance.to.present[1], col="red", lw=2, lty="dashed")
 abline(v=HPDI.average.distance.to.present[2], col="red", lw=2, lty="dashed")
+dev.off()
 ```
 
 Mean of the average distance to the present without delay:
@@ -375,8 +322,10 @@ We might consider three possible realistic scenarios for future practice of infl
 In the first scenario, we fix the submission delay to 3 months on average and calculate the difference between distances to the future for forecast horizon values of 12 and 6 months.
 
 ```{r}
-fixed.delay <- 3
-scenario.1.horizons <- c(6, 12)
+horizon.seq <- unique(distances$horizon_s)
+delay.seq <- unique(distances$delay_s)
+fixed.delay <- delay.seq[3]
+scenario.1.horizons <- c(horizon.seq[2], horizon.seq[4])
 
 scenario.1.distances <- sapply(scenario.1.horizons, function(horizon)
   rgamma2(
@@ -411,8 +360,8 @@ HPDI.scenario.1.improvement
 In the second scenario, we fix the forecast horizon to 12 months and calculate the difference between distances to the future for average submission delays of 3 and 1 months.
 
 ```{r}
-fixed.horizon <- 12
-scenario.2.delays <- c(1, 3)
+fixed.horizon <- horizon.seq[4]
+scenario.2.delays <- c(delay.seq[2], delay.seq[3])
 
 scenario.2.distances <- sapply(scenario.2.delays, function(delay)
   rgamma2(
@@ -448,8 +397,8 @@ In the last scenario, we calculate the difference between distances to the futur
 
 ```{r}
 scenario.3.params <- rbind(
-  list(horizon=6, delay=1),
-  list(horizon=12, delay=3)
+  list(horizon=horizon.seq[2], delay=delay.seq[2]),
+  list(horizon=horizon.seq[4], delay=delay.seq[3])
 )
 
 scenario.3.link <- function(horizon, delay) {
@@ -518,7 +467,7 @@ Plot improvements.
 
 ```{r}
 ggplot(improvements, aes(x=improvement)) + geom_vline(aes(xintercept=0), colour="#999999") + geom_histogram(breaks=seq(-10, 15, 1)) + facet_wrap(vars(title), nrow=3, labeller=labeller(id=function(id) { })) + theme_classic() + labs(x="Reduction in distance to the future (AAs)", y="Number of posterior samples") + theme(strip.background = element_blank(), title=element_text(size=12), strip.text=element_text(size=12)) + geom_vline(data=improvements.stats, aes(xintercept=mean, colour="red"), show.legend=FALSE) + geom_vline(data=improvements.stats, aes(xintercept=lower_hpdi, colour="red"), linetype="dashed", show.legend=FALSE) + geom_vline(data=improvements.stats, aes(xintercept=upper_hpdi, colour="red"), linetype="dashed", show.legend=FALSE)
-ggsave("reduction-in-distance-to-future-by-scenario-for-simulated-populations.png", dpi=300)
+ggsave("reduction-in-distance-to-future-by-scenario-for-natural-populations.png", dpi=300)
 ```
 
 ```{r}
