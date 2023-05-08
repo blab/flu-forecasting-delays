@@ -20,7 +20,7 @@ Load distances between populations at a given current timepoint and a correspond
 The future timepoint corresponds to the forecast horizon (in months) used to make the forecast.
 
 ```{r}
-distances <- read_csv("results/model_inputs_for_natural_populations.csv")
+distances <- read_tsv("results/model_inputs_for_h3n2_populations.tsv")
 ```
 
 Standardize submission delay and forecast horizon values for use in models.
@@ -45,7 +45,7 @@ delay.sd <- sd(distances$delay)
 Fit a simple linear model with a single intercept to represent the average distance between populations across all samples.
 Predictor values are not standardized.
 
-```{r}
+```{r, results="hide", include=FALSE}
 simple.model <- ulam(
   alist(
     distance ~ dgamma2(mu, scale),
@@ -77,7 +77,7 @@ plot(simple.model)
 
 Fit the same model but with standardized predictors, to see how the fit differs.
 
-```{r}
+```{r, include=FALSE}
 simple.model.standardized <- ulam(
   alist(
     distance ~ dgamma2(mu, scale),
@@ -160,6 +160,9 @@ Repeat the above analysis of the posterior with samples extracted from posterior
 
 ```{r}
 post.samples <- extract.samples(simple.model.standardized)
+```
+
+```{r}
 fixed.delay <- max(distances$delay_s)
 sim.distance <- sapply(horizon.seq, function(horizon)
   rgamma2(
@@ -187,8 +190,8 @@ shade(distance.PI, horizon.seq)
 Plot posterior distances for the present (horizon=0) at different delay values.
 
 ```{r}
-fixed.horizon <- 0
-delay.seq <- c(0, 1, 2, 3)
+fixed.horizon <- (0 - horizon.mean) / horizon.sd
+delay.seq <- (c(0, 1, 2, 3) - delay.mean) / delay.sd
 sim.distance.for.delays <- sapply(delay.seq, function(delay)
   rgamma2(
     length(post.samples$a),
@@ -206,7 +209,7 @@ distance.PI.for.delays <- apply(sim.distance.for.delays, 2, PI, prob=0.89)
 Plot the results.
 
 ```{r}
-plot(delay.seq, mu.mean.for.delays, xlim=c(0, 3), ylim=c(0, 8))
+plot(delay.seq, mu.mean.for.delays, ylim=c(0, 5.5))
 lines(delay.seq, mu.mean.for.delays)
 shade(mu.HPDI.for.delays, delay.seq)
 shade(distance.PI.for.delays, delay.seq)
@@ -215,8 +218,14 @@ shade(distance.PI.for.delays, delay.seq)
 Plot the distribution of average distances to the present when all data are available.
 
 ```{r}
-#average.distance.to.present <- exp(post.samples$a)
-average.distance.to.present <- rgamma2(length(post.samples$a), exp(post.samples$a), post.samples$scale)
+# Calculate the distance to the "future" when delay=0 and horizon=0.
+# This is the distance ot the present without any submission delay.
+average.distance.to.present <- rgamma2(
+    length(post.samples$a),
+    exp(post.samples$a + post.samples$b_s * ((0 - delay.mean) / delay.sd) + post.samples$b_h * ((0 - horizon.mean) / horizon.sd)),
+    post.samples$scale
+  )
+
 mean.average.distance.to.present <- mean(average.distance.to.present)
 HPDI.average.distance.to.present <- HPDI(average.distance.to.present)
 
@@ -245,7 +254,11 @@ This is the additional distance to the future on top of the average distance to 
 We expect this value to be effectively the substitution rate in AAs per year (~3 AAs / year).
 
 ```{r}
-additional.distance.to.future <- (exp(post.samples$a + post.samples$b_h * 12) - exp(post.samples$a))
+additional.distance.to.future <- rgamma2(
+    length(post.samples$a),
+    (exp(post.samples$a + post.samples$b_h * max(horizon.seq)) - exp(post.samples$a)),
+    post.samples$scale
+)
 mean.additional.distance.to.future <- mean(additional.distance.to.future)
 HPDI.additional.distance.to.future <- HPDI(additional.distance.to.future)
 hist(additional.distance.to.future, xlab="rate of distance to the future (AAs/year)")

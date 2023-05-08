@@ -20,7 +20,7 @@ Load distances between populations at a given current timepoint and a correspond
 The future timepoint corresponds to the forecast horizon (in months) used to make the forecast.
 
 ```{r}
-distances <- read_csv("results/model_inputs.csv")
+distances <- read_tsv("results/model_inputs_for_simulated_populations.tsv")
 ```
 
 Standardize submission delay and forecast horizon values for use in models.
@@ -105,7 +105,7 @@ ggsave("prior-predictive-simulation.png")
 
 Fit a simple linear model with a single intercept to represent the average distance between populations across all samples when standardized delay and horizon values are zero.
 
-```{r}
+```{r, include=FALSE}
 simple.model <- ulam(
   alist(
     distance ~ dgamma2(mu, scale),
@@ -137,7 +137,7 @@ plot(simple.model)
 
 Fit the same model but with standardized predictors, to see how the fit differs.
 
-```{r}
+```{r, include=FALSE}
 simple.model.standardized <- ulam(
   alist(
     distance ~ dgamma2(mu, scale),
@@ -167,19 +167,17 @@ Plot the standardized model coefficients and HPDI.
 plot(simple.model.standardized)
 ```
 
-Most of the variation in model parameters appears in the "scale" parameter of the gamma distribution.
-
-Just to see what happens, I tried plotting the relationship between different predictors and distance using the rethinking code examples from page 113.
+Plot the relationship between different forecast horizons and distance to the future.
 In this example, I fixed the submission delay to the maximum value which is the "realistic" delay.
 
 ```{r}
-horizon.seq <- unique(distances$horizon)
-delay.seq <- rep(max(distances$delay), length(horizon.seq))
-pred_dat <- list(horizon=horizon.seq, delay=delay.seq)
-mu <- link(simple.model, data=pred_dat)
+horizon.seq <- unique(distances$horizon_s)
+delay.seq <- rep(max(distances$delay_s), length(horizon.seq))
+pred_dat <- list(horizon_s=horizon.seq, delay_s=delay.seq)
+mu <- link(simple.model.standardized, data=pred_dat)
 mu.mean <- apply(mu, 2, mean)
 mu.PI <- apply(mu, 2, PI, prob=0.89)
-sim.distance <- sim(simple.model, data=pred_dat)
+sim.distance <- sim(simple.model.standardized, data=pred_dat)
 distance.PI <- apply(sim.distance, 2, PI, prob=0.89)
 ```
 
@@ -215,8 +213,8 @@ distance.PI
 Repeat the above analysis of the posterior with samples extracted from posterior directly.
 
 ```{r}
-post.samples <- extract.samples(simple.model)
-fixed.delay <- 3
+post.samples <- extract.samples(simple.model.standardized)
+fixed.delay <- min(distances$delay_s)
 sim.distance <- sapply(horizon.seq, function(horizon)
   rgamma2(
     length(post.samples$a),
@@ -234,7 +232,7 @@ distance.PI <- apply(sim.distance, 2, PI, prob=0.89)
 Plot results.
 
 ```{r}
-plot(distance ~ horizon, distances[distances$delay == fixed.delay,], col=col.alpha(rangi2, 0.5))
+plot(distance ~ horizon_s, distances[distances$delay_s == fixed.delay,], col=col.alpha(rangi2, 0.5))
 lines(horizon.seq, mu.mean)
 shade(mu.HPDI, horizon.seq)
 shade(distance.PI, horizon.seq)
@@ -243,8 +241,8 @@ shade(distance.PI, horizon.seq)
 Plot posterior distances for the present (horizon=0) at different delay values.
 
 ```{r}
-fixed.horizon <- 0
-delay.seq <- c(0, 1, 2, 3)
+fixed.horizon <- (0 - horizon.mean) / horizon.sd
+delay.seq <- (c(0, 1, 2, 3) - delay.mean) / delay.sd
 sim.distance.for.delays <- sapply(delay.seq, function(delay)
   rgamma2(
     length(post.samples$a),
@@ -262,7 +260,7 @@ distance.PI.for.delays <- apply(sim.distance.for.delays, 2, PI, prob=0.89)
 Plot the results.
 
 ```{r}
-plot(delay.seq, mu.mean.for.delays, xlim=c(0, 3), ylim=c(0, 8))
+plot(delay.seq, mu.mean.for.delays, ylim=c(0, 7))
 lines(delay.seq, mu.mean.for.delays)
 shade(mu.HPDI.for.delays, delay.seq)
 shade(distance.PI.for.delays, delay.seq)
@@ -271,10 +269,17 @@ shade(distance.PI.for.delays, delay.seq)
 Plot the distribution of average distances to the present when all data are available.
 
 ```{r}
-average.distance.to.present <- exp(post.samples$a)
-#average.distance.to.present <- rgamma2(length(post.samples$a), exp(post.samples$a), post.samples$scale)
+# Calculate the distance to the "future" when delay=0 and horizon=0.
+# This is the distance ot the present without any submission delay.
+average.distance.to.present <- rgamma2(
+    length(post.samples$a),
+    exp(post.samples$a + post.samples$b_s * ((0 - delay.mean) / delay.sd) + post.samples$b_h * ((0 - horizon.mean) / horizon.sd)),
+    post.samples$scale
+  )
+
 mean.average.distance.to.present <- mean(average.distance.to.present)
 HPDI.average.distance.to.present <- HPDI(average.distance.to.present)
+
 hist(average.distance.to.present, xlab="average distance to present without delay (AAs)")
 abline(v=mean.average.distance.to.present, col="red", lw=2)
 abline(v=HPDI.average.distance.to.present[1], col="red", lw=2, lty="dashed")
@@ -293,79 +298,6 @@ HPDI of the average distance to present without delay:
 HPDI(average.distance.to.present)
 ```
 
-Summarize the effect of the forecast horizon on distance to the future.
-This is the additional distance to the future on top of the average distance to the present represented by the intercept measured in AAs per year.
-We expect this value to be effectively the substitution rate in AAs per year (~3 AAs / year).
-
-```{r}
-additional.distance.to.future <- (exp(post.samples$a + post.samples$b_h * 12) - exp(post.samples$a))
-mean.additional.distance.to.future <- mean(additional.distance.to.future)
-HPDI.additional.distance.to.future <- HPDI(additional.distance.to.future)
-hist(additional.distance.to.future, xlab="rate of distance to the future (AAs/year)")
-abline(v=mean.additional.distance.to.future, col="red", lw=2)
-abline(v=HPDI.additional.distance.to.future[1], col="red", lw=2, lty="dashed")
-abline(v=HPDI.additional.distance.to.future[2], col="red", lw=2, lty="dashed")
-```
-
-Mean additional distance to the future (AAs per year):
-
-```{r}
-mean.additional.distance.to.future
-```
-
-HPDI additional distance to the future (AAs per year):
-
-```{r}
-HPDI.additional.distance.to.future
-```
-
-Next, I summarized the effect of one unit change in horizon (1 month) to enable comparison with the effect of one unit of change in submission delay.
-
-```{r}
-additional.distance.to.future.per.month <- (exp(post.samples$a + post.samples$b_h) - exp(post.samples$a))
-mean.additional.distance.to.future.per.month <- mean(additional.distance.to.future.per.month)
-HPDI.additional.distance.to.future.per.month <- HPDI(additional.distance.to.future.per.month)
-hist(additional.distance.to.future.per.month, xlab="rate of distance to the future (AAs/month)")
-abline(v=mean.additional.distance.to.future.per.month, col="red", lw=2)
-abline(v=HPDI.additional.distance.to.future.per.month[1], col="red", lw=2, lty="dashed")
-abline(v=HPDI.additional.distance.to.future.per.month[2], col="red", lw=2, lty="dashed")
-```
-
-```{r}
-mean.additional.distance.to.future.per.month
-```
-
-HPDI additional distance to the future (AAs per year):
-
-```{r}
-HPDI.additional.distance.to.future.per.month
-```
-
-Summarize the effect of submission delays on distance to the present.
-This is the additional distance to the present on top of the average distance to the present represented by the intercept measured in AAs per year.
-
-```{r}
-additional.distance.to.present <- (exp(post.samples$a + post.samples$b_s) - exp(post.samples$a))
-mean.additional.distance.to.present <- mean(additional.distance.to.present)
-HPDI.additional.distance.to.present <- HPDI(additional.distance.to.present)
-hist(additional.distance.to.present, xlab="rate of distance to the present (AAs/month)")
-abline(v=mean.additional.distance.to.present, col="red", lw=2)
-abline(v=HPDI.additional.distance.to.present[1], col="red", lw=2, lty="dashed")
-abline(v=HPDI.additional.distance.to.present[2], col="red", lw=2, lty="dashed")
-```
-
-Mean additional distance to the present (AAs per year):
-
-```{r}
-mean.additional.distance.to.present
-```
-
-HPDI additional distance to the present (AAs per year):
-
-```{r}
-HPDI.additional.distance.to.present
-```
-
 We might consider three possible realistic scenarios for future practice of influenza genomic surveillance and vaccine development:
 
 1. A change in vaccine development reduces the required forecast horizon from 12 months to 6 months (e.g., through adoption of mRNA-based vaccines).
@@ -375,8 +307,8 @@ We might consider three possible realistic scenarios for future practice of infl
 In the first scenario, we fix the submission delay to 3 months on average and calculate the difference between distances to the future for forecast horizon values of 12 and 6 months.
 
 ```{r}
-fixed.delay <- 3
-scenario.1.horizons <- c(6, 12)
+fixed.delay <- max(distances$delay_s)
+scenario.1.horizons <- c(horizon.seq[2], horizon.seq[4])
 
 scenario.1.distances <- sapply(scenario.1.horizons, function(horizon)
   rgamma2(
@@ -411,8 +343,9 @@ HPDI.scenario.1.improvement
 In the second scenario, we fix the forecast horizon to 12 months and calculate the difference between distances to the future for average submission delays of 3 and 1 months.
 
 ```{r}
-fixed.horizon <- 12
-scenario.2.delays <- c(1, 3)
+fixed.horizon <- max(horizon.seq)
+unique.delays_s <- unique(distances$delay_s)
+scenario.2.delays <- c(unique.delays_s[2], unique.delays_s[3])
 
 scenario.2.distances <- sapply(scenario.2.delays, function(delay)
   rgamma2(
@@ -448,8 +381,8 @@ In the last scenario, we calculate the difference between distances to the futur
 
 ```{r}
 scenario.3.params <- rbind(
-  list(horizon=6, delay=1),
-  list(horizon=12, delay=3)
+  list(horizon=horizon.seq[2], delay=unique.delays_s[2]),
+  list(horizon=horizon.seq[4], delay=unique.delays_s[3])
 )
 
 scenario.3.link <- function(horizon, delay) {
@@ -609,10 +542,10 @@ abline(v=mean(post.samples$scale), lty=2)
 ### Posterior predictive checks
 
 ```{r}
-horizons <- unique(distances$horizon)
-delays <- unique(distances$delay)
-horizons_delays <- expand.grid(delay=delays, horizon=horizons)
-post <- sim(simple.model, horizons_delays)
+horizons <- unique(distances$horizon_s)
+delays <- unique(distances$delay_s)
+horizons_delays <- expand.grid(delay_s=delays, horizon_s=horizons)
+post <- sim(simple.model.standardized, horizons_delays)
 ```
 
 Map treatments to posterior samples.
