@@ -319,10 +319,11 @@ rule all:
 
 rule model_effects_of_delays:
     input:
-        distances="results/model_inputs_for_{population}_populations.tsv",
+        distances=ancient("results/model_inputs_for_{population}_populations.tsv"),
     output:
         observed_distances="manuscript/figures/observed_distances_for_{population}.pdf",
     conda: "envs/anaconda.python3.yaml"
+    threads: 4
     notebook:
         "notebooks/model-effects-for-population.py.ipynb"
 
