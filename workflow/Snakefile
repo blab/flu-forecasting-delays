@@ -299,29 +299,11 @@ def translations(wildcards=None, segment=None, path=None):
 # Define helper functions for Snakemake outputs
 #
 
-def _get_clade_model_files(wildcards):
-    return expand("results/builds/{type}/{sample}/models_by_clades/{predictors}.json", zip, type=PREDICTOR_TYPES, sample=PREDICTOR_SAMPLES, predictors=PREDICTORS)
-
-def _get_distance_model_files(wildcards):
-    return expand("results/builds/{type}/{sample}/models_by_distances/{predictors}.json", zip, type=PREDICTOR_TYPES, sample=PREDICTOR_SAMPLES, predictors=PREDICTORS) + expand("results/builds/{type}/{sample}/test_models_by_distances/{predictors}.json", zip, type=TEST_PREDICTOR_TYPES, sample=TEST_PREDICTOR_SAMPLES, predictors=TEST_PREDICTORS)
-
 def _get_distance_model_errors(wildcards):
     return expand("results/builds/{type}/{sample}/annotated_models_by_distances_errors/{predictors}.tsv", zip, type=PREDICTOR_TYPES, sample=PREDICTOR_SAMPLES, predictors=PREDICTORS) + expand("results/builds/{type}/{sample}/annotated_test_models_by_distances_errors/{predictors}.tsv", zip, type=TEST_PREDICTOR_TYPES, sample=TEST_PREDICTOR_SAMPLES, predictors=TEST_PREDICTORS)
 
-def _get_distance_model_coefficients(wildcards):
-    return expand("results/builds/{type}/{sample}/annotated_models_by_distances_coefficients/{predictors}.tsv", zip, type=PREDICTOR_TYPES, sample=PREDICTOR_SAMPLES, predictors=PREDICTORS) + expand("results/builds/{type}/{sample}/annotated_test_models_by_distances_coefficients/{predictors}.tsv", zip, type=TEST_PREDICTOR_TYPES, sample=TEST_PREDICTOR_SAMPLES, predictors=TEST_PREDICTORS)
-
 def _get_auspice_files(wildcards):
     return expand("results/auspice/flu_{type}_{sample}_{timepoint}_{filetype}.json", zip, type=TIMEPOINT_TYPES, sample=TIMEPOINT_SAMPLES, timepoint=TIMEPOINTS, filetype=["tree", "tip-frequencies"] * len(TIMEPOINTS))
-
-def _get_validation_figures(wildcards):
-    return expand("manuscript/figures/validation_figure_{type}-{sample}-{predictors}.pdf", zip, type=VALIDATION_PREDICTOR_TYPES, sample=VALIDATION_PREDICTOR_SAMPLES, predictors=VALIDATION_PREDICTOR_PREDICTORS)
-
-def _get_validation_figure_clades(wildcards):
-    return expand("manuscript/figures/validation_figure_clades_{type}-{sample}-{predictors}.tsv", zip, type=VALIDATION_PREDICTOR_TYPES, sample=VALIDATION_PREDICTOR_SAMPLES, predictors=VALIDATION_PREDICTOR_PREDICTORS)
-
-def _get_validation_figure_ranks(wildcards):
-    return expand("manuscript/figures/validation_figure_ranks_{type}-{sample}-{predictors}.tsv", zip, type=VALIDATION_PREDICTOR_TYPES, sample=VALIDATION_PREDICTOR_SAMPLES, predictors=VALIDATION_PREDICTOR_PREDICTORS)
 
 include: "rules/utils.smk"
 include: "rules/datasets.smk"
@@ -333,15 +315,29 @@ rule all:
         "results/model_inputs_for_simulated_with_bias_populations.tsv",
         "results/model_inputs_for_h3n2_populations.tsv",
 
-rule build_environment:
+# Build figures for manuscript.
+
+rule model_effects_of_delays:
+    input:
+        distances="results/model_inputs_for_{population}_populations.tsv",
+    output:
+        observed_distances="manuscript/figures/observed_distances_for_{population}.pdf",
     conda: "envs/anaconda.python3.yaml"
-    shell: "echo Environment built"
+    notebook:
+        "notebooks/model-effects-for-population.py.ipynb"
 
-rule clade_models:
-    input: _get_clade_model_files
+rule plot_delay_distribution:
+    input:
+        metadata = "data/natural/h3n2/metadata.tsv"
+    output:
+        figure = "manuscript/figures/distribution_of_delays.pdf"
+    log:
+        notebook = "logs/notebooks/plot-distribution-of-submission-delays.ipynb"
+    conda: "envs/anaconda.python3.yaml"
+    notebook:
+        "notebooks/plot-distribution-of-submission-delays.ipynb"
 
-rule distance_models:
-    input: _get_distance_model_files
+# Collect data for analysis.
 
 rule model_inputs_by_population:
     input:
@@ -372,118 +368,5 @@ rule distance_models_errors:
             --output {output.errors}
         """
 
-rule distance_models_coefficients:
-    input:
-        coefficients = _get_distance_model_coefficients
-    output:
-        coefficients = "results/distance_model_coefficients.tsv"
-    conda: "envs/anaconda.python3.yaml"
-    shell:
-        """
-        python3 workflow/scripts/concatenate_tables.py \
-            --tables {input.coefficients} \
-            --output {output.coefficients}
-        """
-
 rule auspice:
     input: _get_auspice_files
-
-rule validation_figures:
-    input: _get_validation_figures
-
-rule validation_figure_clades:
-    input:
-        _get_validation_figure_clades
-    output:
-        clades = "results/validation_figure_clades.tsv"
-    conda: "envs/anaconda.python3.yaml"
-    shell:
-        """
-        python3 workflow/scripts/collect_tables.py \
-          --tables {input} \
-          --output {output.clades}
-        """
-
-rule validation_figure_ranks:
-    input:
-        _get_validation_figure_ranks
-    output:
-        ranks = "results/validation_figure_ranks.tsv"
-    conda: "envs/anaconda.python3.yaml"
-    shell:
-        """
-        python3 workflow/scripts/collect_tables.py \
-          --tables {input} \
-          --output {output.ranks}
-        """
-
-rule trees:
-    input: expand(rules.aggregate_tree_plots.output.trees, zip, type=VALIDATION_PREDICTOR_TYPES, sample=VALIDATION_PREDICTOR_SAMPLES)
-    output:
-        trees="results/figures/trees.pdf"
-    shell: "gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile={output} {input}"
-
-# Build figures for manuscript.
-
-rule plot_delay_distribution:
-    input:
-        metadata = "data/natural/h3n2/metadata.tsv"
-    output:
-        figure = "manuscript/figures/distribution_of_delays.pdf"
-    log:
-        notebook = "logs/notebooks/plot-distribution-of-submission-delays.ipynb"
-    conda: "envs/anaconda.python3.yaml"
-    notebook:
-        "notebooks/plot-distribution-of-submission-delays.ipynb"
-
-rule bootstrap_analysis:
-    input:
-        model_distances = "results/distance_model_errors.tsv"
-    output:
-        output_table = "manuscript/tables/bootstrap_p_values.tsv",
-        bootstrap_figure_for_simulated_sample = "manuscript/figures/bootstrap_distributions_for_simulated_sample_3.pdf",
-        bootstrap_figure_for_natural_sample = "manuscript/figures/bootstrap_distributions_for_natural_sample_1_with_90_vpm_sliding.pdf",
-        composite_vs_individual_model_table = "manuscript/tables/composite_vs_individual_model_comparison.tex"
-    params:
-        n_bootstraps = 10000
-    log:
-        notebook = "logs/notebooks/bootstrap-analysis.ipynb"
-    conda: "envs/anaconda.python3.yaml"
-    notebook:
-        "notebooks/bootstrap-analysis.ipynb"
-
-rule figures_and_tables_for_model_results:
-    input:
-        model_distances = "results/distance_model_errors.tsv",
-        model_coefficients = "results/distance_model_coefficients.tsv",
-        bootstrap_p_values = rules.bootstrap_analysis.output.output_table
-    output:
-        # Simulated populations
-        table_for_simulated_model_selection = "manuscript/tables/simulated_model_selection.tex",
-        source_data_for_simulated_model_coefficients = "manuscript/tables/simulated_model_coefficients.csv",
-        source_data_for_simulated_model_distances = "manuscript/tables/simulated_model_distances.csv",
-        figure_for_simulated_model_controls = "manuscript/figures/unadjusted-model-accuracy-and-coefficients-for-simulated-populations-controls.pdf",
-        figure_for_simulated_individual_models = "manuscript/figures/unadjusted-model-accuracy-and-coefficients-for-simulated-populations.pdf",
-        figure_for_simulated_composite_models = "manuscript/figures/unadjusted-composite-model-accuracy-and-coefficients-for-simulated-populations.pdf",
-
-        # Natural populations
-        table_for_natural_model_selection = "manuscript/tables/natural_model_selection.tex",
-        table_for_natural_model_complete_selection = "manuscript/tables/complete_natural_model_selection.tex",
-        source_data_for_natural_model_coefficients = "manuscript/tables/natural_model_coefficients.csv",
-        source_data_for_natural_model_distances = "manuscript/tables/natural_model_distances.csv",
-        figure_for_natural_epitope_vs_oracle_models = "manuscript/figures/unadjusted-composite-model-accuracy-and-coefficients-for-natural-populations-epitope-vs-oracle.pdf",
-        figure_for_natural_individual_models = "manuscript/figures/unadjusted-model-accuracy-and-coefficients-for-natural-populations.pdf",
-        figure_for_natural_composite_models = "manuscript/figures/best-composite-unadjusted-model-accuracy-and-coefficients-for-natural-populations.pdf",
-        figure_for_natural_updated_models = "manuscript/figures/models-natural-populations-composite-with-updated-coefficients-across-test-data.pdf",
-
-        # Cross-validation schematics
-        figure_for_simulated_cross_validation = "manuscript/figures/cross-validation-for-simulated-populations.pdf",
-        figure_for_natural_cross_validation = "manuscript/figures/cross-validation-for-natural-populations.pdf"
-    params:
-        simulated_sample = "simulated_sample_3",
-        natural_sample = "natural_sample_1_with_90_vpm_sliding"
-    log:
-        notebook = "logs/notebooks/model-results.ipynb"
-    conda: "envs/anaconda.python3.yaml"
-    notebook:
-        "notebooks/model-results.ipynb"
