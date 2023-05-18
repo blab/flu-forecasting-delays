@@ -29,6 +29,9 @@ Both predictors use units of "months".
 ```{r}
 distances$horizon_s <- (distances$horizon - mean(distances$horizon)) / sd(distances$horizon)
 distances$delay_s <- (distances$delay - mean(distances$delay)) / sd(distances$delay)
+
+distances$horizon_c <- (distances$horizon - mean(distances$horizon))
+distances$delay_c <- (distances$delay - mean(distances$delay))
 ```
 
 Setup variables to simplify conversion back to original scale.
@@ -73,6 +76,45 @@ Plot the model coefficients and HPDI (?).
 
 ```{r}
 plot(simple.model)
+```
+
+Fit the same model but with standardized predictors, to see how the fit differs.
+
+```{r, include=FALSE}
+simple.model.centered <- ulam(
+  alist(
+    distance ~ dgamma2(mu, scale),
+    log(mu) <- a + b_s * delay_c + b_h * horizon_c,
+    a ~ dnorm(0, 0.075),
+    b_s ~ dnorm(0, 0.075),
+    b_h ~ dnorm(0, 0.075),
+    scale ~ dexp(1)
+  ),
+  data=distances,
+  iter=10000,
+  chains=4,
+  cores=4,
+  log_lik=TRUE
+)
+```
+
+Summarize the standardized model.
+
+```{r}
+precis(simple.model.centered)
+```
+
+Plot the standardized model coefficients and HPDI.
+
+```{r}
+plot(simple.model.centered)
+```
+
+Extract samples from the posterior of the centered model and save to a file.
+
+```{r}
+post.samples.centered <- extract.samples(simple.model.centered)
+write_csv(as.data.frame(post.samples.centered), "results/h3n2_posterior_centered.csv")
 ```
 
 Fit the same model but with standardized predictors, to see how the fit differs.
