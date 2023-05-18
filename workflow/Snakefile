@@ -25,7 +25,7 @@ wildcard_constraints:
     timepoint="\d{4}-\d{2}-\d{2}",
     output_type="(errors|coefficients)",
     delta_month="(3|6|9|12)",
-    population="(h3n2|simulated)",
+    population="(h3n2|simulated|simulated_with_bias)",
 
 # Load configuration parameters.
 configfile: "config/config.json"
@@ -330,6 +330,7 @@ include: "rules/builds.smk"
 rule all:
     input:
         "results/model_inputs_for_simulated_populations.tsv",
+        "results/model_inputs_for_simulated_with_bias_populations.tsv",
         "results/model_inputs_for_h3n2_populations.tsv",
 
 rule build_environment:
@@ -347,13 +348,15 @@ rule model_inputs_by_population:
         errors="results/distance_model_errors.tsv",
     output:
         errors="results/model_inputs_for_{population}_populations.tsv",
+    params:
+        population_samples = lambda wildcards: config["samples_by_population"].get(wildcards.population),
     conda: "envs/anaconda.python3.yaml"
     shell:
         """
         python3 workflow/scripts/get_model_inputs_by_population.py \
             --input {input.errors} \
             --output {output.errors} \
-            --population-type {wildcards.population}
+            --samples {params.population_samples:q}
         """
 
 rule distance_models_errors:

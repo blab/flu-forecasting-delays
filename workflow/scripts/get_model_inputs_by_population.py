@@ -6,8 +6,8 @@ import pandas as pd
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("--input", required=True, help="distances to the future to filter and prepare")
-    parser.add_argument("--population-type", required=True, help="population type to filter data by")
-    parser.add_argument("--output", required=True, help="distances to the future prepared for modelling by population")
+    parser.add_argument("--samples", required=True, nargs="+", help="samples to include in the output")
+    parser.add_argument("--output", required=True, help="distances to the future prepared for modeling by population")
 
     args = parser.parse_args()
 
@@ -18,6 +18,9 @@ if __name__ == "__main__":
     )
 
     month_delay_by_sample = {
+        "simulated_no_delay": 0.0,
+        "simulated_ideal_delay": 1.0,
+        "simulated_realistic_delay": 3.0,
         "simulated_no_delay_with_bias": 0.0,
         "simulated_ideal_delay_with_bias": 1.0,
         "simulated_realistic_delay_with_bias": 3.0,
@@ -28,7 +31,7 @@ if __name__ == "__main__":
 
     df["delay"] = df["sample"].map(month_delay_by_sample)
 
-    df = df[df["sample"].str.contains(args.population_type)].copy()
+    df = df[df["sample"].isin(args.samples)].copy()
     df = df.rename(
         columns={
             "validation_error": "distance",

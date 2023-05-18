@@ -231,6 +231,11 @@
             }
         }
     },
+    "samples_by_population": {
+        "simulated": ["simulated_no_delay", "simulated_ideal_delay", "simulated_realistic_delay"],
+        "simulated_with_bias": ["simulated_no_delay_with_bias", "simulated_ideal_delay_with_bias", "simulated_realistic_delay_with_bias"],
+        "h3n2": ["h3n2_no_delay", "h3n2_ideal_delay", "h3n2_observed_delay"]
+    },
     "path_to_fauna": "../fauna",
     "years_for_titer_alignments": 10,
     "min_tips_per_clade": 1,
