@@ -321,9 +321,18 @@ rule model_effects_of_delays:
     input:
         distances=ancient("results/model_inputs_for_{population}_populations.tsv"),
     output:
-        observed_distances="manuscript/figures/observed_distances_for_{population}.pdf",
+        observed_distances="manuscript/figures/{population}_observed_distances.pdf",
+        prior_predictive_distances="manuscript/figures/{population}_prior_predictive_distances.pdf",
+        model_summary="manuscript/tables/{population}_model_summary.tex",
+        posterior_predictive_distances="manuscript/figures/{population}_posterior_predictive_distances.pdf",
+        average_distance_to_the_present="manuscript/figures/{population}_average_distance_to_the_present.pdf",
+        average_distance_to_the_present_by_delay="manuscript/figures/{population}_average_distance_to_the_present_by_delay.pdf",
+        distance_by_delay_and_horizon="manuscript/figures/{population}_distance_by_delay_and_horizon.pdf",
+        improvements_by_scenario="manuscript/figures/{population}_improvements_by_scenario.pdf",
     conda: "envs/anaconda.python3.yaml"
     threads: 4
+    log:
+        "logs/model-effects-for-population-{population}.py.ipynb"
     notebook:
         "notebooks/model-effects-for-population.py.ipynb"
 
