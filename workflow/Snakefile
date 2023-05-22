@@ -349,6 +349,34 @@ rule plot_delay_distribution:
 
 # Collect data for analysis.
 
+def _get_attribute_files_by_population(wildcards):
+    # Get samples by population.
+    samples = config["samples_by_population"].get(wildcards.population)
+
+    # Find "type" by sample.
+    types = []
+    for sample in samples:
+        for build_type, builds in config["builds"].items():
+            if sample in builds:
+                types.append(build_type)
+                break
+
+    assert len(samples) == len(types)
+
+    # Return attribute files for type and sample.
+    return expand("results/builds/{type}/{sample}/tip_attributes_with_sample_and_delay_type.tsv", zip, type=types, sample=samples)
+
+rule tip_attributes_by_population:
+    input:
+        attributes=_get_attribute_files_by_population,
+    output:
+        attributes="results/tip_attributes_for_{population}.tsv",
+    conda: "envs/csv.yaml"
+    shell:
+        """
+        csvtk concat -t {input.attributes} > {output.attributes}
+        """
+
 rule model_inputs_by_population:
     input:
         errors="results/distance_model_errors.tsv",

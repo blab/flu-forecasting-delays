@@ -1,0 +1,7 @@
+name: csv
+channels:
+- conda-forge
+- bioconda
+- defaults
+dependencies:
+- csvtk=0.25.0

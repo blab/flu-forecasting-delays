@@ -916,6 +916,23 @@ rule collect_tip_attributes:
         """
 
 
+rule annotate_sample_and_delay_type_to_tip_attributes:
+    input:
+        attributes = BUILD_PATH + "tip_attributes.tsv"
+    output:
+        attributes = BUILD_PATH + "tip_attributes_with_sample_and_delay_type.tsv"
+    conda: "../envs/csv.yaml"
+    params:
+        columns="timepoint,strain,clade_membership,date,frequency",
+        delay_type=lambda wildcards: config["builds"].get(wildcards.type, {}).get(wildcards.sample, {}).get("delay_type"),
+    shell:
+        """
+        csvtk cut -t -f {params.columns} {input.attributes} \
+            | csvtk mutate2 -t -n sample -e "'{wildcards.sample}'" \
+            | csvtk mutate2 -t -n delay_type -e "'{params.delay_type}'" > {output}
+        """
+
+
 rule annotate_naive_tip_attribute:
     input:
         attributes = rules.collect_tip_attributes.output.attributes
