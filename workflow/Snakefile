@@ -353,11 +353,7 @@ rule plot_delay_distribution:
 
 # Collect data for analysis.
 
-def _get_forecast_files_by_population(wildcards):
-    # Get samples by population.
-    samples = config["samples_by_population"].get(wildcards.population)
-
-    # Find "type" by sample.
+def _get_types_by_samples(samples):
     types = []
     for sample in samples:
         for build_type, builds in config["builds"].items():
@@ -366,6 +362,12 @@ def _get_forecast_files_by_population(wildcards):
                 break
 
     assert len(samples) == len(types)
+    return types
+
+def _get_forecast_files_by_population(wildcards):
+    # Get samples and types by population.
+    samples = config["samples_by_population"].get(wildcards.population)
+    types = _get_types_by_samples(samples)
 
     # Find predictor by sample.
     predictors = []
@@ -387,18 +389,9 @@ rule forecasts_by_population:
         """
 
 def _get_attribute_files_by_population(wildcards):
-    # Get samples by population.
+    # Get samples and types by population.
     samples = config["samples_by_population"].get(wildcards.population)
-
-    # Find "type" by sample.
-    types = []
-    for sample in samples:
-        for build_type, builds in config["builds"].items():
-            if sample in builds:
-                types.append(build_type)
-                break
-
-    assert len(samples) == len(types)
+    types = _get_types_by_samples(samples)
 
     # Return attribute files for type and sample.
     return expand("results/builds/{type}/{sample}/tip_attributes_with_sample_and_delay_type.tsv", zip, type=types, sample=samples)
@@ -408,6 +401,25 @@ rule tip_attributes_by_population:
         attributes=_get_attribute_files_by_population,
     output:
         attributes="results/tip_attributes_for_{population}.tsv",
+    conda: "envs/csv.yaml"
+    shell:
+        """
+        csvtk concat -t {input.attributes} > {output.attributes}
+        """
+
+def _get_tip_clade_files_by_population(wildcards):
+    # Get samples and types by population.
+    samples = config["samples_by_population"].get(wildcards.population)
+    types = _get_types_by_samples(samples)
+
+    # Return attribute files for type and sample.
+    return expand("results/builds/{type}/{sample}/tips_to_clades.tsv", zip, type=types, sample=samples)
+
+rule tip_clades_by_population:
+    input:
+        attributes=_get_tip_clade_files_by_population,
+    output:
+        attributes="results/tip_clades_for_{population}.tsv",
     conda: "envs/csv.yaml"
     shell:
         """

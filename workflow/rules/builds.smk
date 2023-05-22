@@ -1072,12 +1072,11 @@ rule collect_annotated_tip_clade_tables:
         _get_tip_clades_by_wildcards
     output:
         tip_clade_table = BUILD_PATH + "tips_to_clades.tsv"
-    conda: "../envs/anaconda.python3.yaml"
+    conda: "../envs/csv.yaml"
     shell:
         """
-        python3 workflow/scripts/collect_tables.py \
-            --tables {input} \
-            --output {output.tip_clade_table}
+        csvtk concat -t {input} \
+            | csvtk mutate2 -t -n sample -e "'{wildcards.sample}'" > {output.tip_clade_table}
         """
 
 
