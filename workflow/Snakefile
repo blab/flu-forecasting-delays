@@ -329,7 +329,7 @@ rule model_effects_of_delays:
         average_distance_to_the_present_by_delay="manuscript/figures/{population}_average_distance_to_the_present_by_delay.pdf",
         distance_by_delay_and_horizon="manuscript/figures/{population}_distance_by_delay_and_horizon.pdf",
         improvements_by_scenario="manuscript/figures/{population}_improvements_by_scenario.pdf",
-    conda: "envs/anaconda.python3.yaml"
+    conda: "envs/notebook.yaml"
     threads: 4
     log:
         "logs/model-effects-for-population-{population}.py.ipynb"
@@ -343,7 +343,7 @@ rule plot_delay_distribution:
         figure = "manuscript/figures/distribution_of_delays.pdf"
     log:
         notebook = "logs/notebooks/plot-distribution-of-submission-delays.ipynb"
-    conda: "envs/anaconda.python3.yaml"
+    conda: "envs/notebook.yaml"
     notebook:
         "notebooks/plot-distribution-of-submission-delays.ipynb"
 
@@ -384,7 +384,7 @@ rule model_inputs_by_population:
         errors="results/model_inputs_for_{population}_populations.tsv",
     params:
         population_samples = lambda wildcards: config["samples_by_population"].get(wildcards.population),
-    conda: "envs/anaconda.python3.yaml"
+    conda: "envs/notebook.yaml"
     shell:
         """
         python3 workflow/scripts/get_model_inputs_by_population.py \

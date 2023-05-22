@@ -1232,7 +1232,7 @@ rule test_distance_models:
         model = BUILD_PATH + "test_models_by_distances/{delta_month}/{predictors}.json",
         errors = BUILD_PATH + "test_models_by_distances_errors/{delta_month}/{predictors}.tsv",
         coefficients = BUILD_PATH + "test_models_by_distances_coefficients/{delta_month}/{predictors}.tsv"
-    conda: "../envs/anaconda.python3.yaml"
+    conda: "../envs/popcast.yaml"
     benchmark: "benchmarks/test_fitness_model_distances_" + BUILD_LOG_STEM + "_{delta_month}_{predictors}.txt"
     log: "logs/test_fitness_model_distances_" + BUILD_LOG_STEM + "_{delta_month}_{predictors}.txt"
     resources:

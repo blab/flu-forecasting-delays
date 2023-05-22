@@ -1,8 +1,11 @@
-name: flu_forecasting
+name: popcast
 channels:
 - conda-forge
 - bioconda
 - defaults
 dependencies:
-- augur==17.1.0
+- opencv=4.5.5
+- pip=23.0.1
 - python=3.9
+- pip:
+  - popcast==1.0.1
