@@ -11,6 +11,7 @@ if __name__ == "__main__":
     parser.add_argument("--coefficients-by-timepoint", help="data frame of coefficients by validation timepoint")
     parser.add_argument("--annotated-errors-by-timepoint", help="annotated model errors by timepoint")
     parser.add_argument("--annotated-coefficients-by-timepoint", help="annotated model coefficients by timepoint")
+    parser.add_argument("--annotated-frequencies-by-timepoint", help="annotated projected frequencies by timepoint")
     parser.add_argument("--delta-months", type=int, help="number of months to project clade frequencies into the future")
     parser.add_argument("--annotations", nargs="+", help="additional annotations to add to the output table in the format of 'key=value' pairs")
 
@@ -23,12 +24,12 @@ if __name__ == "__main__":
     with open(args.model, "r") as fh:
         model = json.load(fh)
 
-    # Collect all projected frequencies and weighted distances, to enable
-    # calculation of weighted average distances within and between seasons.
-    df = pd.concat([
+    # Collect all projected frequencies per timepoint.
+    frequencies = pd.concat([
         pd.DataFrame(scores["validation_data"]["y_hat"])
         for scores in model["scores"]
-    ])
+    ]).loc[:, ["timepoint", "strain", "projected_frequency"]].copy()
+    frequencies["future_timepoint"] = pd.to_datetime(frequencies["timepoint"]) + pd.DateOffset(months=args.delta_months)
 
     # Load the original model table output for validation/test errors.
     errors = pd.read_csv(args.errors_by_timepoint, sep="\t", parse_dates=["validation_timepoint"])
@@ -45,7 +46,9 @@ if __name__ == "__main__":
             key, value = annotation.split("=")
             errors[key] = value
             coefficients[key] = value
+            frequencies[key] = value
 
     # Save annotated tables.
     errors.to_csv(args.annotated_errors_by_timepoint, sep="\t", header=True, index=False)
     coefficients.to_csv(args.annotated_coefficients_by_timepoint, sep="\t", header=True, index=False)
+    frequencies.to_csv(args.annotated_frequencies_by_timepoint, sep="\t", header=True, index=False)

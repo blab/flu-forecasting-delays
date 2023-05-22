@@ -314,6 +314,10 @@ rule all:
         "results/model_inputs_for_simulated_populations.tsv",
         "results/model_inputs_for_simulated_with_bias_populations.tsv",
         "results/model_inputs_for_h3n2_populations.tsv",
+        "results/tip_attributes_for_simulated.tsv",
+        "results/tip_attributes_for_h3n2.tsv",
+        "results/forecasts_for_simulated.tsv",
+        "results/forecasts_for_h3n2.tsv",
 
 # Build figures for manuscript.
 
@@ -348,6 +352,39 @@ rule plot_delay_distribution:
         "notebooks/plot-distribution-of-submission-delays.ipynb"
 
 # Collect data for analysis.
+
+def _get_forecast_files_by_population(wildcards):
+    # Get samples by population.
+    samples = config["samples_by_population"].get(wildcards.population)
+
+    # Find "type" by sample.
+    types = []
+    for sample in samples:
+        for build_type, builds in config["builds"].items():
+            if sample in builds:
+                types.append(build_type)
+                break
+
+    assert len(samples) == len(types)
+
+    # Find predictor by sample.
+    predictors = []
+    for build_type, sample in zip(types, samples):
+        predictors.append(config["builds"][build_type][sample]["validation_predictors"][0])
+
+    # Return forecast files for type, sample, and predictor.
+    return expand("results/builds/{type}/{sample}/annotated_test_models_by_distances_frequencies/{predictors}.tsv", zip, type=types, sample=samples, predictors=predictors)
+
+rule forecasts_by_population:
+    input:
+        forecasts=_get_forecast_files_by_population,
+    output:
+        forecasts="results/forecasts_for_{population}.tsv",
+    conda: "envs/csv.yaml"
+    shell:
+        """
+        csvtk concat -t {input.forecasts} > {output.forecasts}
+        """
 
 def _get_attribute_files_by_population(wildcards):
     # Get samples by population.

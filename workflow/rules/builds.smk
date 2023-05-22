@@ -1264,8 +1264,11 @@ rule annotate_test_distance_models:
         coefficients = rules.test_distance_models.output.coefficients
     output:
         errors = BUILD_PATH + "annotated_test_models_by_distances_errors_by_horizon/{delta_month}/{predictors}.tsv",
-        coefficients = BUILD_PATH + "annotated_test_models_by_distances_coefficients_by_horizon/{delta_month}/{predictors}.tsv"
+        coefficients = BUILD_PATH + "annotated_test_models_by_distances_coefficients_by_horizon/{delta_month}/{predictors}.tsv",
+        frequencies = BUILD_PATH + "annotated_test_models_by_distances_frequencies_by_horizon/{delta_month}/{predictors}.tsv",
     conda: "../envs/anaconda.python3.yaml"
+    params:
+        delay_type=lambda wildcards: config["builds"].get(wildcards.type, {}).get(wildcards.sample, {}).get("delay_type"),
     shell:
         """
         python3 workflow/scripts/annotate_model_tables.py \
@@ -1275,8 +1278,9 @@ rule annotate_test_distance_models:
             --coefficients-by-timepoint {input.coefficients} \
             --annotated-errors-by-timepoint {output.errors} \
             --annotated-coefficients-by-timepoint {output.coefficients} \
+            --annotated-frequencies-by-timepoint {output.frequencies} \
             --delta-months {wildcards.delta_month} \
-            --annotations type="{wildcards.type}" sample="{wildcards.sample}" error_type="test" delta_month="{wildcards.delta_month}"
+            --annotations type="{wildcards.type}" sample="{wildcards.sample}" delay_type="{params.delay_type}" delta_month="{wildcards.delta_month}"
         """
 
 
@@ -1291,6 +1295,20 @@ rule aggregate_annotated_test_distance_models_errors:
         python3 workflow/scripts/concatenate_tables.py \
             --tables {input.errors} \
             --output {output.errors}
+        """
+
+
+rule aggregate_annotated_test_distance_models_frequencies:
+    input:
+        frequencies = expand(BUILD_PATH.replace("{", "{{").replace("}", "}}") + "annotated_test_models_by_distances_frequencies_by_horizon/{delta_month}/{{predictors}}.tsv", delta_month=config["fitness_model"]["delta_months"]),
+    output:
+        frequencies = BUILD_PATH + "annotated_test_models_by_distances_frequencies/{predictors}.tsv",
+    conda: "../envs/anaconda.python3.yaml"
+    shell:
+        """
+        python3 workflow/scripts/concatenate_tables.py \
+            --tables {input.frequencies} \
+            --output {output.frequencies}
         """
 
 
