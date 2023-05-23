@@ -353,6 +353,18 @@ rule plot_delay_distribution:
 
 # Collect data for analysis.
 
+rule join_tip_attributes_and_forecasts:
+    input:
+        tips="results/tip_attributes_for_{population}.tsv",
+        forecasts="results/forecasts_for_{population}.tsv",
+    output:
+        table="results/tip_attributes_by_forecast_for_{population}.tsv",
+    conda: "envs/csv.yaml"
+    shell:
+        """
+        csvtk join -t --left-join -f "sample,delay_type,timepoint,strain" {input.tips} {input.forecasts} > {output.table}
+        """
+
 def _get_types_by_samples(samples):
     types = []
     for sample in samples:
