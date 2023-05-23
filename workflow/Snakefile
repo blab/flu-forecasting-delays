@@ -353,6 +353,21 @@ rule plot_delay_distribution:
 
 # Collect data for analysis.
 
+rule calculate_clade_frequencies:
+    input:
+        tips="results/tip_attributes_by_forecast_for_{population}.tsv",
+        tip_clades="results/tip_clades_for_{population}.tsv",
+    output:
+        frequencies="results/clade_frequencies_for_{population}.tsv",
+    conda: "envs/anaconda.python3.yaml"
+    shell:
+        """
+        python3 workflow/scripts/calculate_clade_frequencies.py \
+            --tips {input.tips} \
+            --tip-clades {input.tip_clades} \
+            --output {output.frequencies}
+        """
+
 rule join_tip_attributes_and_forecasts:
     input:
         tips="results/tip_attributes_for_{population}.tsv",
