@@ -429,13 +429,14 @@ def _get_tip_clade_files_by_population(wildcards):
 
 rule tip_clades_by_population:
     input:
-        attributes=_get_tip_clade_files_by_population,
+        tables=_get_tip_clade_files_by_population,
     output:
-        attributes="results/tip_clades_for_{population}.tsv",
+        table="results/tip_clades_for_{population}.tsv",
     conda: "envs/csv.yaml"
     shell:
         """
-        csvtk concat -t {input.attributes} > {output.attributes}
+        csvtk concat -t {input.tables} \
+            | csvtk rename -t -f tip -n strain > {output.table}
         """
 
 rule model_inputs_by_population:
