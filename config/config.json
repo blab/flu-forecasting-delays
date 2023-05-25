@@ -172,6 +172,7 @@
             "h3n2_no_delay": {
                 "description": "H3N2 forecasts with no submission delay",
                 "dataset_sample": "h3n2",
+                "full_tree_build": "h3n2_no_delay_full_tree",
                 "validation_build": "h3n2_no_delay",
                 "delay_type": "none",
                 "sequences": "data/natural/h3n2/filtered_sequences.fasta",
@@ -237,6 +238,22 @@
                 "validation_predictors": [
                     "ne_star-lbi"
                 ]
+            },
+            "h3n2_no_delay_full_tree": {
+                "dataset_sample": "h3n2",
+                "delay_type": "none",
+                "sequences": "data/natural/h3n2/filtered_sequences.fasta",
+                "metadata": "data/natural/h3n2/strains_metadata.tsv",
+                "titers": "data/natural/h3n2/titers.tsv",
+                "partition_strains_by": "date",
+                "start_date": "2009-10-01",
+                "end_date": "2019-10-01",
+                "pivot_interval": 3,
+                "min_years_per_build": 10,
+                "years_back_to_build_trees": 10,
+                "reference": "config/reference_h3n2_ha.gb",
+                "predictors": ["ne_star-lbi"],
+                "best_predictor": "data/h3n2/models/ne_star-lbi.json",
             }
         }
     },

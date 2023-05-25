@@ -453,8 +453,9 @@ def _get_tip_clade_file_by_population(wildcards):
 
     for build_type, sample, delay_type in zip(types, samples, delay_types):
         if delay_type == "none":
-            # Return attribute files for sample with delay type of "none".
-            return f"results/builds/{build_type}/{sample}/tips_to_clades.tsv"
+            # Use this sample's "full tree" build for tip-to-clades mapping.
+            full_tree_build = config["builds"][build_type][sample]["full_tree_build"]
+            return f"results/builds/{build_type}/{full_tree_build}/tips_to_clades.tsv"
 
 rule tip_clades_by_population:
     input:
