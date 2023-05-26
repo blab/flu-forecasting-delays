@@ -5,19 +5,24 @@ import pandas as pd
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("--tips", required=True, help="tip attributes and forecasts merged by future timepoint across all samples")
-    parser.add_argument("--tip-clades", required=True, help="clade to tip mappings from builds without delays")
+    parser.add_argument("--tip-clades", required=True, help="clade to tip mappings from a single 'full tree' build without delays, such that clade labels are the same for tips across all timepoints")
     parser.add_argument("--output", required=True, help="clade frequencies per sample/delay type, forecast horizon, and timepoint")
 
     args = parser.parse_args()
 
     tips = pd.read_csv(args.tips, sep="\t")
-    tip_clades = pd.read_csv(args.tip_clades, sep="\t")
+    tip_clades = pd.read_csv(
+        args.tip_clades,
+        sep="\t",
+        usecols=[
+            "strain",
+            "clade_membership",
+            "depth",
+        ]
+    )
 
     all_clade_frequencies = []
     for (sample, initial_timepoint, future_timepoint, delta_month, delay_type) in tips.loc[:, ["sample", "timepoint", "future_timepoint", "delta_month", "delay_type"]].dropna().drop_duplicates().values:
-        # Select future tip clades.
-        future_tip_clades = tip_clades[tip_clades["timepoint"] == future_timepoint]
-
         # Select future tips, keeping only distinct strains
         # and their frequencies at that timepoint.
         future_tips = tips.loc[
@@ -25,13 +30,13 @@ if __name__ == "__main__":
                 (tips["delay_type"] == "none") &
                 (tips["timepoint"] == future_timepoint)
             ),
-            ("timepoint", "strain", "frequency")
+            ("strain", "frequency")
         ].drop_duplicates()
 
         # Find all clades associated with future tips.
         future_tips_with_clades = future_tips.merge(
-            future_tip_clades,
-            on=["timepoint", "strain"],
+            tip_clades,
+            on=["strain"],
         )
 
         # Find distinct clades associated with future tips.
@@ -44,11 +49,10 @@ if __name__ == "__main__":
             (tips["future_timepoint"] == future_timepoint)
         ]
 
-        # Find all future clades associate with current tips.
+        # Find all clades associate with current tips.
         current_tips_with_clades = current_tips.merge(
-            future_tip_clades,
-            left_on=["future_timepoint", "strain"],
-            right_on=["timepoint", "strain",],
+            tip_clades,
+            on=["strain"],
             suffixes=["", "_future"],
         )
 
@@ -56,15 +60,13 @@ if __name__ == "__main__":
         # and current tips.
         current_tips_with_clades_in_future = current_tips_with_clades[current_tips_with_clades["clade_membership_future"].isin(distinct_future_clades)]
 
-        # Sort strains by clade depth and take the first value
-        # by timepoint, strain, and frequencies to get the most
-        # derived clade label that is present in both current and
-        # future timepoints.
+        # Sort strains by clade depth and take the first value by strain and
+        # frequencies to get the most derived clade label that is present in
+        # both current and future timepoints.
         current_tips_with_derived_clades = current_tips_with_clades_in_future.sort_values([
             "strain",
             "depth",
         ]).groupby([
-            "timepoint",
             "strain",
             "frequency",
             "projected_frequency"
@@ -74,7 +76,7 @@ if __name__ == "__main__":
 
         # Calculate initial and estimated clade frequencies.
         current_clade_frequencies = current_tips_with_derived_clades.groupby([
-        "clade_membership_future"
+            "clade_membership_future"
         ]).aggregate({
             "frequency": "sum",
             "projected_frequency": "sum",
@@ -85,21 +87,28 @@ if __name__ == "__main__":
         # Find distinct clades used for current tips.
         distinct_current_clades = set(current_clade_frequencies["clade_membership"].drop_duplicates().values)
 
-        # Filter future tips by clade to distinct clades for current and future tips.
-        future_tips_with_clades_in_current = future_tips_with_clades[future_tips_with_clades["clade_membership"].isin(distinct_current_clades)]
+        # Annotate future tip/clade pairs by whether the clade was present in the current timepoint or not.
+        future_tips_with_clades["needs_future_clade"] = future_tips_with_clades["clade_membership"].apply(
+            lambda clade: int(clade not in distinct_current_clades)
+        )
 
-        # Sort future tips by clade depth (ascending) and take first
-        # record per tip.
-        future_tips_with_derived_clades = future_tips_with_clades_in_current.sort_values([
+        # Sort future tips by the status of whether they need to use a clade
+        # from the future timepoint (instead of a matching clade from the
+        # current timepoint) and then by clade depth (ascending) and take first
+        # record per tip. This approach prioritizes clades that exist in the
+        # current timepoint, but it also allows us to track future tips without
+        # any matches in the most derived clades from the current timepoint.
+        future_tips_with_derived_clades = future_tips_with_clades.sort_values([
             "strain",
+            "needs_future_clade",
             "depth",
         ]).groupby([
-            "timepoint",
             "strain",
             "frequency",
         ])["clade_membership"].first().reset_index(
             name="clade_membership"
         )
+        assert future_tips["strain"].values.shape[0] == future_tips_with_derived_clades["strain"].values.shape[0]
 
         # Group filtered future tips by clade to get observed future
         # clade frequencies without delay.
