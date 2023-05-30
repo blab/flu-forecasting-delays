@@ -1,6 +1,7 @@
 """Find clades in a given tree by distinct haplotypes in the given amino acid sequences corresponding to internal nodes in the tree.
 """
 import argparse
+from augur.distance import read_distance_map
 from augur.frequency_estimators import TreeKdeFrequencies
 from augur.reconstruct_sequences import load_alignments
 from augur.utils import annotate_parents_for_tree, write_json
@@ -22,6 +23,7 @@ if __name__ == "__main__":
     parser.add_argument("--tree", required=True, help="Newick tree to identify clades in")
     parser.add_argument("--translations", required=True, nargs="+", help="FASTA file(s) of amino acid sequences per node")
     parser.add_argument("--gene-names", required=True, nargs="+", help="gene names corresponding to translations provided")
+    parser.add_argument("--distance-map", help="distance map JSON defining which sites in the given gene(s) should be included in the haplotypes used to assign clades. The presence of a site in the distance map corresponds to the presence of that site in the haplotype.")
     parser.add_argument("--output", required=True, help="JSON of clade annotations for nodes in the given tree")
     parser.add_argument("--output-tip-clade-table", help="optional table of all clades per tip in the tree")
     parser.add_argument("--annotations", nargs="+", help="additional annotations to add to the tip clade output table in the format of 'key=value' pairs")
@@ -40,11 +42,26 @@ if __name__ == "__main__":
         for seq in translations[gene]:
             translations_by_gene_name[gene][seq.name] = str(seq.seq)
 
+    # Load the distance map, if it is provided.
+    distance_map = None
+    if args.distance_map:
+        distance_map = read_distance_map(args.distance_map)
+
     clades = {}
     for node in tree.find_clades(order="preorder", terminal=False):
         # Assign the current node a clade id based on the hash of its
         # full-length amino acid sequence.
-        node_sequence = "".join([translations_by_gene_name[gene][node.name] for gene in args.gene_names])
+        if distance_map:
+            node_sequence = []
+            for gene in args.gene_names:
+                if gene in distance_map["map"]:
+                    for site in sorted(distance_map["map"][gene].keys()):
+                        node_sequence.append(translations_by_gene_name[gene][node.name][site])
+
+            node_sequence = "".join(node_sequence)
+        else:
+            node_sequence = "".join([translations_by_gene_name[gene][node.name] for gene in args.gene_names])
+
         clades[node.name] = {"clade_membership": hashlib.sha256(node_sequence.encode()).hexdigest()[:MAX_HASH_LENGTH]}
 
         # Assign the current node's clade id to all of its terminal children.

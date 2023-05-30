@@ -333,7 +333,8 @@ rule convert_translations_to_json:
 rule clades_by_haplotype:
     input:
         tree = rules.refine.output.tree,
-        translations = translations(segment="ha", path=BUILD_TIMEPOINT_PATH)
+        translations = translations(segment="ha", path=BUILD_TIMEPOINT_PATH),
+        distance_map = "config/distance_maps/h3n2/ha/luksza.json",
     output:
         clades = BUILD_TIMEPOINT_PATH + "clades.json",
         tip_clade_table = BUILD_TIMEPOINT_PATH + "tips_to_clades.tsv"
@@ -347,6 +348,7 @@ rule clades_by_haplotype:
             --tree {input.tree} \
             --translations {input.translations} \
             --gene-names {params.gene_names} \
+            --distance-map {input.distance_map} \
             --annotations timepoint={wildcards.timepoint} \
             --output {output.clades} \
             --output-tip-clade-table {output.tip_clade_table} &> {log}
