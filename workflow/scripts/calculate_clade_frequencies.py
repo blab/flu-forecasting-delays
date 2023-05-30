@@ -33,15 +33,6 @@ if __name__ == "__main__":
             ("strain", "frequency")
         ].drop_duplicates()
 
-        # Find all clades associated with future tips.
-        future_tips_with_clades = future_tips.merge(
-            tip_clades,
-            on=["strain"],
-        )
-
-        # Find distinct clades associated with future tips.
-        distinct_future_clades = set(future_tips_with_clades["clade_membership"].drop_duplicates().values)
-
         # Select current tips by delay type, horizon, and timepoint.
         current_tips = tips[
             (tips["delay_type"] == delay_type) &
@@ -49,21 +40,33 @@ if __name__ == "__main__":
             (tips["future_timepoint"] == future_timepoint)
         ]
 
+        # Filter tip-clade mappings to clades associated with current and future strains.
+        current_strains = set(current_tips["strain"].values)
+        future_strains = set(future_tips["strain"].values)
+        current_clade_names = set(tip_clades.loc[tip_clades["strain"].isin(current_strains), "clade_membership"].drop_duplicates().values)
+        future_clade_names = set(tip_clades.loc[tip_clades["strain"].isin(future_strains), "clade_membership"].drop_duplicates().values)
+
+        # Keep tip-clade mappings for clades that appear for both the current and future tips.
+        current_and_future_clade_names = current_clade_names & future_clade_names
+        current_and_future_tip_clades = tip_clades[tip_clades["clade_membership"].isin(current_and_future_clade_names)]
+
+        # Find all clades associated with future tips.
+        future_tips_with_clades = future_tips.merge(
+            current_and_future_tip_clades,
+            on=["strain"],
+        )
+
         # Find all clades associate with current tips.
         current_tips_with_clades = current_tips.merge(
-            tip_clades,
+            current_and_future_tip_clades,
             on=["strain"],
             suffixes=["", "_future"],
         )
 
-        # Filter to future clades that are present for future tips
-        # and current tips.
-        current_tips_with_clades_in_future = current_tips_with_clades[current_tips_with_clades["clade_membership_future"].isin(distinct_future_clades)]
-
         # Sort strains by clade depth and take the first value by strain and
         # frequencies to get the most derived clade label that is present in
         # both current and future timepoints.
-        current_tips_with_derived_clades = current_tips_with_clades_in_future.sort_values([
+        current_tips_with_derived_clades = current_tips_with_clades.sort_values([
             "strain",
             "depth",
         ]).groupby([
@@ -84,14 +87,6 @@ if __name__ == "__main__":
             columns={"clade_membership_future": "clade_membership"},
         )
 
-        # Find distinct clades used for current tips.
-        distinct_current_clades = set(current_clade_frequencies["clade_membership"].drop_duplicates().values)
-
-        # Annotate future tip/clade pairs by whether the clade was present in the current timepoint or not.
-        future_tips_with_clades["needs_future_clade"] = future_tips_with_clades["clade_membership"].apply(
-            lambda clade: int(clade not in distinct_current_clades)
-        )
-
         # Sort future tips by the status of whether they need to use a clade
         # from the future timepoint (instead of a matching clade from the
         # current timepoint) and then by clade depth (ascending) and take first
@@ -100,7 +95,6 @@ if __name__ == "__main__":
         # any matches in the most derived clades from the current timepoint.
         future_tips_with_derived_clades = future_tips_with_clades.sort_values([
             "strain",
-            "needs_future_clade",
             "depth",
         ]).groupby([
             "strain",
@@ -122,7 +116,7 @@ if __name__ == "__main__":
         clade_frequencies = current_clade_frequencies.merge(
             future_clade_frequencies,
             on="clade_membership",
-            how="left",
+            how="outer",
             suffixes=["", "_observed"],
         ).fillna(0)
 
