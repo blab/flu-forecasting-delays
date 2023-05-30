@@ -1144,7 +1144,6 @@ rule target_distances_by_timepoint:
 rule forecast_tips:
     input:
         attributes = rules.merge_node_data_and_frequencies.output.table,
-        distances = rules.target_distances_by_timepoint.output.distances,
         frequencies = rules.tip_frequencies.output.frequencies,
         model = lambda wildcards: config["builds"][wildcards.type][wildcards.sample]["best_predictor"]
     output:
@@ -1152,12 +1151,11 @@ rule forecast_tips:
         frequencies = "results/auspice/flu_" + BUILD_SEGMENT_LOG_STEM + "_tip-frequencies.json"
     params:
         delta_months = _get_delta_months_to_forecast
-    conda: "../envs/anaconda.python3.yaml"
+    conda: "../envs/popcast.yaml"
     shell:
         """
-        python3 src/forecast_model.py \
+        popcast forecast \
             --tip-attributes {input.attributes} \
-            --distances {input.distances} \
             --frequencies {input.frequencies} \
             --model {input.model} \
             --delta-months {params.delta_months} \
@@ -1197,18 +1195,16 @@ rule export:
 rule forecast_all_tips:
     input:
         attributes = rules.annotate_weighted_distances_for_tip_attributes.output.attributes,
-        distances = rules.target_distances.output.distances,
         model = _get_model_from_validation
     output:
         table = BUILD_PATH + "forecasts_{predictors}.tsv",
     params:
         delta_months = config["fitness_model"]["delta_months_to_fit"]
-    conda: "../envs/anaconda.python3.yaml"
+    conda: "../envs/popcast.yaml"
     shell:
         """
-        python3 src/forecast_model.py \
+        popcast forecast \
             --tip-attributes {input.attributes} \
-            --distances {input.distances} \
             --model {input.model} \
             --delta-months {params.delta_months} \
             --output-table {output.table}
