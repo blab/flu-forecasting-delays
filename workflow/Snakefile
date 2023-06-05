@@ -318,27 +318,24 @@ rule all:
         "results/tip_attributes_for_h3n2.tsv",
         "results/forecasts_for_simulated.tsv",
         "results/forecasts_for_h3n2.tsv",
+        "manuscript/figures/h3n2_current_frequency_errors_by_delay.pdf",
+        "manuscript/figures/simulated_current_frequency_errors_by_delay.pdf",
 
 # Build figures for manuscript.
 
-rule model_effects_of_delays:
+rule plot_current_frequency_errors_by_delay:
     input:
-        distances=ancient("results/model_inputs_for_{population}_populations.tsv"),
+        tip_attributes=ancient("results/tip_attributes_for_{population}.tsv"),
     output:
-        observed_distances="manuscript/figures/{population}_observed_distances.pdf",
-        prior_predictive_distances="manuscript/figures/{population}_prior_predictive_distances.pdf",
-        model_summary="manuscript/tables/{population}_model_summary.tex",
-        posterior_predictive_distances="manuscript/figures/{population}_posterior_predictive_distances.pdf",
-        average_distance_to_the_present="manuscript/figures/{population}_average_distance_to_the_present.pdf",
-        average_distance_to_the_present_by_delay="manuscript/figures/{population}_average_distance_to_the_present_by_delay.pdf",
-        distance_by_delay_and_horizon="manuscript/figures/{population}_distance_by_delay_and_horizon.pdf",
-        improvements_by_scenario="manuscript/figures/{population}_improvements_by_scenario.pdf",
+        current_frequency_errors_by_delay="manuscript/figures/{population}_current_frequency_errors_by_delay.pdf",
     conda: "envs/notebook.yaml"
-    threads: 4
+    params:
+        large_frequency_threshold=0.1,
+        realistic_delay_type=lambda wildcards: "realistic" if "simulated" in wildcards.population else "observed",
     log:
-        "logs/model-effects-for-population-{population}.py.ipynb"
+        "logs/plot-current-clade-frequency-errors-by-delay-type-for-{population}-population.py.ipynb"
     notebook:
-        "notebooks/model-effects-for-population.py.ipynb"
+        "notebooks/plot-current-clade-frequency-errors-by-delay-type-for-populations.py.ipynb"
 
 rule plot_delay_distribution:
     input:
