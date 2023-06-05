@@ -316,12 +316,33 @@ rule all:
         "results/model_inputs_for_h3n2_populations.tsv",
         "results/tip_attributes_for_simulated.tsv",
         "results/tip_attributes_for_h3n2.tsv",
-        "results/forecasts_for_simulated.tsv",
-        "results/forecasts_for_h3n2.tsv",
+        "results/clade_frequencies_for_simulated.tsv",
+        "results/clade_frequencies_for_h3n2.tsv",
         "manuscript/figures/h3n2_current_frequency_errors_by_delay.pdf",
         "manuscript/figures/simulated_current_frequency_errors_by_delay.pdf",
+        "manuscript/figures/h3n2_forecast_frequency_errors_by_delay_and_horizon.pdf",
+        "manuscript/figures/simulated_forecast_frequency_errors_by_delay_and_horizon.pdf",
+        "manuscript/figures/h3n2_effects_of_realistic_interventions.pdf",
+        "manuscript/figures/simulated_effects_of_realistic_interventions.pdf",
 
 # Build figures for manuscript.
+
+rule plot_forecast_frequency_errors_by_delay_and_horizon:
+    input:
+        frequencies=ancient("results/clade_frequencies_for_{population}.tsv"),
+    output:
+        forecast_frequency_errors_by_delay_and_horizon="manuscript/figures/{population}_forecast_frequency_errors_by_delay_and_horizon.pdf",
+        absolute_forecast_frequency_errors_by_delay_and_horizon="manuscript/figures/{population}_absolute_forecast_frequency_errors_by_delay_and_horizon.pdf",
+        effects_of_realistic_interventions="manuscript/figures/{population}_effects_of_realistic_interventions.pdf",
+    conda: "envs/notebook.yaml"
+    params:
+        large_frequency_lower_threshold=0.1,
+        large_frequency_upper_threshold=0.95,
+        realistic_delay_type=lambda wildcards: "realistic" if "simulated" in wildcards.population else "observed",
+    log:
+        "logs/plot-forecast-clade-frequency-errors-by-delay-type-and-horizon-for-{population}-population.py.ipynb"
+    notebook:
+        "notebooks/plot-forecast-clade-frequency-errors-by-delay-type-and-horizon-for-population.py.ipynb"
 
 rule plot_current_frequency_errors_by_delay:
     input:
