@@ -1,0 +1,151 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% ELIFE ARTICLE TEMPLATE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% PREAMBLE
+\documentclass[9pt,lineno]{elife}
+% Use the onehalfspacing option for 1.5 line spacing
+% Use the doublespacing option for 2.0 line spacing
+% Please note that these options may affect formatting.
+% Additionally, the use of the \newcommand function should be limited.
+
+\usepackage{lipsum} % Required to insert dummy text
+\usepackage[version=4]{mhchem}
+\usepackage{siunitx}
+\DeclareSIUnit\Molar{M}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% ARTICLE SETUP
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Effects of delayed strain submission and vaccine development on long-term forecast accuracy of seasonal influenza A/H3N2}
+
+\author[1*]{John Huddleston}
+\author[2]{Trevor Bedford}
+\affil[1]{Vaccine and Infectious Disease Division, Fred Hutchinson Cancer Center, Seattle, WA, USA}
+\affil[2]{Howard Hughes Medical Institute, Seattle, WA, USA}
+
+\corr{jhuddles@fredhutch.org}{JH}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% ARTICLE START
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+TKTK
+\end{abstract}
+
+\section{Introduction}
+
+TKTK
+
+\begin{figure}
+\includegraphics[width=\linewidth]{figures/model_of_delays_and_horizons}
+\caption{Model of submission delays and forecast horizons.}
+\label{fig:model_of_delays_and_horizons}
+\end{figure}
+
+\section{Results}
+
+TKTK
+
+\subsection{Distances to the future}
+
+\begin{figure}
+\includegraphics[width=\linewidth]{figures/h3n2_distances_to_the_future_by_delay_and_horizon}
+\caption{Distances to the future per timepoint (AAs) for natural H3N2 populations by forecast horizon and submission delay type.}
+\label{fig:h3n2_distances_to_the_future}
+%
+\figsupp[Distances to the future for simulated H3N2-like populations]
+{Distances to the future per timepoint (AAs) for simulated H3N2-like populations by forecast horizon and submission delay type.
+  \figsuppdata{Distances to the future for simulated H3N2-like populations; see \url{https://doi.org/xxx}}}
+{\includegraphics[width=6cm]{figures/simulated_distances_to_the_future_by_delay_and_horizon}}\label{figsupp:simulated_distances_to_the_future}
+%
+\figdata{Distances to the future for natural H3N2 populations.}\label{figdata:h3n2_distances_to_the_future}
+\figsrccode{Jupyter notebook used to produce this figure and the supplemental figure lives in \texttt{workflow/notebooks/plot-distances-to-the-future-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:distances_to_the_future}
+\end{figure}
+
+\begin{table}[htb]
+  \begin{center}
+    \input{tables/h3n2_distances_to_the_future_by_delay_and_horizon.tex}
+    \caption{Distances to the future in amino acids (mean +/- standard deviation AAs) by forecast horizon (in months) and submission delay for H3N2 populations.}
+    \label{table_h3n2_distances_to_the_future}
+  \end{center}
+\end{table}
+
+\subsection{Current clade frequency errors}
+
+\begin{figure}
+\includegraphics[width=\linewidth]{figures/h3n2_current_frequency_errors_by_delay}
+\caption{Clade frequency errors between natural H3N2 populations with ideal or observed submission delays and populations without any submission delay.}
+\label{fig:h3n2_current_clade_frequency_errors}
+%
+\figsupp[Current clade frequency errors for simulated H3N2-like populations]
+{Clade frequency errors between simulated H3N2-like HA populations with ideal or realistic submission delays and populations without any submission delay.
+  \figsuppdata{Current frequencies per tip in each simulated H3N2-like tree of the forecast analysis by delay type (none, ideal, and realistic); see \url{https://doi.org/xxx}}}
+{\includegraphics[width=6cm]{figures/simulated_current_frequency_errors_by_delay}}\label{figsupp:simulated_current_clade_frequency_errors}
+%
+\figdata{Current frequencies per tip in each natural H3N2 tree of the forecast analysis by delay type (none, ideal, and observed).}\label{figdata:h3n2_tip_attributes}
+\figsrccode{Jupyter notebook used to produce this figure and the supplemental figure lives in \texttt{workflow/notebooks/plot-current-clade-frequency-errors-by-delay-type-for-populations.py.ipynb}.}\label{figsrccode:current_clade_frequency_errors}
+\end{figure}
+
+\subsection{Forecast clade frequency errors}
+
+\begin{figure}
+\includegraphics[width=\linewidth]{figures/h3n2_forecast_frequency_errors_by_delay_and_horizon}
+\caption{Forecast clade frequency errors for natural H3N2 populations by forecast horizon in months and submission delay type (none, ideal, or observed).}
+\label{fig:h3n2_forecast_clade_frequency_errors}
+%
+\figsupp[Absolute forecast clade frequency errors for H3N2 populations.]
+{Absolute forecast clade frequency errors for natural H3N2 populations by forecast horizon in months and submission delay type (none, ideal, or observed).
+  \figsuppdata{Current, estimated future, and observed future clade frequencies per initial timepoint, forecast horizon, and submission delay type for H3N2 populations; see \url{https://doi.org/xxx}}}
+{\includegraphics[width=6cm]{figures/h3n2_absolute_forecast_frequency_errors_by_delay_and_horizon}}\label{figsupp:h3n2_absolute_forecast_clade_frequency_errors}
+%
+\figsupp[Forecast clade frequency errors for simulated H3N2-like populations.]
+{Forecast clade frequency errors for simulated H3N2-like HA populations by forecast horizon in months and submission delay type (none, ideal, or realistic).
+  \figsuppdata{Current, estimated future, and observed future clade frequencies per initial timepoint, forecast horizon, and submission delay type for simulated H3N2-like populations; see \url{https://doi.org/xxx}}}
+{\includegraphics[width=6cm]{figures/simulated_forecast_frequency_errors_by_delay_and_horizon}}\label{figsupp:simulated_forecast_clade_frequency_errors}
+%
+\figsupp[Absolute forecast clade frequency errors for simulated H3N2-like populations.]
+{Absolute forecast clade frequency errors for simulated H3N2-like HA populations by forecast horizon in months and submission delay type (none, ideal, or realistic).
+  \figsuppdata{Current, estimated future, and observed future clade frequencies per initial timepoint, forecast horizon, and submission delay type for simulated H3N2-like HA populations; see \url{https://doi.org/xxx}}}
+{\includegraphics[width=6cm]{figures/simulated_absolute_forecast_frequency_errors_by_delay_and_horizon}}\label{figsupp:simulated_absolute_forecast_clade_frequency_errors}
+%
+\figdata{Current, estimated future, and observed future clade frequencies per initial timepoint, forecast horizon, and submission delay type for H3N2 populations.}\label{figdata:h3n2_clade_frequencies}
+\figsrccode{Jupyter notebook used to produce this figure and the supplemental figures lives in \texttt{workflow/notebooks/plot-forecast-clade-frequency-errors-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:forecast_clade_frequency_errors}
+\end{figure}
+
+\subsection{Effects of realistic interventions on forecast accuracy}
+
+\begin{figure}
+\includegraphics[width=\linewidth]{figures/h3n2_effects_of_realistic_interventions}
+\caption{Improvement of clade frequency errors for H3N2 populations between the status quo and realistic interventions.}
+\label{fig:h3n2_effects_of_realistic_interventions}
+%
+\figsupp[Improvement of clade frequency errors for simulated H3N2-like populations]
+{Improvement of clade frequency errors for simulated H3N2-like populations between the status quo and realistic interventions.
+  \figsuppdata{Differences in absolute clade frequency error per future timepoint and clade between the status quo and realistic interventions for simulated H3N2-like populations; see \url{https://doi.org/xxx}}}
+{\includegraphics[width=6cm]{figures/simulated_effects_of_realistic_interventions}}\label{figsupp:simulated_effects_of_realistic_interventions}
+%
+\figdata{Differences in absolute clade frequency error per future timepoint and clade between the status quo and realistic interventions for H3N2 populations.}\label{figdata:h3n2_effects_of_realistic_interventions}
+\figsrccode{Jupyter notebook used to produce this figure and the supplemental figure lives in \texttt{workflow/notebooks/plot-forecast-clade-frequency-errors-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:effects_of_realistic_interventions}
+\end{figure}
+
+\section{Discussion}
+
+TKTK
+
+\section{Methods and Materials}
+
+TKTK
+
+\section{Acknowledgments}
+
+TKTK
+
+\nocite{*} % This command displays all refs in the bib file. PLEASE DELETE IT BEFORE YOU SUBMIT YOUR MANUSCRIPT!
+\bibliography{delays}
+
+\end{document}

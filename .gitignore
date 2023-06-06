@@ -8,3 +8,11 @@ logs/
 *.fasta
 *.tsv
 *.pyc
+
+# LaTeX
+.auctex-auto
+*.aux
+*.bbl
+*.blg
+*.out
+*.suppinfo
