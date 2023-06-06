@@ -14,7 +14,7 @@ if __name__ == "__main__":
     df = pd.read_csv(
         args.input,
         sep="\t",
-        usecols=["delta_month", "sample", "validation_error", "validation_timepoint", "future_timepoint"],
+        usecols=["delay_type", "delta_month", "sample", "validation_error", "validation_timepoint", "future_timepoint"],
     )
 
     month_delay_by_sample = {

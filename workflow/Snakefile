@@ -493,7 +493,7 @@ rule model_inputs_by_population:
         errors="results/model_inputs_for_{population}_populations.tsv",
     params:
         population_samples = lambda wildcards: config["samples_by_population"].get(wildcards.population),
-    conda: "envs/notebook.yaml"
+    conda: "envs/anaconda.python3.yaml"
     shell:
         """
         python3 workflow/scripts/get_model_inputs_by_population.py \
