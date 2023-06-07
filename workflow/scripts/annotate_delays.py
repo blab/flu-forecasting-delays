@@ -68,4 +68,17 @@ if __name__ == "__main__":
 
         metadata[submission_field] = metadata[args.date_field] + random_offsets
 
+    # Find fields where the randomly assigned ideal submission date is greater
+    # than the realistic submission date.
+    ideal_later_than_realistic = (metadata["ideal_submission_date"] > metadata["realistic_submission_date"])
+    print(ideal_later_than_realistic.sum())
+
+    # Swap the ideal and realistic submission dates when the ideal is
+    # later than the realistic.
+    early_realistic = metadata.loc[ideal_later_than_realistic, "realistic_submission_date"].values
+    late_ideal = metadata.loc[ideal_later_than_realistic, "ideal_submission_date"].values
+
+    metadata.loc[ideal_later_than_realistic, "ideal_submission_date"] = early_realistic
+    metadata.loc[ideal_later_than_realistic, "realistic_submission_date"] = late_ideal
+
     metadata.to_csv(args.output, sep="\t", index=False, na_rep="N/A")

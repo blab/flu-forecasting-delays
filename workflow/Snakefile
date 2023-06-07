@@ -342,7 +342,7 @@ rule plot_forecast_frequency_errors_by_delay_and_horizon:
     params:
         large_frequency_lower_threshold=0.1,
         large_frequency_upper_threshold=0.95,
-        realistic_delay_type=lambda wildcards: "realistic" if "simulated" in wildcards.population else "observed",
+        realistic_delay_type="realistic",
     log:
         "logs/plot-forecast-clade-frequency-errors-by-delay-type-and-horizon-for-{population}-population.py.ipynb"
     notebook:
@@ -356,7 +356,7 @@ rule plot_current_frequency_errors_by_delay:
     conda: "envs/notebook.yaml"
     params:
         large_frequency_threshold=0.1,
-        realistic_delay_type=lambda wildcards: "realistic" if "simulated" in wildcards.population else "observed",
+        realistic_delay_type="realistic",
     log:
         "logs/plot-current-clade-frequency-errors-by-delay-type-for-{population}-population.py.ipynb"
     notebook:

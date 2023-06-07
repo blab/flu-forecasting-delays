@@ -1,5 +1,5 @@
 {
-    "active_builds": "simulated_no_delay simulated_realistic_delay simulated_ideal_delay simulated_no_delay_with_bias simulated_realistic_delay_with_bias simulated_ideal_delay_with_bias h3n2_no_delay h3n2_observed_delay h3n2_ideal_delay",
+    "active_builds": "simulated_no_delay simulated_realistic_delay simulated_ideal_delay h3n2_no_delay h3n2_realistic_delay h3n2_ideal_delay",
     "datasets": {
         "simulated_sample_90vpm": {
             "description": "Highest density sampling of simulated populations as in Huddleston et al. 2020 with biased delay based on fitness",
@@ -211,15 +211,15 @@
                     "ne_star-lbi"
                 ]
             },
-            "h3n2_observed_delay": {
-                "description": "H3N2 forecasts with observed submission delay",
+            "h3n2_realistic_delay": {
+                "description": "H3N2 forecasts with realistic submission delay",
                 "dataset_sample": "h3n2",
                 "validation_build": "h3n2_no_delay",
-                "delay_type": "observed",
+                "delay_type": "realistic",
                 "sequences": "data/natural/h3n2/filtered_sequences.fasta",
                 "metadata": "data/natural/h3n2/strains_metadata.tsv",
                 "titers": "data/natural/h3n2/titers.tsv",
-                "partition_strains_by": "submission_date",
+                "partition_strains_by": "realistic_submission_date",
                 "start_date": "2005-04-01",
                 "end_date": "2019-10-01",
                 "pivot_interval": 3,
@@ -278,7 +278,7 @@
     "samples_by_population": {
         "simulated": ["simulated_no_delay", "simulated_ideal_delay", "simulated_realistic_delay"],
         "simulated_with_bias": ["simulated_no_delay_with_bias", "simulated_ideal_delay_with_bias", "simulated_realistic_delay_with_bias"],
-        "h3n2": ["h3n2_no_delay", "h3n2_ideal_delay", "h3n2_observed_delay"]
+        "h3n2": ["h3n2_no_delay", "h3n2_ideal_delay", "h3n2_realistic_delay"]
     },
     "path_to_fauna": "../fauna",
     "years_for_titer_alignments": 10,
