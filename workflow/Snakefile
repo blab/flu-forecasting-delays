@@ -333,7 +333,7 @@ rule all:
 
 rule plot_forecast_frequency_errors_by_delay_and_horizon:
     input:
-        frequencies=ancient("results/clade_frequencies_for_{population}.tsv"),
+        frequencies="results/clade_frequencies_for_{population}.tsv",
     output:
         forecast_frequency_errors_by_delay_and_horizon="manuscript/figures/{population}_forecast_frequency_errors_by_delay_and_horizon.pdf",
         absolute_forecast_frequency_errors_by_delay_and_horizon="manuscript/figures/{population}_absolute_forecast_frequency_errors_by_delay_and_horizon.pdf",
@@ -350,7 +350,7 @@ rule plot_forecast_frequency_errors_by_delay_and_horizon:
 
 rule plot_current_frequency_errors_by_delay:
     input:
-        tip_attributes=ancient("results/tip_attributes_for_{population}.tsv"),
+        tip_attributes="results/tip_attributes_for_{population}.tsv",
     output:
         current_frequency_errors_by_delay="manuscript/figures/{population}_current_frequency_errors_by_delay.pdf",
     conda: "envs/notebook.yaml"
