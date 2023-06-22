@@ -41,8 +41,8 @@ TKTK
 
 TKTK
 
-\begin{figure}
-\includegraphics[width=\linewidth]{figures/model_of_delays_and_horizons}
+\begin{figure}[htb]
+\includegraphics[width=\linewidth]{figures/distribution_of_delays_and_horizons}
 \caption{Model of submission delays and forecast horizons.}
 \label{fig:model_of_delays_and_horizons}
 \end{figure}
@@ -53,7 +53,7 @@ TKTK
 
 \subsection{Distances to the future}
 
-\begin{figure}
+\begin{figure}[htb]
 \includegraphics[width=\linewidth]{figures/h3n2_distances_to_the_future_by_delay_and_horizon}
 \caption{Distances to the future per timepoint (AAs) for natural H3N2 populations by forecast horizon and submission delay type.}
 \label{fig:h3n2_distances_to_the_future}
@@ -77,7 +77,7 @@ TKTK
 
 \subsection{Current clade frequency errors}
 
-\begin{figure}
+\begin{figure}[htb]
 \includegraphics[width=\linewidth]{figures/h3n2_current_frequency_errors_by_delay}
 \caption{Clade frequency errors between natural H3N2 populations with ideal or observed submission delays and populations without any submission delay.}
 \label{fig:h3n2_current_clade_frequency_errors}
@@ -93,7 +93,7 @@ TKTK
 
 \subsection{Forecast clade frequency errors}
 
-\begin{figure}
+\begin{figure}[htb]
 \includegraphics[width=\linewidth]{figures/h3n2_forecast_frequency_errors_by_delay_and_horizon}
 \caption{Forecast clade frequency errors for natural H3N2 populations by forecast horizon in months and submission delay type (none, ideal, or observed).}
 \label{fig:h3n2_forecast_clade_frequency_errors}
@@ -117,9 +117,25 @@ TKTK
 \figsrccode{Jupyter notebook used to produce this figure and the supplemental figures lives in \texttt{workflow/notebooks/plot-forecast-clade-frequency-errors-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:forecast_clade_frequency_errors}
 \end{figure}
 
+\begin{table}[htb]
+  \begin{center}
+    \input{tables/h3n2_forecast_frequency_errors_future_by_delay_and_horizon.tex}
+    \caption{Errors in clade frequencies between observed and predicted values by forecast horizon (in months) and submission delay for H3N2 clades with an initial frequency $\geq$10\%.}
+    \label{table_h3n2_forecast_frequency_errors}
+  \end{center}
+\end{table}
+
+\begin{table}[htb]
+  \begin{center}
+    \input{tables/h3n2_absolute_forecast_frequency_errors_future_by_delay_and_horizon.tex}
+    \caption{Absolute errors in clade frequencies between observed and predicted values by forecast horizon (in months) and submission delay for H3N2 clades with an initial frequency $\geq$10\%.}
+    \label{table_h3n2_absolute_forecast_frequency_errors}
+  \end{center}
+\end{table}
+
 \subsection{Effects of realistic interventions on forecast accuracy}
 
-\begin{figure}
+\begin{figure}[htb]
 \includegraphics[width=\linewidth]{figures/h3n2_effects_of_realistic_interventions}
 \caption{Improvement of clade frequency errors for H3N2 populations between the status quo and realistic interventions.}
 \label{fig:h3n2_effects_of_realistic_interventions}
@@ -132,6 +148,14 @@ TKTK
 \figdata{Differences in absolute clade frequency error per future timepoint and clade between the status quo and realistic interventions for H3N2 populations.}\label{figdata:h3n2_effects_of_realistic_interventions}
 \figsrccode{Jupyter notebook used to produce this figure and the supplemental figure lives in \texttt{workflow/notebooks/plot-forecast-clade-frequency-errors-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:effects_of_realistic_interventions}
 \end{figure}
+
+\begin{table}[htb]
+  \begin{center}
+    \input{tables/h3n2_effects_of_realistic_interventions.tex}
+    \caption{Improvement in absolute clade frequency errors between the status quo (12-month forecast horizon and realistic submission delay) and realistic interventions for H3N2 clades with an initial frequency of $\geq$10\%.}
+    \label{table_h3n2_effects_of_realistic_interventions}
+  \end{center}
+\end{table}
 
 \section{Discussion}
 
