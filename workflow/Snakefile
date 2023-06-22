@@ -317,6 +317,7 @@ rule all:
         "results/tip_attributes_for_h3n2.tsv",
         "results/clade_frequencies_for_simulated.tsv",
         "results/clade_frequencies_for_h3n2.tsv",
+        "manuscript/figures/distribution_of_delays_and_horizons.pdf",
         "manuscript/tables/h3n2_distances_to_the_future_by_delay_and_horizon.tex",
         "manuscript/tables/simulated_distances_to_the_future_by_delay_and_horizon.tex",
         "manuscript/figures/h3n2_distances_to_the_future_by_delay_and_horizon.pdf",
@@ -385,14 +386,14 @@ rule plot_distances_to_the_future_by_delay_and_horizon:
 
 rule plot_delay_distribution:
     input:
-        metadata = "data/natural/h3n2/metadata.tsv"
+        metadata = "data/natural/h3n2/annotated_metadata.tsv",
     output:
-        figure = "manuscript/figures/distribution_of_delays.pdf"
+        figure = "manuscript/figures/distribution_of_delays_and_horizons.pdf",
     log:
-        notebook = "logs/notebooks/plot-distribution-of-submission-delays.ipynb"
+        notebook = "logs/notebooks/plot-distribution-of-submission-delays-and-horizons.ipynb"
     conda: "envs/notebook.yaml"
     notebook:
-        "notebooks/plot-distribution-of-submission-delays.ipynb"
+        "notebooks/plot-distribution-of-submission-delays-and-horizons.ipynb"
 
 # Collect data for analysis.
 
