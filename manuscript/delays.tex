@@ -181,6 +181,24 @@ This approach effectively shifted the realistic gamma toward zero, while maintai
 To assign ideal submission delays to each sample in our analysis, we randomly sampled from this modified gamma distribution and added the sampled delay in days to the observed collection date.
 Additionally, we required that each sample's ``ideal'' delay be less than or equal to its ``realistic'' delay.
 
+\subsection{Forecasting with different forecast horizons}
+
+We tested the effect of forecasting future influenza populations at forecast horizons of 3, 6, 9, and 12 months (Figure~\ref{fig:model_of_delays_and_horizons}B).
+Previously, we produced forecasts every 6 months starting from October 1 and April 1 and predicting 12 months into the future \citep{Huddleston2020}.
+To support forecasts in 3-month intervals, we produced annotated time trees for 6 years of HA sequences every 3 months with data available up to the first day of January, April, July, and October.
+We produced these trees for each timepoint with three different delay scenarios: no delay, ideal delay, and realistic delay.
+For each scenario, we selected sequences for analysis at a given timepoint based on their collection date, ideal submission date, or realistic submission date, respectively.
+This experimental design produced forecasts for three delay types at each of the four forecast horizons (e.g., Figure~\ref{fig:model_of_delays_and_horizons}B, blue, green, and orange initial timepoints for the 3-month forecast horizon).
+
+Since submission dates were not available prior to April 2005, our analysis of natural A/H3N2 sequences spanned from April 1, 2005 to October 1, 2019.
+To simplify the data required for these analyses, we produced forecasts of natural A/H3N2 populations with our best sequence-only model from our prior work, the local branching index (LBI) and mutational load model \citep{Huddleston2020}.
+For simulated A/H3N2-like populations, we produced forecasts with the ``true fitness'' model that relies on the normalized fitness value of each simulated sample.
+
+Each forecast generated a predicted future frequency per sequence in the initial timepoint's tree.
+As in our prior work, we calculated the earth mover's distance \citep{Rubner1998} between the predicted and observed future populations using HA amino acid sequences from initial and future timepoints, predicted future frequencies from the initial timepoint, and observed future frequencies from future timepoint.
+For the future timepoint, we used data from the ``no delay'' scenario as our truth set, regardless of the delay scenario for the initial timepoint.
+This design allowed us to measure the effect of ideal and realistic submission delays on forecast accuracy relative to a scenario with no delays.
+
 \section{Acknowledgments}
 
 TKTK
