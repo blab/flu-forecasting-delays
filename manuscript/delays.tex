@@ -163,7 +163,23 @@ TKTK
 
 \section{Methods and Materials}
 
-TKTK
+\subsection{Estimating and assigning submission delays}
+
+We estimated the delay between sample collection and submission of A/H3N2 hemagglutinin (HA) sequences to the GISAID database \citep{gisaid} by calculating the difference in GISAID-annotated submission date and collection date in days for samples collected between January 1, 2019 and January 1, 2020 and with a submission date prior to October 1, 2020.
+We selected this period of time as representative of modern genomic surveillance efforts prior to changes in circulation patterns of influenza caused by the SARS-CoV-2 pandemic.
+Of the 104,392 HA sequences in GISAID, 11,222 (11\%) were collected during this period with a mean submission delay of 98 days ($\sim$3 months) and a median delay of 74 days.
+Only 11\% of sequences (N=1,210) were submitted within 4 weeks of collection, and only 36\% (N=4,057) were submitted within 8 weeks (Figure~\ref{fig:model_of_delays_and_horizons}A, purple).
+
+We modeled the shape of the observed delay distribution as a gamma distribution using a maximum likelihood fit from SciPy 1.10.1 \citep{scipy}.
+With this approach, we estimated a shape parameter of 1.76, a scale parameter of 53.18, and location parameter of 3.98.
+The product of these shape and scale values corresponded to a mean delay of 93.76 days (Figure~\ref{fig:model_of_delays_and_horizons}A, green).
+To assign realistic submission delays to each sample in our analysis, we randomly sampled from this gamma distribution and calculated a ``realistic submission date'' by adding the sampled delay in days to the observed collection date.
+
+Based on the observed rapid submission of SARS-CoV-2 genomes during the first years of the pandemic, we expected that an achievable ``ideal'' submission delay for seasonal influenza sequences would have a 1-month average delay instead of the observed $\sim$3-month delay from the pre-pandemic period.
+We modeled this ideal submission delay distribution by dividing the gamma shape parameter by 3 to get a value of 0.59 and a corresponding mean delay of 31.25 days (Figure~\ref{fig:model_of_delays_and_horizons}A, orange).
+This approach effectively shifted the realistic gamma toward zero, while maintaining the relatively longer upper tail of the distribution.
+To assign ideal submission delays to each sample in our analysis, we randomly sampled from this modified gamma distribution and added the sampled delay in days to the observed collection date.
+Additionally, we required that each sample's ``ideal'' delay be less than or equal to its ``realistic'' delay.
 
 \section{Acknowledgments}
 
