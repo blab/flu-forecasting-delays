@@ -71,7 +71,7 @@ TKTK
   \begin{center}
     \input{tables/h3n2_distances_to_the_future_by_delay_and_horizon.tex}
     \caption{Distances to the future in amino acids (mean +/- standard deviation AAs) by forecast horizon (in months) and submission delay for H3N2 populations.}
-    \label{table_h3n2_distances_to_the_future}
+    \label{tab:h3n2_distances_to_the_future}
   \end{center}
 \end{table}
 
@@ -121,7 +121,7 @@ TKTK
   \begin{center}
     \input{tables/h3n2_forecast_frequency_errors_future_by_delay_and_horizon.tex}
     \caption{Errors in clade frequencies between observed and predicted values by forecast horizon (in months) and submission delay for H3N2 clades with an initial frequency $\geq$10\%.}
-    \label{table_h3n2_forecast_frequency_errors}
+    \label{tab:h3n2_forecast_frequency_errors}
   \end{center}
 \end{table}
 
@@ -129,7 +129,7 @@ TKTK
   \begin{center}
     \input{tables/h3n2_absolute_forecast_frequency_errors_future_by_delay_and_horizon.tex}
     \caption{Absolute errors in clade frequencies between observed and predicted values by forecast horizon (in months) and submission delay for H3N2 clades with an initial frequency $\geq$10\%.}
-    \label{table_h3n2_absolute_forecast_frequency_errors}
+    \label{tab:h3n2_absolute_forecast_frequency_errors}
   \end{center}
 \end{table}
 
@@ -153,7 +153,7 @@ TKTK
   \begin{center}
     \input{tables/h3n2_effects_of_realistic_interventions.tex}
     \caption{Improvement in absolute clade frequency errors between the status quo (12-month forecast horizon and realistic submission delay) and realistic interventions for H3N2 clades with an initial frequency of $\geq$10\%.}
-    \label{table_h3n2_effects_of_realistic_interventions}
+    \label{tab:h3n2_effects_of_realistic_interventions}
   \end{center}
 \end{table}
 
@@ -168,27 +168,27 @@ TKTK
 We estimated the delay between sample collection and submission of A/H3N2 hemagglutinin (HA) sequences to the GISAID database \citep{gisaid} by calculating the difference in GISAID-annotated submission date and collection date in days for samples collected between January 1, 2019 and January 1, 2020 and with a submission date prior to October 1, 2020.
 We selected this period of time as representative of modern genomic surveillance efforts prior to changes in circulation patterns of influenza caused by the SARS-CoV-2 pandemic.
 Of the 104,392 HA sequences in GISAID, 11,222 (11\%) were collected during this period with a mean submission delay of 98 days ($\sim$3 months) and a median delay of 74 days.
-Only 11\% of sequences (N=1,210) were submitted within 4 weeks of collection, and only 36\% (N=4,057) were submitted within 8 weeks (Figure~\ref{fig:model_of_delays_and_horizons}A, purple).
+Only 11\% of sequences (N=1,210) were submitted within 4 weeks of collection, and only 36\% (N=4,057) were submitted within 8 weeks (\FIG{model_of_delays_and_horizons}A, purple).
 
 We modeled the shape of the observed delay distribution as a gamma distribution using a maximum likelihood fit from SciPy 1.10.1 \citep{scipy}.
 With this approach, we estimated a shape parameter of 1.76, a scale parameter of 53.18, and location parameter of 3.98.
-The product of these shape and scale values corresponded to a mean delay of 93.76 days (Figure~\ref{fig:model_of_delays_and_horizons}A, green).
+The product of these shape and scale values corresponded to a mean delay of 93.76 days (\FIG{model_of_delays_and_horizons}A, green).
 To assign realistic submission delays to each sample in our analysis, we randomly sampled from this gamma distribution and calculated a ``realistic submission date'' by adding the sampled delay in days to the observed collection date.
 
 Based on the observed rapid submission of SARS-CoV-2 genomes during the first years of the pandemic, we expected that an achievable ``ideal'' submission delay for seasonal influenza sequences would have a 1-month average delay instead of the observed $\sim$3-month delay from the pre-pandemic period.
-We modeled this ideal submission delay distribution by dividing the gamma shape parameter by 3 to get a value of 0.59 and a corresponding mean delay of 31.25 days (Figure~\ref{fig:model_of_delays_and_horizons}A, orange).
+We modeled this ideal submission delay distribution by dividing the gamma shape parameter by 3 to get a value of 0.59 and a corresponding mean delay of 31.25 days (\FIG{model_of_delays_and_horizons}A, orange).
 This approach effectively shifted the realistic gamma toward zero, while maintaining the relatively longer upper tail of the distribution.
 To assign ideal submission delays to each sample in our analysis, we randomly sampled from this modified gamma distribution and added the sampled delay in days to the observed collection date.
 Additionally, we required that each sample's ``ideal'' delay be less than or equal to its ``realistic'' delay.
 
 \subsection{Forecasting with different forecast horizons}
 
-We tested the effect of forecasting future influenza populations at forecast horizons of 3, 6, 9, and 12 months (Figure~\ref{fig:model_of_delays_and_horizons}B).
+We tested the effect of forecasting future influenza populations at forecast horizons of 3, 6, 9, and 12 months (\FIG{model_of_delays_and_horizons}B).
 Previously, we produced forecasts every 6 months starting from October 1 and April 1 and predicting 12 months into the future \citep{Huddleston2020}.
 To support forecasts in 3-month intervals, we produced annotated time trees for 6 years of HA sequences every 3 months with data available up to the first day of January, April, July, and October.
 We produced these trees for each timepoint with three different delay scenarios: no delay, ideal delay, and realistic delay.
 For each scenario, we selected sequences for analysis at a given timepoint based on their collection date, ideal submission date, or realistic submission date, respectively.
-This experimental design produced forecasts for three delay types at each of the four forecast horizons (e.g., Figure~\ref{fig:model_of_delays_and_horizons}B, blue, green, and orange initial timepoints for the 3-month forecast horizon).
+This experimental design produced forecasts for three delay types at each of the four forecast horizons (e.g., \FIG{model_of_delays_and_horizons}B, blue, green, and orange initial timepoints for the 3-month forecast horizon).
 
 Since submission dates were not available prior to April 2005, our analysis of natural A/H3N2 sequences spanned from April 1, 2005 to October 1, 2019.
 To simplify the data required for these analyses, we produced forecasts of natural A/H3N2 populations with our best sequence-only model from our prior work \citep{Huddleston2020}, a composite model based on local branching index (LBI) \citep{Neher:2014eu} and mutational load \citep{Luksza:2014hj}.
