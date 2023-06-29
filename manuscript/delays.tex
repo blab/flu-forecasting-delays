@@ -230,6 +230,39 @@ As in our prior work, we calculated the earth mover's distance \citep{Rubner1998
 For the future timepoint, we used data from the ``no delay'' scenario as our truth set, regardless of the delay scenario for the initial timepoint.
 This design allowed us to measure the effect of ideal and realistic submission delays on forecast accuracy relative to a scenario with no delays.
 
+\subsection{Defining clades}
+
+Official clade definitions do not exist for all time periods of our analysis of A/H3N2 populations and do not exist at all for simulated A/H3N2-like populations.
+Therefore, we defined ``clades'' for natural and simulated HA trees based on the amino acid haplotypes of HA at 49 previously defined epitope sites \citep{Luksza:2014hj}.
+This definition of clades follows from realistic clade definitions that tend to depend on mutations in HA1 at known epitope sites.
+Although this automated haplotype-based definition of clades tended to create monophyletic groups, the same haplotype could emerge multiple times independently in different phylogenetic clades.
+
+For each tree in our analysis, we assigned clade labels to each tip and internal node based on their amino acid haplotype at epitope sites.
+For each tip, this clade label was deterministic across trees, as the sequence of a tip did not change.
+Tips also inherited the clade labels of their ancestral nodes in the tree, allowing us to estimate frequencies of larger clades based on the frequencies of tips in those clades.
+However, the inferred sequence at internal nodes varied with the tips present in a given tree.
+For example, submission delays could change the tips present in trees representing the same timepoint, resulting in different internal nodes and inferred sequences.
+Additionally, the continued accumulation of amino acid mutations between timepoints changed the composition of internal nodes over time, complicating the comparison of large clades between initial and final timepoints of a forecast.
+
+To stably define clades for internal nodes in our analysis, we created a single tree with all HA sequences present in our analysis and without delayed sequence submission.
+We inferred ancestral sequences for internal nodes in this tree and assigned clades to each node and tip based on their amino acid haplotypes.
+We created a mapping between each tip and the clades it descended from that allowed us to track clade frequencies across 6-year trees built per timepoint in the analysis.
+
+\subsection{Estimating current and future clade frequencies}
+
+We estimated current clade frequencies for each timepoint in our analysis by summing the frequencies of tips in a given timepoint's tree by the clade assigned to each tip.
+To inspect the effects of submission delays on clade frequency estimates, we calculated the clade frequency error per timepoint and clade by subtracting the clade frequency estimated with ideal or realistic delayed sequence submission from the corresponding clade frequency without delays.
+We compared the effects of submission delays for clades of different sizes by filtering clades by their frequency estimated without delays to small clades ($\ge$1\% and $<$10\%) and large clades ($\ge$10\%).
+
+We estimated future clade frequencies for each combination of delay type, initial timepoint, and final timepoint in the analysis using the following steps.
+First, we merged the frequencies per tip at each timepoint with all forecasts from the same timepoint.
+The resulting table included the initial and predicted frequencies for each tip for each combination of initial timepoint, forecast horizon, and submission delay.
+To define the observed future population for each forecast, we selected all tips that were present in the final timepoint of the corresponding dataset without submission delays.
+Using the tip-to-clade mapping described above, we found all clades that were present at both initial and final timepoints.
+We calculated the initial and predicted future frequencies per clade at the initial timepoint by summing the frequencies of all tips in each clade.
+We calculated the observed future frequencies per clade at the final timepoint with the same approach.
+Finally, we merged the initial and predicted future frequencies with the observed future frequencies by clade, keeping all clades that were present in the initial timepoint.
+
 \section{Acknowledgments}
 
 TKTK
