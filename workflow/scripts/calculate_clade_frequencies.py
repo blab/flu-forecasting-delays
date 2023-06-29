@@ -84,7 +84,7 @@ if __name__ == "__main__":
         clade_frequencies = current_clade_frequencies.merge(
             future_clade_frequencies,
             on="clade_membership",
-            how="outer",
+            how="left",
         ).fillna(0)
 
         # Reannotate attributes for this set of records.
