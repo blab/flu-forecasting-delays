@@ -144,6 +144,24 @@ Correspondingly, we would expect seasonal influenza lineages that evolve slower 
 
 \subsection{Forecast clade frequency errors}
 
+We estimated the effects of submission delays and forecast horizons on the accuracy of clade frequency forecasts.
+For each combination of initial timepoint, final timepoint, and delay scenario, we identified all clades that were present at both timepoints, calculated initial and predicted future frequencies for the given delay, and calculated the corresponding observed future frequencies without delay.
+Where the current clade frequency analysis focused on the most derived clades assigned to each tip, this analysis included ancestral clades to allow comparison between temporally distant populations.
+Therefore, we focused this analysis on clades with an initial frequency $\ge$10\% and $\le$95\% in the corresponding dataset without delays.
+We calculated the error in forecast frequencies for these clades as the difference between predicted future frequencies under the given delay scenario and observed future frequencies without any delay.
+
+Unlike distances to the future and like current clade frequency errors, forecast clade frequency errors appeared to be normally distributed (\FIG{h3n2_forecast_clade_frequency_errors}).
+The 12-month forecast horizon produced the most extreme average forecast error and variance in error with a slight bias toward overestimation of future clade frequencies in all delay scenarios (\TABLE{h3n2_forecast_frequency_errors}).
+As the forecast horizon decreased, the average error shifted toward a slight underestimation of future frequencies at the 3-month horizon.
+The variance in forecast error also decreased with decreasing horizon, following the same pattern we observed for distances to the future.
+In the realistic delay scenario, the standard deviation in forecast error decreased an average of 7\% with each 3-month decrease in forecast horizon from a maximum of 33\% at the 12-month horizon to a minimum of 11\% at the 3-month horizon.
+Correspondingly, we observed a wide range of forecast errors at the 12-month horizon and realistic delay spanning from nearly -100\% to over 75\% error.
+At the 3-month horizon, errors rarely exceeded 25\% in either direction.
+
+As we observed with distances to the future, reducing submission delays had little effect on the accuracy of clade frequency forecasts.
+The mean and median clade frequency errors were almost identical across all delay types (\TABLE{h3n2_forecast_frequency_errors}).
+The same pattern held for absolute clade frequency errors, too (\TABLE{h3n2_absolute_forecast_frequency_errors}).
+
 \begin{figure}[htb]
 \includegraphics[width=\linewidth]{figures/h3n2_forecast_frequency_errors_by_delay_and_horizon}
 \caption{Forecast clade frequency errors for natural H3N2 populations by forecast horizon in months and submission delay type (none, ideal, or observed).}
