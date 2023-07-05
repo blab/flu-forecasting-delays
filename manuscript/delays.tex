@@ -138,7 +138,7 @@ These results indicate that reducing submission delays for influenza sequences f
 Delayed submissions more strongly affected clade frequencies for simulated A/H3N2-like populations (\FIGSUPP[h3n2_current_clade_frequency_errors]{simulated_current_clade_frequency_errors}).
 With ideal delays, small clade errors ranged from -5\% to 6\% and large clade errors from -7\% to 13\% (\FIGSUPP[h3n2_current_clade_frequency_errors]{simulated_current_clade_frequency_errors}C and D).
 As expected, realistic delays produced higher errors ranging from -13\% to 8\% for small clades and -16\% to 35\% for large clades.
-Delays also induced a bias toward underestimation of large clade frequencies with a mean and median error of 1\% under ideal delays and 3\% under realistic delays (\FIGSUPP[h3n2_current_clade_frequency_errors]{simulated_current_clade_frequency_errors}D).
+Delays also induced a bias toward underestimation of large clade frequencies with a mean and median error of 1\% with ideal delays and 3\% with realistic delays (\FIGSUPP[h3n2_current_clade_frequency_errors]{simulated_current_clade_frequency_errors}D).
 This increased error in frequency estimation for simulated populations corresponds with an overall faster evolutionary rate compared to natural A/H3N2 populations, as we observed in the greater distances to the future for simulated populations (\FIGSUPP[h3n2_distances_to_the_future]{simulated_distances_to_the_future}).
 Correspondingly, we would expect seasonal influenza lineages that evolve slower than A/H3N2 (A/H1N1pdm and B/Victoria) to have lower errors in current clade frequency estimates as a result of submission delays.
 
@@ -282,6 +282,7 @@ Using the tip-to-clade mapping described above, we found all clades that were pr
 We calculated the initial and predicted future frequencies per clade at the initial timepoint by summing the frequencies of all tips in each clade.
 We calculated the observed future frequencies per clade at the final timepoint with the same approach.
 Finally, we merged the initial and predicted future frequencies with the observed future frequencies by clade, keeping all clades that were present in the initial timepoint.
+To focus our analysis on the most biologically relevant clades, we limited our analysis to clades that had an initial frequency $\ge$10\% and $\le$95\% under the scenario with no delay.
 
 \section{Acknowledgments}
 
