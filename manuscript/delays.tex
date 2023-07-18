@@ -213,6 +213,16 @@ These results correspond with the positive effects of reduced submission delays 
 
 \subsection{Effects of realistic interventions on forecast accuracy}
 
+Although we have investigated the effects of a range of forecast horizons and submission delays, not all of these scenarios are currently realistic.
+The most we can hope to reduce the forecast horizon with current mRNA vaccine technology is from 12 months to 6 months \citep{Grant2023}.
+Similarly, we cannot expect to eliminate submission delays completely.
+To determine the effects of realistic interventions on forecast accuracy, we therefore inspect the reduction in forecast error associated with improved vaccine development (reducing forecast horizon from 12 months to 6 months), improved genomic surveillance (reducing delays from current realistic to ideal), and the combination of both improvements.
+We first selected all forecasts with a 12-month horizon and realistic delay for clades circulating at $\ge$10\% and $<$95\% frequency.
+These forecasts represented the ``status quo''.
+We then selected forecasts for the same final timepoints and clades for a 6-month horizon and realistic delay, 12-month horizon and ideal delay, and 6-month horizon and ideal delay.
+We calculated the improvement in forecast accuracy as the difference in absolute forecast clade frequency error for a given final timepoint and clade between the status quo and each intervention.
+Positive values represent improved forecast accuracy under a given intervention scenario and negative values represent a reduction in accuracy.
+
 \begin{figure}[htb]
 \includegraphics[width=\linewidth]{figures/h3n2_effects_of_realistic_interventions}
 \caption{Improvement of clade frequency errors for H3N2 populations between the status quo and realistic interventions.}
