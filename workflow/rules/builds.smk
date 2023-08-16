@@ -225,7 +225,7 @@ rule estimate_frequencies:
 rule convert_frequencies_to_table:
     input:
         tree = rules.refine.output.tree,
-        frequencies = rules.estimate_frequencies.output.frequencies
+        frequencies = rules.tip_frequencies.output.frequencies
     output:
         table = BUILD_TIMEPOINT_PATH + "frequencies.tsv"
     params:

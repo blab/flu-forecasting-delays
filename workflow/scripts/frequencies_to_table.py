@@ -29,7 +29,11 @@ if __name__ == '__main__':
         frequencies_json = json.load(fh)
 
     if args.method == "kde":
-        frequencies = frequencies_json["data"]["frequencies"]
+        frequencies = {
+            strain: strain_frequencies["frequencies"]
+            for strain, strain_frequencies in frequencies_json.items()
+            if "frequencies" in strain_frequencies
+        }
     else:
         frequencies = {
             node_name: region_frequencies["global"]
