@@ -2,6 +2,7 @@
 Convert one or more augur node data JSONs into a single table of values labelled by tip or internal node status in a tree.
 """
 import argparse
+from augur.types import ValidationMode
 from augur.utils import read_node_data
 import Bio.Phylo
 import pandas as pd
@@ -28,7 +29,7 @@ if __name__ == '__main__':
     metadata = pd.read_csv(args.metadata, sep="\t")
 
     # Load one or more node data JSONs into a single dictionary indexed by node name.
-    node_data = read_node_data(args.jsons)
+    node_data = read_node_data(args.jsons, validation_mode=ValidationMode.WARN)
 
     # Convert node data into a data frame.
     # Data are initially loaded with one column per node.
