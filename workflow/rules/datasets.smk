@@ -274,7 +274,7 @@ if "RETHINK_HOST" in os.environ and "RETHINK_AUTH_KEY" in os.environ:
             metadata = rules.parse.output.metadata,
             sequences = rules.parse.output.sequences
         output:
-            sequences = protected(DATA_NATURAL_ROOT_PATH + "filtered_sequences.fasta")
+            sequences = DATA_NATURAL_ROOT_PATH + "filtered_sequences.fasta"
         params:
             min_length = _get_min_sequence_length,
             exclude = _get_outliers
@@ -370,7 +370,7 @@ if "RETHINK_HOST" in os.environ and "RETHINK_AUTH_KEY" in os.environ:
             strains = _get_strains_for_natural_data,
             metadata = DATA_NATURAL_ROOT_PATH + "annotated_metadata.tsv",
         output:
-            metadata = protected(DATA_NATURAL_ROOT_PATH + "strains_metadata.tsv")
+            metadata = DATA_NATURAL_ROOT_PATH + "strains_metadata.tsv"
         conda: "../envs/anaconda.python3.yaml"
         shell:
             """
