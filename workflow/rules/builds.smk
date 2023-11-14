@@ -139,6 +139,8 @@ rule refine:
             --output-node-data {output.node_data} \
             --timetree \
             --no-covariance \
+            --use-fft \
+            --stochastic-resolve \
             {params.clock_rate} \
             {params.clock_std_dev} \
             --coalescent {params.coalescent} \
