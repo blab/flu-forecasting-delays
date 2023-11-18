@@ -48,7 +48,7 @@ if __name__ == "__main__":
         distance_map = read_distance_map(args.distance_map)
 
     clades = {}
-    for node in tree.find_clades(order="preorder", terminal=False):
+    for node in tree.find_clades(order="preorder"):
         # Assign the current node a clade id based on the hash of its
         # full-length amino acid sequence.
         if distance_map:
@@ -63,11 +63,6 @@ if __name__ == "__main__":
             node_sequence = "".join([translations_by_gene_name[gene][node.name] for gene in args.gene_names])
 
         clades[node.name] = {"clade_membership": hashlib.sha256(node_sequence.encode()).hexdigest()[:MAX_HASH_LENGTH]}
-
-        # Assign the current node's clade id to all of its terminal children.
-        for child in node.clades:
-            if child.is_terminal():
-                clades[child.name] = clades[node.name]
 
     # Count unique clade groups.
     distinct_clades = {clade["clade_membership"] for clade in clades.values()}
