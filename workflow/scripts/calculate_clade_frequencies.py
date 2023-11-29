@@ -73,7 +73,18 @@ if __name__ == "__main__":
             initial_tips,
             on="strain",
         )
-        initial_tip_clade_names = initial_tips_with_clades["clade_membership"].drop_duplicates().values
+
+        # Calculate the frequency of each clade at time t - h.
+        initial_clade_frequencies = initial_tips_with_clades.groupby(
+            "clade_membership"
+        )["frequency"].sum().reset_index()
+
+        # Filter clades to those with nonzero frequencies at time t - h such
+        # that they could be inputs to a forecast to time t.
+        initial_tip_clade_names = initial_clade_frequencies.loc[
+            initial_clade_frequencies["frequency"] > 0,
+            "clade_membership"
+        ].drop_duplicates().values
 
         # Find all clades for tips at time t that are also present at time t - h.
         all_future_tip_clades = tip_clades[
@@ -99,7 +110,7 @@ if __name__ == "__main__":
 
         # Create the set of all clades present at both times t and t - h without
         # delay, C.
-        future_tip_clade_names = set(future_tips_with_clades["clade_membership"].drop_duplicates().values)
+        future_tip_clade_names = future_tips_with_clades["clade_membership"].drop_duplicates().values
 
         # Sum tip frequencies by clade at time t to get observed future clade
         # frequencies.
@@ -108,57 +119,6 @@ if __name__ == "__main__":
         )["frequency"].sum().reset_index().rename(
             columns={"frequency": "observed_frequency"}
         )
-
-        # Update C to include the most derived clades present at time t - h
-        # (i.e., clades from tips) that did not have a descendant tip in time t.
-        # First, find all initial tips that have a clade present in C.
-        initial_tip_names_with_clades_in_future = initial_tips_with_clades.loc[
-            initial_tips_with_clades["clade_membership"].isin(future_tip_clade_names),
-            "strain"
-        ].drop_duplicates().values
-
-        # Find remaining initial tips that don't have clades in the future.
-        initial_tips_without_clades_in_future = initial_tips_with_clades[
-            ~initial_tips_with_clades["strain"].isin(initial_tip_names_with_clades_in_future)
-        ]
-
-        # Find most derived clade for each initial tip that does not have a
-        # clade at time t.
-        initial_tip_clades_not_in_future = initial_tips_without_clades_in_future.sort_values([
-            "strain",
-            "depth",
-        ]).groupby(
-            "strain",
-            sort=False,
-        ).first()
-
-        initial_tip_clade_names_not_in_future = set(
-            initial_tip_clades_not_in_future["clade_membership"].drop_duplicates().values
-        )
-
-        if len(initial_tip_clade_names_not_in_future) > 0:
-            # We should not have any overlap between future clade names and initial
-            # clade names that weren't found in the future.
-            assert len(future_tip_clade_names & initial_tip_clade_names_not_in_future) == 0
-
-            # Update C to include the most derived clades at time t - h missing from t.
-            future_tip_clade_names.update(initial_tip_clades_not_in_future)
-
-            # Add frequencies of zero for initial clades that didn't survive to time
-            # t, so we can compare forecasts from t - h to the observed outcomes for
-            # those clades.
-            observed_future_clade_frequencies_for_missing_clades = pd.DataFrame({
-                "clade_membership": list(initial_tip_clade_names_not_in_future),
-                "observed_frequency": 0.0,
-            })
-
-            observed_future_clade_frequencies = pd.concat(
-                [
-                    observed_future_clade_frequencies,
-                    observed_future_clade_frequencies_for_missing_clades,
-                ],
-                ignore_index=True,
-            )
 
         # For each delay value s, calculate predicted clade frequencies for t
         # from t - h under s.
@@ -212,10 +172,7 @@ if __name__ == "__main__":
             # that existed at both times t and t - h without delay does not
             # exist at time t - h under a delay, so we left join from the
             # observed clade frequencies to the initial delay clade frequencies
-            # and fill missing clade frequencies with zeros. The observed future
-            # clades include initial clades that did not survive to time t with
-            # a future frequency of zero, so the left join should include those
-            # initial clades from the delay time data.
+            # and fill missing clade frequencies with zeros.
             clade_frequencies = observed_future_clade_frequencies.merge(
                 initial_delayed_clade_frequencies,
                 on="clade_membership",
@@ -233,6 +190,9 @@ if __name__ == "__main__":
             clade_frequencies["future_timepoint"] = future_timepoint
             clade_frequencies["delta_month"] = delta_month
             clade_frequencies["delay_type"] = delay
+
+            if initial_timepoint == "2015-01-01" and future_timepoint == "2016-01-01" and delay == "ideal":
+                import ipdb; ipdb.set_trace()
 
             all_clade_frequencies.append(clade_frequencies)
 
