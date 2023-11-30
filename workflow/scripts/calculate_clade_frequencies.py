@@ -192,9 +192,6 @@ if __name__ == "__main__":
             clade_frequencies["delta_month"] = delta_month
             clade_frequencies["delay_type"] = delay
 
-            if initial_timepoint == "2015-01-01" and future_timepoint == "2016-01-01" and delay == "ideal":
-                import ipdb; ipdb.set_trace()
-
             all_clade_frequencies.append(clade_frequencies)
 
     # Collect clade frequencies across all samples, timepoints, etc.
