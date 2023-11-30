@@ -6,6 +6,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("--tips", required=True, help="tip attributes and forecasts merged by future timepoint across all samples")
     parser.add_argument("--tip-clades", required=True, help="clade to tip mappings from a single 'full tree' build without delays, such that clade labels are the same for tips across all timepoints")
+    parser.add_argument("--min-clade-frequency", type=float, default=0.1, help="minimum clade frequency for an initial timepoint clade for that clade to be available to link to the future timepoint")
     parser.add_argument("--output", required=True, help="clade frequencies per sample/delay type, forecast horizon, and timepoint")
 
     args = parser.parse_args()
@@ -79,10 +80,10 @@ if __name__ == "__main__":
             "clade_membership"
         )["frequency"].sum().reset_index()
 
-        # Filter clades to those with nonzero frequencies at time t - h such
-        # that they could be inputs to a forecast to time t.
+        # Filter clades to those with frequencies above some minimum threshold
+        # at time t - h such that they could be inputs to a forecast to time t.
         initial_tip_clade_names = initial_clade_frequencies.loc[
-            initial_clade_frequencies["frequency"] > 0,
+            initial_clade_frequencies["frequency"] >= args.min_clade_frequency,
             "clade_membership"
         ].drop_duplicates().values
 
