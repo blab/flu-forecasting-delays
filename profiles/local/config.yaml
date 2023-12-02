@@ -22,3 +22,7 @@ latency-wait: 60
 # cluster environment where Docker is not available and Singularity may be
 # prohibitively complicated to setup.
 use-conda: True
+conda-frontend: mamba
+
+# Default to rerunning incompete outputs.
+rerun-incomplete: True
