@@ -52,9 +52,9 @@ TKTK
 \subsection{Reducing forecast horizons decreases distances between predicted and observed future populations}
 
 Previously, we trained long-term forecasting models that minimized the earth mover's distance \citep{Rubner1998} between predicted and observed future populations \citep{Huddleston2020}.
-Each forecast predicted 12 months into the future from a given initial timepoint to a final timepoint.
+Each forecast predicted 12 months into the future from a given initial timepoint to a future timepoint.
 Specifically, the forecasts predicted the future frequencies of samples circulating at the initial timepoint based on the estimated fitness of each sample.
-We calculated the distance between hemagglutinin (HA) amino acid sequences observed at the initial timepoint and the final timepoint, weighting the distance by the predicted future frequency of samples at the initial timepoint and the observed frequency of samples at the final timepoint.
+We calculated the distance between hemagglutinin (HA) amino acid sequences observed at the initial timepoint and the future timepoint, weighting the distance by the predicted future frequency of samples at the initial timepoint and the observed frequency of samples at the future timepoint.
 The best forecasting models used fitness estimates that reduced the distance between predicted and observed future populations.
 For example, the most accurate sequence-only model for the 12-month forecast horizon estimated fitness with local branching index (LBI) \citep{Neher:2014eu} and mutational load \citep{Luksza:2014hj}.
 
@@ -85,7 +85,7 @@ These results indicate that reducing submission delays may have little effect un
 \begin{figure}[htb]
 \includegraphics[width=\linewidth]{figures/h3n2_distances_to_the_future_by_delay_and_horizon}
 \caption{Distances to the future per timepoint (AAs) for natural A/H3N2 populations by forecast horizon and submission delay type based on forecasts from the local branching index (LBI) and mutational load model.
-  Each point represents a final timepoint whose population was predicted from the number of months earlier corresponding to the forecast horizon.
+  Each point represents a future timepoint whose population was predicted from the number of months earlier corresponding to the forecast horizon.
   Points are colored by submission delay type including forecasts made with no delay (blue), an ideal delay (orange), and a realistic delay (green).}
 \label{fig:h3n2_distances_to_the_future}
 %
@@ -145,7 +145,7 @@ Correspondingly, we would expect seasonal influenza lineages that evolve slower 
 \subsection{Forecast clade frequency errors}
 
 We estimated the effects of submission delays and forecast horizons on the accuracy of clade frequency forecasts.
-For each combination of initial timepoint, final timepoint, and delay scenario (\FIG{model_of_delays_and_horizons}B), we identified all clades that were present at both timepoints, calculated initial and predicted future frequencies for the given delay, and calculated the corresponding observed future frequencies without delay.
+For each combination of initial timepoint, future timepoint, and delay scenario (\FIG{model_of_delays_and_horizons}B), we identified all clades that were present at both timepoints, calculated initial and predicted future frequencies for the given delay, and calculated the corresponding observed future frequencies without delay.
 Where the current clade frequency analysis focused on the most derived clades assigned to each tip, this analysis included ancestral clades to allow comparison between temporally distant populations.
 Therefore, we focused this analysis on clades with an initial frequency $\ge$10\% and $\le$95\% in the corresponding dataset without delays.
 We calculated the error in forecast frequencies for these clades as the difference between predicted future frequencies under the given delay scenario and observed future frequencies without any delay.
@@ -219,8 +219,8 @@ Additionally, we have not so far accounted for variation in populations per time
 To determine the effects of realistic interventions on forecast accuracy, we therefore inspected the reduction in forecast error associated with improved vaccine development (reducing forecast horizon from 12 months to 6 months), improved genomic surveillance (reducing delays from current realistic to ideal), and the combination of both improvements.
 We first selected all forecasts with a 12-month horizon and realistic delay for clades circulating at $\ge$10\% and $<$95\% frequency.
 These forecasts represented the ``status quo''.
-We then selected forecasts for the same final timepoints and clades for a 6-month horizon and realistic delay, 12-month horizon and ideal delay, and 6-month horizon and ideal delay.
-We calculated the improvement in forecast accuracy as the difference in absolute forecast clade frequency error for a given final timepoint and clade between the status quo and each intervention.
+We then selected forecasts for the same future timepoints and clades for a 6-month horizon and realistic delay, 12-month horizon and ideal delay, and 6-month horizon and ideal delay.
+We calculated the improvement in forecast accuracy as the difference in absolute forecast clade frequency error for a given future timepoint and clade between the status quo and each intervention.
 Positive values represent improved forecast accuracy under a given intervention scenario and negative values represent a reduction in accuracy.
 
 \begin{figure}[htb]
@@ -299,7 +299,7 @@ For each tip, this clade label was deterministic across trees, as the sequence o
 Tips also inherited the clade labels of their ancestral nodes in the tree, allowing us to estimate frequencies of larger clades based on the frequencies of tips in those clades.
 However, the inferred sequence at internal nodes varied with the tips present in a given tree.
 For example, submission delays could change the tips present in trees representing the same timepoint, resulting in different internal nodes and inferred sequences.
-Additionally, the continued accumulation of amino acid mutations between timepoints changed the composition of internal nodes over time, complicating the comparison of large clades between initial and final timepoints of a forecast.
+Additionally, the continued accumulation of amino acid mutations between timepoints changed the composition of internal nodes over time, complicating the comparison of large clades between initial and future timepoints of a forecast.
 
 To stably define clades for internal nodes in our analysis, we created a single tree with all HA sequences present in our analysis and without delayed sequence submission.
 We inferred ancestral sequences for internal nodes in this tree and assigned clades to each node and tip based on their amino acid haplotypes.
@@ -311,13 +311,13 @@ We estimated current clade frequencies for each timepoint in our analysis by sum
 To inspect the effects of submission delays on clade frequency estimates, we calculated the clade frequency error per timepoint and clade by subtracting the clade frequency estimated with ideal or realistic delayed sequence submission from the corresponding clade frequency without delays.
 We compared the effects of submission delays for clades of different sizes by filtering clades by their frequency estimated without delays to small clades ($\ge$1\% and $<$10\%) and large clades ($\ge$10\%).
 
-We estimated future clade frequencies for each combination of delay type, initial timepoint, and final timepoint in the analysis using the following steps.
+We estimated future clade frequencies for each combination of delay type, initial timepoint, and future timepoint in the analysis using the following steps.
 First, we merged the frequencies per tip at each timepoint with all forecasts from the same timepoint.
 The resulting table included the initial and predicted frequencies for each tip for each combination of initial timepoint, forecast horizon, and submission delay.
-To define the observed future population for each forecast, we selected all tips that were present in the final timepoint of the corresponding dataset without submission delays.
-Using the tip-to-clade mapping described above, we found all clades that were present at both initial and final timepoints.
+To define the observed future population for each forecast, we selected all tips that were present in the future timepoint of the corresponding dataset without submission delays.
+Using the tip-to-clade mapping described above, we found all clades that were present at both initial and future timepoints.
 We calculated the initial and predicted future frequencies per clade at the initial timepoint by summing the frequencies of all tips in each clade.
-We calculated the observed future frequencies per clade at the final timepoint with the same approach.
+We calculated the observed future frequencies per clade at the future timepoint with the same approach.
 Finally, we merged the initial and predicted future frequencies with the observed future frequencies by clade, keeping all clades that were present in the initial timepoint.
 To focus our analysis on the most biologically relevant clades, we limited our analysis to clades that had an initial frequency $\ge$10\% and $\le$95\% under the scenario with no delay.
 
