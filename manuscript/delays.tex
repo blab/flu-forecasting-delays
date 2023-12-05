@@ -313,14 +313,17 @@ To inspect the effects of submission delays on clade frequency estimates, we cal
 We compared the effects of submission delays for clades of different sizes by filtering clades by their frequency estimated without delays to small clades ($\ge$1\% and $<$10\%) and large clades ($\ge$10\%).
 
 We estimated future clade frequencies for each combination of delay type, initial timepoint, and future timepoint in the analysis using the following steps.
-First, we merged the frequencies per tip at each timepoint with all forecasts from the same timepoint.
-The resulting table included the initial and predicted frequencies for each tip for each combination of initial timepoint, forecast horizon, and submission delay.
-To define the observed future population for each forecast, we selected all tips that were present in the future timepoint of the corresponding dataset without submission delays.
-Using the tip-to-clade mapping described above, we found all clades that were present at both initial and future timepoints.
-We calculated the initial and predicted future frequencies per clade at the initial timepoint by summing the frequencies of all tips in each clade.
-We calculated the observed future frequencies per clade at the future timepoint with the same approach.
-Finally, we merged the initial and predicted future frequencies with the observed future frequencies by clade, keeping all clades that were present in the initial timepoint.
-To focus our analysis on the most biologically relevant clades, we limited our analysis to clades that had an initial frequency $\ge$10\% and $\le$95\% under the scenario with no delay.
+First, we merged the frequencies per tip at each timepoint with all forecasts made from the same timepoint.
+The resulting table included the initial and predicted frequencies for each tip for each combination of initial timepoint, future timepoint, forecast horizon, and submission delay.
+For each combination of initial timepoint, future timepoint, and forecast horizon under the scenario with no submission delays, we selected the names and frequencies of all tips with nonzero frequencies at the initial or future timepoints.
+Using the tip-to-clade mapping described above, we linked the tips between timepoints based on the most derived (not nested) clades present at both timepoints.
+Specifically, we found all clades associated with tips at the initial timepoint, calculated clade frequencies, merged tips for clades with less than 10\% frequency into their parent clades, and assigned each future tip to its most derived ancestral clade that was also present at the initial timepoint.
+We calculated the observed future frequency of each clade as the sum of tip frequencies at the future timepoint.
+Then, for each delay scenario, we assigned to each tip in the initial timepoint the most derived clade present in the set that linked the initial and future timepoints under no delay.
+From these clade assignments, we calculated the estimated initial and predicted future clade frequencies at the initial timepoint.
+We left-joined the observed future clade frequencies at the future timepoint with the frequencies under the delay scenario, since submission delays could cause some clades from the scenario without delays to be missing at the initial timepoint.
+We set the frequency of missing clades at the initial timepoint to zero.
+Finally, we calculated the forecast error as the difference between the observed and estimated future clade frequencies.
 
 \section{Acknowledgments}
 
