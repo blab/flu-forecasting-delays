@@ -215,13 +215,13 @@ These results correspond with the positive effects of reduced submission delays 
 
 Although we have investigated the effects of a range of forecast horizons and submission delays, not all of these scenarios are currently realistic.
 The most we can hope to reduce the forecast horizon with current mRNA vaccine technology is from 12 months to 6 months and the most we could reduce submission delays would be from an average of 3 months to 1 month \citep{Grant2023}.
-Additionally, we have not so far accounted for variation in populations per timepoint and clade when estimating the effects of these factors.
-To determine the effects of realistic interventions on forecast accuracy, we therefore inspected the reduction in forecast error associated with improved vaccine development (reducing forecast horizon from 12 months to 6 months), improved genomic surveillance (reducing delays from current realistic to ideal), and the combination of both improvements.
-We first selected all forecasts with a 12-month horizon and realistic delay for clades circulating at $\ge$10\% and $<$95\% frequency.
-These forecasts represented the ``status quo''.
-We then selected forecasts for the same future timepoints and clades for a 6-month horizon and realistic delay, 12-month horizon and ideal delay, and 6-month horizon and ideal delay.
-We calculated the improvement in forecast accuracy as the difference in absolute forecast clade frequency error for a given future timepoint and clade between the status quo and each intervention.
-Positive values represent improved forecast accuracy under a given intervention scenario and negative values represent a reduction in accuracy.
+In practice, we wanted to know how much a reduction in forecast horizon or submission delay could improve the accuracy of forecasts to each future timepoint.
+To determine the effects of realistic interventions on forecast accuracy, we inspected the reduction in total absolute forecast error per future timepoint associated with improved vaccine development (reducing forecast horizon from 12 months to 6 months), improved genomic surveillance (reducing delays from a 3-month average to 1 month), and the combination of both improvements.
+We selected all forecasts with a 12-month horizon and a realistic delay, to represent current forecast conditions.
+Then, we selected forecasts for the same future timepoints present in the current conditions for a 6-month horizon and a realistic delay, a 12-month horizon and an ideal delay, and 6-month horizon and an ideal delay.
+Since forecasts between different initial and future timepoints could be represented by different clades, we could not compare forecasts for specific clades between interventions.
+Instead, we calculated the total absolute clade frequency error per future timepoint under each intervention and calculated the improvement in forecast accuracy as the difference in total error between the current conditions and each intervention.
+Positive values represented improved forecast accuracy under a given intervention scenario and negative values represented a reduction in accuracy.
 
 \begin{figure}[htb]
 \includegraphics[width=\linewidth]{figures/h3n2_effects_of_realistic_interventions}
