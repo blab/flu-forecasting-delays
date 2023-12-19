@@ -299,7 +299,7 @@ rule clades_by_haplotype:
     input:
         tree = rules.refine.output.tree,
         translations = translations(segment="ha", path=BUILD_TIMEPOINT_PATH),
-        distance_map = "config/distance_maps/h3n2/ha/luksza.json",
+        distance_map = "config/distance_maps/h3n2/ha/ha1.json",
     output:
         clades = BUILD_TIMEPOINT_PATH + "clades.json",
         tip_clade_table = BUILD_TIMEPOINT_PATH + "tips_to_clades.tsv"
