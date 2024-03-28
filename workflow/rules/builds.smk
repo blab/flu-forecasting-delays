@@ -295,31 +295,6 @@ rule convert_translations_to_json:
         """
 
 
-rule clades_by_haplotype:
-    input:
-        tree = rules.refine.output.tree,
-        translations = translations(segment="ha", path=BUILD_TIMEPOINT_PATH),
-        distance_map = "config/distance_maps/h3n2/ha/ha1.json",
-    output:
-        clades = BUILD_TIMEPOINT_PATH + "clades.json",
-        tip_clade_table = BUILD_TIMEPOINT_PATH + "tips_to_clades.tsv"
-    params:
-        gene_names = gene_names(segment="ha"),
-    conda: "../envs/anaconda.python3.yaml"
-    log: "logs/find_clades_" + BUILD_SEGMENT_LOG_STEM + ".log"
-    shell:
-        """
-        python3 workflow/scripts/nonoverlapping_clades.py \
-            --tree {input.tree} \
-            --translations {input.translations} \
-            --gene-names {params.gene_names} \
-            --distance-map {input.distance_map} \
-            --annotations timepoint={wildcards.timepoint} \
-            --output {output.clades} \
-            --output-tip-clade-table {output.tip_clade_table} &> {log}
-        """
-
-
 rule traits:
     message: "Inferring ancestral traits for {params.columns!s}"
     input:
@@ -453,7 +428,6 @@ def _get_node_data_for_export(wildcards):
         rules.ancestral.output.node_data,
         rules.translate.output.node_data,
         rules.convert_translations_to_json.output.translations,
-        rules.clades_by_haplotype.output.clades,
         rules.distances.output.distances,
         rules.lbi.output.lbi,
     ]
@@ -684,39 +658,6 @@ rule annotate_distance_models:
         """
 
 
-rule collect_annotated_tip_clade_tables:
-    input:
-        _get_tip_clades_by_wildcards
-    output:
-        tip_clade_table = BUILD_PATH + "tips_to_clades.tsv"
-    conda: "../envs/csv.yaml"
-    shell:
-        """
-        csvtk concat -t {input} \
-            | csvtk mutate2 -t -n sample -e "'{wildcards.sample}'" > {output.tip_clade_table}
-        """
-
-
-rule select_clades:
-    input:
-        attributes = rules.annotate_weighted_distances_for_tip_attributes.output.attributes,
-        tips_to_clades = rules.collect_annotated_tip_clade_tables.output.tip_clade_table
-    output:
-        clades = BUILD_PATH + "final_clade_frequencies.tsv"
-    params:
-        delta_months = config["fitness_model"]["delta_months_to_fit"]
-    conda: "../envs/anaconda.python3.yaml"
-    log: "logs/select_clades_" + BUILD_LOG_STEM + ".txt"
-    shell:
-        """
-        python3 workflow/scripts/select_clades.py \
-            --tip-attributes {input.attributes} \
-            --tips-to-clades {input.tips_to_clades} \
-            --delta-months {params.delta_months} \
-            --output {output} &> {log}
-        """
-
-
 rule plot_tree:
     input:
         tree = rules.refine.output.tree
@@ -788,21 +729,19 @@ rule export:
         forecasts = rules.forecast_tips.output.node_data,
         colors = "config/colors.tsv"
     output:
-        auspice_tree = "results/auspice/flu_" + BUILD_SEGMENT_LOG_STEM + "_tree.json",
-        auspice_metadata = "results/auspice/flu_" + BUILD_SEGMENT_LOG_STEM + "_meta.json"
+        auspice_tree = "results/auspice/flu_" + BUILD_SEGMENT_LOG_STEM + ".json",
     params:
         panels = "tree entropy frequencies"
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """
-        augur export v1 \
+        augur export v2 \
             --tree {input.tree} \
             --metadata {input.metadata} \
             --node-data {input.node_data} {input.forecasts} \
             --colors {input.colors} \
             --auspice-config {input.auspice_config} \
-            --output-tree {output.auspice_tree} \
-            --output-meta {output.auspice_metadata} \
+            --output {output.auspice_tree} \
             --minify-json
         """
 
@@ -924,13 +863,63 @@ rule aggregate_annotated_test_distance_models_frequencies:
         """
 
 
+rule assign_clades:
+    input:
+        auspice_tree="results/auspice/flu_" + BUILD_SEGMENT_LOG_STEM + ".json",
+        weights="config/weights_per_site_for_clades.json",
+    output:
+        clades=BUILD_TIMEPOINT_PATH + "clades.json",
+    conda: "../envs/anaconda.python3.yaml"
+    params:
+        lineage="h3n2",
+        segment="ha",
+        clade_attribute="subclade",
+    shell:
+        """
+        python3 workflow/scripts/add_new_clades.py \
+            --input {input.auspice_tree} \
+            --weights {input.weights} \
+            --lineage {params.lineage} \
+            --segment {params.segment} \
+            --new-key {params.clade_attribute} \
+            --output {output.clades}
+        """
+
+
+rule extract_clade_per_tip:
+    input:
+        clades=BUILD_TIMEPOINT_PATH + "clades.json",
+    output:
+        tips_to_clades=BUILD_TIMEPOINT_PATH + "tips_to_clades.tsv",
+    conda: "../envs/anaconda.python3.yaml"
+    params:
+        clade_attribute="subclade",
+    shell:
+        """
+        python3 workflow/scripts/auspice_tree_to_table.py \
+            --tree {input.tree} \
+            --attributes {params.clade_attribute:q} \
+            --output-metadata {output.tips_to_clades}
+        """
+
+
+rule collect_annotated_tip_clade_tables:
+    input:
+        _get_tip_clades_by_wildcards
+    output:
+        tip_clade_table = BUILD_PATH + "tips_to_clades.tsv",
+    conda: "../envs/csv.yaml"
+    shell:
+        """
+        csvtk concat -t {input} \
+            | csvtk mutate2 -t -n sample -e "'{wildcards.sample}'" > {output.tip_clade_table}
+        """
+
+
 def _get_tips_to_clades_for_full_tree_by_wildcards(wildcards):
     full_tree_sample = _get_full_tree_sample_by_wildcards(wildcards)
-    path = rules.collect_annotated_tip_clade_tables.output.tip_clade_table.format(
-        type=wildcards.type,
-        sample=full_tree_sample
-    )
-    return path
+    tip_clades_path = _get_tip_clades_by_wildcards(wildcards)[0]
+    return tip_clades_path.format(type=wildcards.type, sample=full_tree_sample)
 
 
 rule plot_validation_figure:
