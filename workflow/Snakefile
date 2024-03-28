@@ -21,8 +21,8 @@ SNAKEMAKE_DIR = os.path.dirname(workflow.snakefile)
 
 wildcard_constraints:
     type="(natural|simulated)",
-    sample="\w+",
-    timepoint="\d{4}-\d{2}-\d{2}",
+    sample=r"\w+",
+    timepoint=r"\d{4}-\d{2}-\d{2}",
     output_type="(errors|coefficients)",
     delta_month="(3|6|9|12)",
     population="(h3n2|simulated)",
@@ -491,6 +491,7 @@ rule tip_attributes_by_population:
         """
         csvtk concat -t {input.attributes} > {output.attributes}
         """
+
 
 def _get_tip_clade_file_by_population(wildcards):
     # Get samples and types by population.
