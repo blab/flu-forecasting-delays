@@ -873,7 +873,7 @@ rule assign_clades:
     params:
         lineage="h3n2",
         segment="ha",
-        clade_attribute="subclade",
+        clade_attribute="clade_membership",
     shell:
         """
         python3 workflow/scripts/add_new_clades.py \
@@ -893,7 +893,7 @@ rule extract_clade_per_tip:
         tips_to_clades=BUILD_TIMEPOINT_PATH + "tips_to_clades.tsv",
     conda: "../envs/anaconda.python3.yaml"
     params:
-        clade_attribute="subclade",
+        clade_attribute="clade_membership",
     shell:
         """
         python3 workflow/scripts/auspice_tree_to_table.py \
