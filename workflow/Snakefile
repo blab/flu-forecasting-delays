@@ -513,7 +513,7 @@ rule tip_clades_by_population:
     conda: "envs/csv.yaml"
     shell:
         """
-        csvtk rename -t -f tip -n strain {input.table} > {output.table}
+        csvtk rename -t -f name -n strain {input.table} > {output.table}
         """
 
 rule model_inputs_by_population:
