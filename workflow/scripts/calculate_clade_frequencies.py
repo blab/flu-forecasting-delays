@@ -1,4 +1,5 @@
 import argparse
+import ipdb
 import pandas as pd
 
 
@@ -20,7 +21,10 @@ if __name__ == "__main__":
             "clade_membership",
             "depth",
         ]
-    )
+    ).sort_values([
+        "strain",
+        "depth",
+    ])
 
     # Find all combinations of t - h, t, and h.
     initial_and_future_timepoints = tips.loc[
@@ -44,6 +48,7 @@ if __name__ == "__main__":
     # For each combination of t, h, and t - h, find clades circulating at both t and t - h.
     all_clade_frequencies = []
     for (initial_timepoint, future_timepoint, delta_month) in initial_and_future_timepoints:
+        print(f"Initial time: {initial_timepoint}, future time: {future_timepoint}")
         # Find all tips at time t without delay.
         future_tips = tips.loc[
             (
@@ -75,15 +80,117 @@ if __name__ == "__main__":
             on="strain",
         )
 
-        # Calculate the frequency of each clade at time t - h.
-        initial_clade_frequencies = initial_tips_with_clades.groupby(
+        # Find clades associated with each tip. This mapping of tips to clades
+        # with tip frequencies will be used to link timepoints t - h and t.
+        initial_tips_with_derived_clades = initial_tips_with_clades.query("depth == 0").copy()
+
+        # Filter the global tip-to-clade mapping to just derived clades so we
+        # can only map tips to extant clades.
+        derived_clades = set(initial_tips_with_derived_clades["clade_membership"].values)
+        initial_tips_with_clades_in_derived_clades = initial_tips_with_clades[
+            initial_tips_with_clades["clade_membership"].isin(derived_clades)
+        ].copy()
+
+        # Find clade frequencies at the initial timepoint based on tips alone.
+        initial_derived_clade_frequencies = initial_tips_with_derived_clades.groupby(
             "clade_membership"
         )["frequency"].sum().reset_index()
 
-        # Filter clades to those with frequencies above some minimum threshold
-        # at time t - h such that they could be inputs to a forecast to time t.
-        initial_tip_clade_names = initial_clade_frequencies.loc[
-            initial_clade_frequencies["frequency"] >= args.min_clade_frequency,
+        # Find all clades with a frequency less than the minimum threshold.
+        low_frequency_derived_clades = initial_derived_clade_frequencies[
+            initial_derived_clade_frequencies["frequency"] < args.min_clade_frequency
+        ].sort_values("frequency").reset_index(drop=True)
+
+        # Find tips from low-frequency clades.
+        low_frequency_tips = set(
+            initial_tips_with_derived_clades.loc[
+                initial_tips_with_derived_clades["clade_membership"].isin(
+                    low_frequency_derived_clades["clade_membership"].values
+                ),
+                "strain"
+            ]
+        )
+
+        # While there are tips from low frequency clades to process, try to
+        # collapse each tip to an ancestral clade in the set of extant
+        # clades. If no ancestral clade exists for a given tip, remove it from
+        # the set to process. If an ancestral clade exists, collapse the tip
+        # into that clade, recalculate clade frequencies, remove tips now in
+        # high frequency clades, and continue to try collapsing the remaining
+        # tips.
+        print(f"Found {len(low_frequency_tips)} low frequency tips")
+        while low_frequency_tips:
+            # Select a tip from a low frequency clade.
+            tip = low_frequency_tips.pop()
+            print(f"Processing tip {tip}")
+
+            # Find the parent clade for the tip from the list of extant clades.
+            # The parent clade will be the first clade to have a depth greater
+            # than the current clade's depth.
+            current_clade = initial_tips_with_derived_clades.loc[
+                initial_tips_with_derived_clades["strain"] == tip,
+                "clade_membership"
+            ].values[0]
+            current_depth = initial_tips_with_derived_clades.loc[
+                initial_tips_with_derived_clades["strain"] == tip,
+                "depth"
+            ].values[0]
+            parent_clades = initial_tips_with_clades_in_derived_clades[
+                (
+                    (initial_tips_with_clades_in_derived_clades["strain"] == tip) &
+                    (initial_tips_with_clades_in_derived_clades["depth"] > current_depth)
+                )
+            ]
+
+            # If no parent clade exists, continue to the next tip.
+            if len(parent_clades) == 0:
+                print(f"No parent clade for tip {tip}, removing from low frequency tips as clade {current_clade}")
+                continue
+
+            # If a parent clade exists, assign the tip to that clade in the
+            # tip-to-clade mapping.
+            parent_clade = parent_clades.head(1)["clade_membership"].values[0]
+            parent_depth = parent_clades.head(1)["depth"].values[0]
+            initial_tips_with_derived_clades.loc[
+                initial_tips_with_derived_clades["strain"] == tip,
+                "clade_membership"
+            ] = parent_clade
+
+            initial_tips_with_derived_clades.loc[
+                initial_tips_with_derived_clades["strain"] == tip,
+                "depth"
+            ] = parent_depth
+
+            # Recalculate clade frequencies from the tip-to-clade mapping.
+            initial_derived_clade_frequencies = initial_tips_with_derived_clades.groupby(
+                "clade_membership"
+            )["frequency"].sum().reset_index()
+
+            # If the parent clade of the tip is above the minimum threshold,
+            # remove all tips for that clade from the low frequency clades
+            # list. Otherwise, add the current tip back to the list of low
+            # frequency tips to process.
+            if (initial_derived_clade_frequencies.loc[
+                    initial_derived_clade_frequencies["clade_membership"] == parent_clade,
+                    "frequency"
+                ].values[0] >= args.min_clade_frequency):
+                print(f"Removing tip {tip} from low frequency tips after collapsing it from {current_clade} into clade {parent_clade}")
+                parent_clade_tips = set(
+                    initial_tips_with_derived_clades.loc[
+                        initial_tips_with_derived_clades["clade_membership"] == parent_clade,
+                        "strain"
+                    ].values
+                )
+                low_frequency_tips.difference_update(parent_clade_tips)
+            else:
+                print(f"Tip {tip} remains in low frequency tips after collapsing from {current_clade} to {parent_clade}")
+                low_frequency_tips.add(tip)
+
+            print(f"{len(low_frequency_tips)} low frequency tips remain")
+
+        # Find the names of clades at the initial timepoint after collapsing
+        # tips into ancestral clades.
+        initial_tip_clade_names = initial_tips_with_derived_clades[
             "clade_membership"
         ].drop_duplicates().values
 
@@ -120,6 +227,9 @@ if __name__ == "__main__":
         )["frequency"].sum().reset_index().rename(
             columns={"frequency": "observed_frequency"}
         )
+
+        if initial_timepoint == "2011-04-01" and future_timepoint == "2011-07-01":
+            ipdb.set_trace()
 
         # For each delay value s, calculate predicted clade frequencies for t
         # from t - h under s.
