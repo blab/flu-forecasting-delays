@@ -303,7 +303,7 @@ def _get_distance_model_errors(wildcards):
     return expand("results/builds/{type}/{sample}/annotated_models_by_distances_errors/{predictors}.tsv", zip, type=PREDICTOR_TYPES, sample=PREDICTOR_SAMPLES, predictors=PREDICTORS) + expand("results/builds/{type}/{sample}/annotated_test_models_by_distances_errors/{predictors}.tsv", zip, type=TEST_PREDICTOR_TYPES, sample=TEST_PREDICTOR_SAMPLES, predictors=TEST_PREDICTORS)
 
 def _get_auspice_files(wildcards):
-    return expand("results/auspice/flu_{type}_{sample}_{timepoint}_{filetype}.json", zip, type=TIMEPOINT_TYPES, sample=TIMEPOINT_SAMPLES, timepoint=TIMEPOINTS, filetype=["tree", "tip-frequencies"] * len(TIMEPOINTS))
+    return expand("results/auspice/flu_{type}_{sample}_{timepoint}{suffix}.json", zip, type=TIMEPOINT_TYPES, sample=TIMEPOINT_SAMPLES, timepoint=TIMEPOINTS, suffix=["", "_tip-frequencies"] * len(TIMEPOINTS))
 
 include: "rules/utils.smk"
 include: "rules/datasets.smk"
