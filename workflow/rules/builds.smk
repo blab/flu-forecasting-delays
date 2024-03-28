@@ -888,7 +888,7 @@ rule assign_clades:
 
 rule extract_clade_per_tip:
     input:
-        clades=BUILD_TIMEPOINT_PATH + "clades.json",
+        clades_tree=BUILD_TIMEPOINT_PATH + "clades.json",
     output:
         tips_to_clades=BUILD_TIMEPOINT_PATH + "tips_to_clades.tsv",
     conda: "../envs/anaconda.python3.yaml"
@@ -897,7 +897,7 @@ rule extract_clade_per_tip:
     shell:
         """
         python3 workflow/scripts/auspice_tree_to_table.py \
-            --tree {input.tree} \
+            --tree {input.clades_tree} \
             --attributes {params.clade_attribute:q} \
             --output-metadata {output.tips_to_clades}
         """
