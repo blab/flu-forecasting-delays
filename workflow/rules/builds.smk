@@ -930,7 +930,7 @@ rule merge_metadata_and_clades:
     shell:
         """
         csvtk join -t \
-            --fields "strain;name" \
+            --fields strain \
             {input.metadata} \
             {input.clades} > {output}
         """
