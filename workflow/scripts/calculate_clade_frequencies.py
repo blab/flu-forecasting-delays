@@ -115,7 +115,8 @@ if __name__ == "__main__":
                     mapped_future_clade = ".".join(mapped_future_clade.split(".")[:-1])
 
                 future_to_initial_clade_map[future_clade] = mapped_future_clade
-                print(f"Mapping clade '{future_clade}' at future timepoint {future_timepoint} to clade '{mapped_future_clade}' from initial timepoint {initial_timepoint} under delay {delay}")
+                if future_clade != mapped_future_clade:
+                    print(f"Mapping clade '{future_clade}' at future timepoint {future_timepoint} to clade '{mapped_future_clade}' from initial timepoint {initial_timepoint} under delay {delay}")
 
             # Add initial clade labels to the observed future clade frequencies.
             observed_future_clade_frequencies_with_initial_names = observed_future_clade_frequencies.copy()
