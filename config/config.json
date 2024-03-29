@@ -259,6 +259,7 @@
             },
             "h3n2_no_delay_full_tree": {
                 "dataset_sample": "h3n2",
+                "full_tree_build": "h3n2_no_delay_full_tree",
                 "delay_type": "none",
                 "sequences": "data/natural/h3n2/filtered_sequences.fasta",
                 "metadata": "data/natural/h3n2/strains_metadata.tsv",

@@ -842,11 +842,13 @@ rule export_for_clade_assignment:
         tree = rules.refine.output.tree,
         metadata = _get_metadata_by_wildcards,
         auspice_config = "config/auspice_config.json",
-        node_data = _get_node_data_for_export,
+        node_data = [
+            rules.refine.output.node_data,
+            rules.ancestral.output.node_data,
+            rules.translate.output.node_data,
+        ],
     output:
         auspice_tree = BUILD_TIMEPOINT_PATH + "auspice.json",
-    params:
-        panels = "tree entropy frequencies"
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """
@@ -915,14 +917,14 @@ rule collect_annotated_tip_clade_tables:
 
 def _get_tips_to_clades_for_full_tree_by_wildcards(wildcards):
     full_tree_sample = _get_full_tree_sample_by_wildcards(wildcards)
-    tip_clades_path = _get_tip_clades_by_wildcards(wildcards)[0]
+    tip_clades_path = BUILD_PATH + "tips_to_clades.tsv"
     return tip_clades_path.format(type=wildcards.type, sample=full_tree_sample)
 
 
 rule merge_metadata_and_clades:
     input:
         metadata=_get_metadata_by_wildcards,
-        clades=BUILD_PATH + "tips_to_clades.tsv",
+        clades=_get_tips_to_clades_for_full_tree_by_wildcards,
     output:
         metadata=BUILD_PATH + "metadata_with_clades.tsv",
     conda: "../envs/csv.yaml"
@@ -945,8 +947,6 @@ rule export:
         colors = "config/colors.tsv"
     output:
         auspice_tree = "results/auspice/flu_" + BUILD_SEGMENT_LOG_STEM + ".json",
-    params:
-        panels = "tree entropy frequencies"
     conda: "../envs/anaconda.python3.yaml"
     shell:
         """
