@@ -904,14 +904,13 @@ rule extract_clade_per_tip:
 
 rule collect_annotated_tip_clade_tables:
     input:
-        _get_tip_clades_by_wildcards
+        table=_get_tip_clades_by_wildcards,
     output:
         tip_clade_table = BUILD_PATH + "tips_to_clades.tsv",
     conda: "../envs/csv.yaml"
     shell:
         """
-        csvtk concat -t {input} \
-            | csvtk mutate2 -t -n sample -e "'{wildcards.sample}'" > {output.tip_clade_table}
+        csvtk rename -t -f name -n strain {input.table} > {output.tip_clade_table}
         """
 
 
