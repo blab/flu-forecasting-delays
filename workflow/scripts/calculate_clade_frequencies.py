@@ -1,5 +1,4 @@
 import argparse
-import ipdb
 import pandas as pd
 
 
@@ -7,7 +6,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("--tips", required=True, help="tip attributes and forecasts merged by future timepoint across all samples")
     parser.add_argument("--tip-clades", required=True, help="clade to tip mappings from a single 'full tree' build without delays, such that clade labels are the same for tips across all timepoints")
-    parser.add_argument("--min-clade-frequency", type=float, default=0.1, help="minimum clade frequency for an initial timepoint clade for that clade to be available to link to the future timepoint")
     parser.add_argument("--output", required=True, help="clade frequencies per sample/delay type, forecast horizon, and timepoint")
 
     args = parser.parse_args()
@@ -16,15 +14,7 @@ if __name__ == "__main__":
     tip_clades = pd.read_csv(
         args.tip_clades,
         sep="\t",
-        usecols=[
-            "strain",
-            "clade_membership",
-            "depth",
-        ]
-    ).sort_values([
-        "strain",
-        "depth",
-    ])
+    )
 
     # Find all combinations of t - h, t, and h.
     initial_and_future_timepoints = tips.loc[
@@ -57,179 +47,21 @@ if __name__ == "__main__":
             ),
             ("strain", "frequency")
         ].drop_duplicates()
-        future_tip_names = future_tips["strain"].values
 
-        # Find all tips at time t - h without delay.
-        initial_tips = tips.loc[
-            (
-                (tips["delay_type"] == "none") &
-                (tips["timepoint"] == initial_timepoint)
-            ),
-            ("strain", "frequency")
-        ].drop_duplicates()
-        initial_tip_names = initial_tips["strain"].values
-
-        # Find all clades for tips at time t - h.
-        initial_tip_clades = tip_clades.loc[
-            tip_clades["strain"].isin(initial_tip_names)
-        ].drop_duplicates()
-
-        # Annotate tips from time t - h with clades.
-        initial_tips_with_clades = initial_tip_clades.merge(
-            initial_tips,
+        # Find the clade for each tip at time t.
+        future_tips = future_tips.merge(
+            tip_clades,
             on="strain",
         )
 
-        # Find clades associated with each tip. This mapping of tips to clades
-        # with tip frequencies will be used to link timepoints t - h and t.
-        initial_tips_with_derived_clades = initial_tips_with_clades.query("depth == 0").copy()
-
-        # Filter the global tip-to-clade mapping to just derived clades so we
-        # can only map tips to extant clades.
-        derived_clades = set(initial_tips_with_derived_clades["clade_membership"].values)
-        initial_tips_with_clades_in_derived_clades = initial_tips_with_clades[
-            initial_tips_with_clades["clade_membership"].isin(derived_clades)
-        ].copy()
-
-        # Find clade frequencies at the initial timepoint based on tips alone.
-        initial_derived_clade_frequencies = initial_tips_with_derived_clades.groupby(
+        # Calculate observed clade frequencies at time t.
+        observed_future_clade_frequencies = future_tips.groupby(
             "clade_membership"
-        )["frequency"].sum().reset_index()
+        ).aggregate({
+            "frequency": "sum",
+        }).reset_index()
 
-        # Find all clades with a frequency less than the minimum threshold.
-        low_frequency_derived_clades = initial_derived_clade_frequencies[
-            initial_derived_clade_frequencies["frequency"] < args.min_clade_frequency
-        ].sort_values("frequency").reset_index(drop=True)
-
-        # Find tips from low-frequency clades.
-        low_frequency_tips = set(
-            initial_tips_with_derived_clades.loc[
-                initial_tips_with_derived_clades["clade_membership"].isin(
-                    low_frequency_derived_clades["clade_membership"].values
-                ),
-                "strain"
-            ]
-        )
-
-        # While there are tips from low frequency clades to process, try to
-        # collapse each tip to an ancestral clade in the set of extant
-        # clades. If no ancestral clade exists for a given tip, remove it from
-        # the set to process. If an ancestral clade exists, collapse the tip
-        # into that clade, recalculate clade frequencies, remove tips now in
-        # high frequency clades, and continue to try collapsing the remaining
-        # tips.
-        print(f"Found {len(low_frequency_tips)} low frequency tips")
-        while low_frequency_tips:
-            # Select a tip from a low frequency clade.
-            tip = low_frequency_tips.pop()
-            print(f"Processing tip {tip}")
-
-            # Find the parent clade for the tip from the list of extant clades.
-            # The parent clade will be the first clade to have a depth greater
-            # than the current clade's depth.
-            current_clade = initial_tips_with_derived_clades.loc[
-                initial_tips_with_derived_clades["strain"] == tip,
-                "clade_membership"
-            ].values[0]
-            current_depth = initial_tips_with_derived_clades.loc[
-                initial_tips_with_derived_clades["strain"] == tip,
-                "depth"
-            ].values[0]
-            parent_clades = initial_tips_with_clades_in_derived_clades[
-                (
-                    (initial_tips_with_clades_in_derived_clades["strain"] == tip) &
-                    (initial_tips_with_clades_in_derived_clades["depth"] > current_depth)
-                )
-            ]
-
-            # If no parent clade exists, continue to the next tip.
-            if len(parent_clades) == 0:
-                print(f"No parent clade for tip {tip}, removing from low frequency tips as clade {current_clade}")
-                continue
-
-            # If a parent clade exists, assign the tip to that clade in the
-            # tip-to-clade mapping.
-            parent_clade = parent_clades.head(1)["clade_membership"].values[0]
-            parent_depth = parent_clades.head(1)["depth"].values[0]
-            initial_tips_with_derived_clades.loc[
-                initial_tips_with_derived_clades["strain"] == tip,
-                "clade_membership"
-            ] = parent_clade
-
-            initial_tips_with_derived_clades.loc[
-                initial_tips_with_derived_clades["strain"] == tip,
-                "depth"
-            ] = parent_depth
-
-            # Recalculate clade frequencies from the tip-to-clade mapping.
-            initial_derived_clade_frequencies = initial_tips_with_derived_clades.groupby(
-                "clade_membership"
-            )["frequency"].sum().reset_index()
-
-            # If the parent clade of the tip is above the minimum threshold,
-            # remove all tips for that clade from the low frequency clades
-            # list. Otherwise, add the current tip back to the list of low
-            # frequency tips to process.
-            if (initial_derived_clade_frequencies.loc[
-                    initial_derived_clade_frequencies["clade_membership"] == parent_clade,
-                    "frequency"
-                ].values[0] >= args.min_clade_frequency):
-                print(f"Removing tip {tip} from low frequency tips after collapsing it from {current_clade} into clade {parent_clade}")
-                parent_clade_tips = set(
-                    initial_tips_with_derived_clades.loc[
-                        initial_tips_with_derived_clades["clade_membership"] == parent_clade,
-                        "strain"
-                    ].values
-                )
-                low_frequency_tips.difference_update(parent_clade_tips)
-            else:
-                print(f"Tip {tip} remains in low frequency tips after collapsing from {current_clade} to {parent_clade}")
-                low_frequency_tips.add(tip)
-
-            print(f"{len(low_frequency_tips)} low frequency tips remain")
-
-        # Find the names of clades at the initial timepoint after collapsing
-        # tips into ancestral clades.
-        initial_tip_clade_names = initial_tips_with_derived_clades[
-            "clade_membership"
-        ].drop_duplicates().values
-
-        # Find all clades for tips at time t that are also present at time t - h.
-        all_future_tip_clades = tip_clades[
-            (tip_clades["strain"].isin(future_tip_names)) &
-            (tip_clades["clade_membership"].isin(initial_tip_clade_names))
-        ]
-
-        # Assign each tip at time t to its most derived clade from time t - h.
-        future_tip_clades = all_future_tip_clades.sort_values([
-            "strain",
-            "depth",
-        ]).groupby(
-            "strain",
-            sort=False,
-        ).first()
-
-        assert future_tip_clades.shape[0] == future_tips.shape[0]
-
-        future_tips_with_clades = future_tips.merge(
-            future_tip_clades,
-            on="strain",
-        )
-
-        # Create the set of all clades present at both times t and t - h without
-        # delay, C.
-        future_tip_clade_names = future_tips_with_clades["clade_membership"].drop_duplicates().values
-
-        # Sum tip frequencies by clade at time t to get observed future clade
-        # frequencies.
-        observed_future_clade_frequencies = future_tips_with_clades.groupby(
-            "clade_membership"
-        )["frequency"].sum().reset_index().rename(
-            columns={"frequency": "observed_frequency"}
-        )
-
-        if initial_timepoint == "2011-04-01" and future_timepoint == "2011-07-01":
-            ipdb.set_trace()
+        future_clade_names = set(observed_future_clade_frequencies["clade_membership"].values)
 
         # For each delay value s, calculate predicted clade frequencies for t
         # from t - h under s.
@@ -249,43 +81,68 @@ if __name__ == "__main__":
             ]
             initial_delayed_tip_names = initial_delayed_tips["strain"].drop_duplicates().values
 
-            # Assign each tip at time t - h to its most derived clade from the
-            # set of C.
-            all_initial_delayed_tip_clades = tip_clades[
-                (tip_clades["strain"].isin(initial_delayed_tip_names)) &
-                (tip_clades["clade_membership"].isin(future_tip_clade_names))
-            ]
-
-            initial_tip_clades = all_initial_delayed_tip_clades.sort_values([
-                "strain",
-                "depth",
-            ]).groupby(
-                "strain",
-                sort=False,
-            ).first()
-
-            initial_delayed_tips_with_clades = initial_delayed_tips.merge(
-                initial_tip_clades,
+            # Find the clade for each tip at time t - h with delay of s.
+            initial_delayed_tips = initial_delayed_tips.merge(
+                tip_clades,
                 on="strain",
             )
 
-            # Sum predicted tip frequencies by clade at time t - h to get
-            # predicted future clade frequencies.
-            initial_delayed_clade_frequencies = initial_delayed_tips_with_clades.groupby(
+            # Sum initial and predicted tip frequencies by clade at time t - h
+            # to get initial and predicted future clade frequencies.
+            initial_delayed_clade_frequencies = initial_delayed_tips.groupby(
                 "clade_membership"
             ).aggregate({
                 "frequency": "sum",
                 "projected_frequency": "sum",
             }).reset_index()
 
+            # Map clades from time t to clades at t - h with delay s.
+            initial_clade_names = set(initial_delayed_clade_frequencies["clade_membership"].values)
+            future_to_initial_clade_map = {}
+            for future_clade in future_clade_names:
+                mapped_future_clade = future_clade
+
+                # Look for the future clade name in the list of initial clade
+                # names, progressively stripping the suffix from the future
+                # clade until we find a match in the initial clades or we run
+                # out of suffixes to remove. For example, if the future clade is
+                # A.1.1.3 and there is an initial clade named A.1, we remove
+                # suffixes from the future clade (A.1.1.3 -> A.1.1 -> A.1) until
+                # we find the match. If the future clade is A.2 and no initial
+                # clade matches, we stop after removing the only suffix and use
+                # "A".
+                while mapped_future_clade not in initial_clade_names and "." in mapped_future_clade:
+                    mapped_future_clade = ".".join(mapped_future_clade.split(".")[:-1])
+
+                future_to_initial_clade_map[future_clade] = mapped_future_clade
+                print(f"Mapping clade '{future_clade}' at future timepoint {future_timepoint} to clade '{mapped_future_clade}' from initial timepoint {initial_timepoint} under delay {delay}")
+
+            # Add initial clade labels to the observed future clade frequencies.
+            observed_future_clade_frequencies_with_initial_names = observed_future_clade_frequencies.copy()
+            observed_future_clade_frequencies_with_initial_names["initial_clade_membership"] = observed_future_clade_frequencies_with_initial_names["clade_membership"].map(
+                future_to_initial_clade_map
+            )
+
+            # Recalculate observed future frequencies for the initial clades.
+            observed_future_clade_frequencies_with_initial_names = observed_future_clade_frequencies_with_initial_names.groupby(
+                "initial_clade_membership"
+            )["frequency"].sum().reset_index().rename(
+                columns={
+                    "initial_clade_membership": "clade_membership",
+                    "frequency": "observed_frequency",
+                }
+            )
+
             # Calculate forecast error from the difference between observed and
-            # predicted future clade frequencies. It is possible that a clade
-            # that existed at both times t and t - h without delay does not
-            # exist at time t - h under a delay, so we left join from the
-            # observed clade frequencies to the initial delay clade frequencies
-            # and fill missing clade frequencies with zeros.
-            clade_frequencies = observed_future_clade_frequencies.merge(
-                initial_delayed_clade_frequencies,
+            # predicted future clade frequencies. All future clades should now
+            # be mapped to a corresponding equal or ancestral clade at the
+            # initial timepoint. However, it is possible that a clade that
+            # existed at time t - h does not exist at time t because it died
+            # out, so we left join from the initial clade frequencies to the
+            # future clade frequencies and fill missing clade frequencies with
+            # zeros to account.
+            clade_frequencies = initial_delayed_clade_frequencies.merge(
+                observed_future_clade_frequencies_with_initial_names,
                 on="clade_membership",
                 how="left",
             ).fillna(0.0)
