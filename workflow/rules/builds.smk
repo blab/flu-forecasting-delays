@@ -514,7 +514,7 @@ rule annotate_sample_and_delay_type_to_tip_attributes:
         attributes = BUILD_PATH + "tip_attributes_with_sample_and_delay_type.tsv"
     conda: "../envs/csv.yaml"
     params:
-        columns="timepoint,strain,date,frequency",
+        columns="timepoint,strain,date,frequency,aa_sequence",
         delay_type=lambda wildcards: config["builds"].get(wildcards.type, {}).get(wildcards.sample, {}).get("delay_type"),
     shell:
         """
