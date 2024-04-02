@@ -1,190 +1,94 @@
-future_timepoint	clade_membership	intervention	difference_in_abs_frequency_error	intervention_name
-2012-04-01	3069578	status_quo_vs_improved_vaccine	0.6069507765130662	improved vaccine
-2012-07-01	3069578	status_quo_vs_improved_vaccine	0.5404907947292236	improved vaccine
-2012-07-01	b20a46d	status_quo_vs_improved_vaccine	0.32234218802839365	improved vaccine
-2012-10-01	3069578	status_quo_vs_improved_vaccine	-0.09752106989271292	improved vaccine
-2012-10-01	3e91924	status_quo_vs_improved_vaccine	0.33948508384588494	improved vaccine
-2012-10-01	b20a46d	status_quo_vs_improved_vaccine	0.18679848316041864	improved vaccine
-2013-01-01	3069578	status_quo_vs_improved_vaccine	0.03272223166878689	improved vaccine
-2013-01-01	3e91924	status_quo_vs_improved_vaccine	-0.37572569250118937	improved vaccine
-2013-01-01	b20a46d	status_quo_vs_improved_vaccine	-0.1290497518869251	improved vaccine
-2013-04-01	3069578	status_quo_vs_improved_vaccine	-0.043120753747061494	improved vaccine
-2013-04-01	3e91924	status_quo_vs_improved_vaccine	0.12427538021810186	improved vaccine
-2013-04-01	b20a46d	status_quo_vs_improved_vaccine	0.2171526789005684	improved vaccine
-2013-07-01	3069578	status_quo_vs_improved_vaccine	-0.0395157299222917	improved vaccine
-2013-07-01	b20a46d	status_quo_vs_improved_vaccine	0.1065388134696883	improved vaccine
-2013-07-01	b6fcb2e	status_quo_vs_improved_vaccine	0.9106891424858035	improved vaccine
-2013-10-01	b6fcb2e	status_quo_vs_improved_vaccine	0.1577794052378032	improved vaccine
-2014-01-01	b6fcb2e	status_quo_vs_improved_vaccine	0.08685830089982904	improved vaccine
-2014-01-01	c76ddaa	status_quo_vs_improved_vaccine	0.14564873658532318	improved vaccine
-2014-04-01	b6fcb2e	status_quo_vs_improved_vaccine	-0.12466246777779957	improved vaccine
-2014-04-01	c76ddaa	status_quo_vs_improved_vaccine	-0.09075012928372911	improved vaccine
-2014-07-01	b6fcb2e	status_quo_vs_improved_vaccine	0.06811849607825599	improved vaccine
-2014-07-01	c76ddaa	status_quo_vs_improved_vaccine	0.062246958505522865	improved vaccine
-2014-10-01	b6fcb2e	status_quo_vs_improved_vaccine	0.2588995416824609	improved vaccine
-2014-10-01	bbbc734	status_quo_vs_improved_vaccine	0.03322241158945505	improved vaccine
-2014-10-01	c76ddaa	status_quo_vs_improved_vaccine	0.0368416513153845	improved vaccine
-2015-01-01	bbbc734	status_quo_vs_improved_vaccine	0.6285309497887385	improved vaccine
-2015-01-01	c76ddaa	status_quo_vs_improved_vaccine	0.22517756992023122	improved vaccine
-2015-04-01	2a2d251	status_quo_vs_improved_vaccine	-0.35002463303121567	improved vaccine
-2015-04-01	bbbc734	status_quo_vs_improved_vaccine	0.04258674011886121	improved vaccine
-2015-04-01	c76ddaa	status_quo_vs_improved_vaccine	0.25221754998331375	improved vaccine
-2015-07-01	2a2d251	status_quo_vs_improved_vaccine	0.3628895778334481	improved vaccine
-2015-07-01	68f8989	status_quo_vs_improved_vaccine	0.30390701273892873	improved vaccine
-2015-10-01	12eeb8d	status_quo_vs_improved_vaccine	-0.0004581722480721945	improved vaccine
-2015-10-01	2a2d251	status_quo_vs_improved_vaccine	0.6564062313166492	improved vaccine
-2015-10-01	68f8989	status_quo_vs_improved_vaccine	0.6372294445114847	improved vaccine
-2016-01-01	68f8989	status_quo_vs_improved_vaccine	0.14471887458363852	improved vaccine
-2016-04-01	68f8989	status_quo_vs_improved_vaccine	-0.12270701101708081	improved vaccine
-2016-07-01	68f8989	status_quo_vs_improved_vaccine	-0.030884173006961668	improved vaccine
-2016-10-01	0704794	status_quo_vs_improved_vaccine	0.16598453980308708	improved vaccine
-2016-10-01	68f8989	status_quo_vs_improved_vaccine	0.20713962367004446	improved vaccine
-2017-01-01	68f8989	status_quo_vs_improved_vaccine	0.5315230243408761	improved vaccine
-2017-04-01	2a2d251	status_quo_vs_improved_vaccine	0.0648336932795637	improved vaccine
-2017-04-01	68f8989	status_quo_vs_improved_vaccine	-0.18638888919629498	improved vaccine
-2017-04-01	8f856a4	status_quo_vs_improved_vaccine	0.1900133311091959	improved vaccine
-2017-07-01	68f8989	status_quo_vs_improved_vaccine	0.03552477652600827	improved vaccine
-2017-07-01	8f856a4	status_quo_vs_improved_vaccine	-0.2290992959949138	improved vaccine
-2017-10-01	8000939	status_quo_vs_improved_vaccine	0.0483060526672682	improved vaccine
-2017-10-01	8f856a4	status_quo_vs_improved_vaccine	-0.2947730610806117	improved vaccine
-2018-01-01	8000939	status_quo_vs_improved_vaccine	-0.10106972416322807	improved vaccine
-2018-01-01	8f856a4	status_quo_vs_improved_vaccine	0.2531082752538471	improved vaccine
-2018-04-01	5b360fc	status_quo_vs_improved_vaccine	0.12649195834905813	improved vaccine
-2018-07-01	5b360fc	status_quo_vs_improved_vaccine	0.16409665163631204	improved vaccine
-2018-07-01	ddce0c3	status_quo_vs_improved_vaccine	0.06418513512202256	improved vaccine
-2018-10-01	5b360fc	status_quo_vs_improved_vaccine	0.026328851184691582	improved vaccine
-2018-10-01	ddce0c3	status_quo_vs_improved_vaccine	0.3096468027859225	improved vaccine
-2019-01-01	5b360fc	status_quo_vs_improved_vaccine	-0.45505444282648466	improved vaccine
-2019-01-01	ddce0c3	status_quo_vs_improved_vaccine	0.04554576814064348	improved vaccine
-2019-04-01	5b360fc	status_quo_vs_improved_vaccine	-0.03047520328321257	improved vaccine
-2019-04-01	ddce0c3	status_quo_vs_improved_vaccine	-0.13315376666331702	improved vaccine
-2019-07-01	5b360fc	status_quo_vs_improved_vaccine	0.6036277568836095	improved vaccine
-2019-07-01	ddce0c3	status_quo_vs_improved_vaccine	0.1528897954748511	improved vaccine
-2019-10-01	9ac056f	status_quo_vs_improved_vaccine	0.4546956664574327	improved vaccine
-2019-10-01	ddce0c3	status_quo_vs_improved_vaccine	0.15664884524872352	improved vaccine
-2012-04-01	3069578	status_quo_vs_improved_surveillance	-0.010588578842614549	improved surveillance
-2012-07-01	3069578	status_quo_vs_improved_surveillance	0.039039156046957846	improved surveillance
-2012-07-01	b20a46d	status_quo_vs_improved_surveillance	0.15234146523384248	improved surveillance
-2012-10-01	3069578	status_quo_vs_improved_surveillance	-0.0003862413018445032	improved surveillance
-2012-10-01	3e91924	status_quo_vs_improved_surveillance	0.039172255159739156	improved surveillance
-2012-10-01	b20a46d	status_quo_vs_improved_surveillance	0.024657796003543453	improved surveillance
-2013-01-01	3069578	status_quo_vs_improved_surveillance	-0.019691697448305095	improved surveillance
-2013-01-01	3e91924	status_quo_vs_improved_surveillance	-0.20357605364571862	improved surveillance
-2013-01-01	b20a46d	status_quo_vs_improved_surveillance	-0.2290659242310184	improved surveillance
-2013-04-01	3069578	status_quo_vs_improved_surveillance	0.0037717097399999015	improved surveillance
-2013-04-01	3e91924	status_quo_vs_improved_surveillance	0.0731843235352777	improved surveillance
-2013-04-01	b20a46d	status_quo_vs_improved_surveillance	0.0738130136501399	improved surveillance
-2013-07-01	3069578	status_quo_vs_improved_surveillance	-0.031039845662263005	improved surveillance
-2013-07-01	b20a46d	status_quo_vs_improved_surveillance	-0.06752289427869287	improved surveillance
-2013-07-01	b6fcb2e	status_quo_vs_improved_surveillance	0.043290491959024124	improved surveillance
-2013-10-01	b6fcb2e	status_quo_vs_improved_surveillance	0.002628912295368546	improved surveillance
-2014-01-01	b6fcb2e	status_quo_vs_improved_surveillance	0.13780843389650216	improved surveillance
-2014-01-01	c76ddaa	status_quo_vs_improved_surveillance	0.1203826172762465	improved surveillance
-2014-04-01	b6fcb2e	status_quo_vs_improved_surveillance	0.0768801174122945	improved surveillance
-2014-04-01	c76ddaa	status_quo_vs_improved_surveillance	0.07563650485855733	improved surveillance
-2014-07-01	b6fcb2e	status_quo_vs_improved_surveillance	-0.2772594972772922	improved surveillance
-2014-07-01	c76ddaa	status_quo_vs_improved_surveillance	-0.2765686589617409	improved surveillance
-2014-10-01	b6fcb2e	status_quo_vs_improved_surveillance	0.27918733632696424	improved surveillance
-2014-10-01	bbbc734	status_quo_vs_improved_surveillance	-0.2350982776837589	improved surveillance
-2014-10-01	c76ddaa	status_quo_vs_improved_surveillance	-0.00897364233006498	improved surveillance
-2015-01-01	bbbc734	status_quo_vs_improved_surveillance	0.0426212670244952	improved surveillance
-2015-01-01	c76ddaa	status_quo_vs_improved_surveillance	0.057796283221513506	improved surveillance
-2015-04-01	2a2d251	status_quo_vs_improved_surveillance	-0.2782666997136449	improved surveillance
-2015-04-01	bbbc734	status_quo_vs_improved_surveillance	0.1078858897993673	improved surveillance
-2015-04-01	c76ddaa	status_quo_vs_improved_surveillance	0.05888610987262774	improved surveillance
-2015-07-01	2a2d251	status_quo_vs_improved_surveillance	-0.07792399341514022	improved surveillance
-2015-07-01	68f8989	status_quo_vs_improved_surveillance	-0.041547527201387435	improved surveillance
-2015-10-01	12eeb8d	status_quo_vs_improved_surveillance	0.0066955173032089005	improved surveillance
-2015-10-01	2a2d251	status_quo_vs_improved_surveillance	0.06860484451320625	improved surveillance
-2015-10-01	68f8989	status_quo_vs_improved_surveillance	0.09601761173303691	improved surveillance
-2016-01-01	68f8989	status_quo_vs_improved_surveillance	0.2827369715745265	improved surveillance
-2016-04-01	68f8989	status_quo_vs_improved_surveillance	-0.035473681876384444	improved surveillance
-2016-07-01	68f8989	status_quo_vs_improved_surveillance	-0.02182558540385604	improved surveillance
-2016-10-01	0704794	status_quo_vs_improved_surveillance	0.1892560222533685	improved surveillance
-2016-10-01	68f8989	status_quo_vs_improved_surveillance	0.20454722387946878	improved surveillance
-2017-01-01	68f8989	status_quo_vs_improved_surveillance	0.3363131122460483	improved surveillance
-2017-04-01	2a2d251	status_quo_vs_improved_surveillance	-0.11952356862868868	improved surveillance
-2017-04-01	68f8989	status_quo_vs_improved_surveillance	-0.1728029094820881	improved surveillance
-2017-04-01	8f856a4	status_quo_vs_improved_surveillance	0.1278903429815286	improved surveillance
-2017-07-01	68f8989	status_quo_vs_improved_surveillance	-0.16772116356464806	improved surveillance
-2017-07-01	8f856a4	status_quo_vs_improved_surveillance	-0.17126546943209447	improved surveillance
-2017-10-01	8000939	status_quo_vs_improved_surveillance	0.013611811802129614	improved surveillance
-2017-10-01	8f856a4	status_quo_vs_improved_surveillance	-0.09153347049088088	improved surveillance
-2018-01-01	8000939	status_quo_vs_improved_surveillance	-0.21783458298489972	improved surveillance
-2018-01-01	8f856a4	status_quo_vs_improved_surveillance	-0.015674928125134047	improved surveillance
-2018-04-01	5b360fc	status_quo_vs_improved_surveillance	-0.008955190741817498	improved surveillance
-2018-07-01	5b360fc	status_quo_vs_improved_surveillance	-0.008322466314056198	improved surveillance
-2018-07-01	ddce0c3	status_quo_vs_improved_surveillance	0.07372191431129071	improved surveillance
-2018-10-01	5b360fc	status_quo_vs_improved_surveillance	0.0706904641400318	improved surveillance
-2018-10-01	ddce0c3	status_quo_vs_improved_surveillance	0.08931398403287416	improved surveillance
-2019-01-01	5b360fc	status_quo_vs_improved_surveillance	0.02785789927264362	improved surveillance
-2019-01-01	ddce0c3	status_quo_vs_improved_surveillance	-0.020946572224035287	improved surveillance
-2019-04-01	5b360fc	status_quo_vs_improved_surveillance	-0.32297863913256203	improved surveillance
-2019-04-01	ddce0c3	status_quo_vs_improved_surveillance	-0.2614853189479535	improved surveillance
-2019-07-01	5b360fc	status_quo_vs_improved_surveillance	-0.028557238614560942	improved surveillance
-2019-07-01	ddce0c3	status_quo_vs_improved_surveillance	-0.039543877973227004	improved surveillance
-2019-10-01	9ac056f	status_quo_vs_improved_surveillance	0.007790745584921321	improved surveillance
-2019-10-01	ddce0c3	status_quo_vs_improved_surveillance	0.02082720477202768	improved surveillance
-2012-04-01	3069578	status_quo_vs_improved_vaccine_and_surveillance	0.602346179251805	improved vaccine and surveillance
-2012-07-01	3069578	status_quo_vs_improved_vaccine_and_surveillance	0.4753763461781422	improved vaccine and surveillance
-2012-07-01	b20a46d	status_quo_vs_improved_vaccine_and_surveillance	0.22980845943209732	improved vaccine and surveillance
-2012-10-01	3069578	status_quo_vs_improved_vaccine_and_surveillance	-0.07722608681422341	improved vaccine and surveillance
-2012-10-01	3e91924	status_quo_vs_improved_vaccine_and_surveillance	0.42328823485168504	improved vaccine and surveillance
-2012-10-01	b20a46d	status_quo_vs_improved_vaccine_and_surveillance	0.28301158075091104	improved vaccine and surveillance
-2013-01-01	3069578	status_quo_vs_improved_vaccine_and_surveillance	0.01157722639585701	improved vaccine and surveillance
-2013-01-01	3e91924	status_quo_vs_improved_vaccine_and_surveillance	-0.3061782412961865	improved vaccine and surveillance
-2013-01-01	b20a46d	status_quo_vs_improved_vaccine_and_surveillance	-0.1392933790096427	improved vaccine and surveillance
-2013-04-01	3069578	status_quo_vs_improved_vaccine_and_surveillance	-0.060547554636878304	improved vaccine and surveillance
-2013-04-01	3e91924	status_quo_vs_improved_vaccine_and_surveillance	0.12389305797362016	improved vaccine and surveillance
-2013-04-01	b20a46d	status_quo_vs_improved_vaccine_and_surveillance	0.20755024520813412	improved vaccine and surveillance
-2013-07-01	3069578	status_quo_vs_improved_vaccine_and_surveillance	-0.0608377194022869	improved vaccine and surveillance
-2013-07-01	b20a46d	status_quo_vs_improved_vaccine_and_surveillance	0.1055719377264267	improved vaccine and surveillance
-2013-07-01	b6fcb2e	status_quo_vs_improved_vaccine_and_surveillance	0.9002735772764344	improved vaccine and surveillance
-2013-10-01	b6fcb2e	status_quo_vs_improved_vaccine_and_surveillance	0.16498287157760838	improved vaccine and surveillance
-2014-01-01	b6fcb2e	status_quo_vs_improved_vaccine_and_surveillance	-0.024839911990582608	improved vaccine and surveillance
-2014-01-01	c76ddaa	status_quo_vs_improved_vaccine_and_surveillance	0.039342432063576294	improved vaccine and surveillance
-2014-04-01	b6fcb2e	status_quo_vs_improved_vaccine_and_surveillance	0.03614576318645282	improved vaccine and surveillance
-2014-04-01	c76ddaa	status_quo_vs_improved_vaccine_and_surveillance	-0.06452293266176201	improved vaccine and surveillance
-2014-07-01	b6fcb2e	status_quo_vs_improved_vaccine_and_surveillance	0.12072716254240981	improved vaccine and surveillance
-2014-07-01	c76ddaa	status_quo_vs_improved_vaccine_and_surveillance	0.09121674860169232	improved vaccine and surveillance
-2014-10-01	b6fcb2e	status_quo_vs_improved_vaccine_and_surveillance	0.20984047036063283	improved vaccine and surveillance
-2014-10-01	bbbc734	status_quo_vs_improved_vaccine_and_surveillance	0.03967886225481282	improved vaccine and surveillance
-2014-10-01	c76ddaa	status_quo_vs_improved_vaccine_and_surveillance	0.0342988152432053	improved vaccine and surveillance
-2015-01-01	bbbc734	status_quo_vs_improved_vaccine_and_surveillance	0.6597589374010112	improved vaccine and surveillance
-2015-01-01	c76ddaa	status_quo_vs_improved_vaccine_and_surveillance	0.2390056732871052	improved vaccine and surveillance
-2015-04-01	2a2d251	status_quo_vs_improved_vaccine_and_surveillance	-0.3001892500271487	improved vaccine and surveillance
-2015-04-01	bbbc734	status_quo_vs_improved_vaccine_and_surveillance	0.0735235158057507	improved vaccine and surveillance
-2015-04-01	c76ddaa	status_quo_vs_improved_vaccine_and_surveillance	0.2662149894654757	improved vaccine and surveillance
-2015-07-01	2a2d251	status_quo_vs_improved_vaccine_and_surveillance	0.4869932369030629	improved vaccine and surveillance
-2015-07-01	68f8989	status_quo_vs_improved_vaccine_and_surveillance	0.48048495533168667	improved vaccine and surveillance
-2015-10-01	12eeb8d	status_quo_vs_improved_vaccine_and_surveillance	0.023188926613854806	improved vaccine and surveillance
-2015-10-01	2a2d251	status_quo_vs_improved_vaccine_and_surveillance	0.7065875284891154	improved vaccine and surveillance
-2015-10-01	68f8989	status_quo_vs_improved_vaccine_and_surveillance	0.718076805526535	improved vaccine and surveillance
-2016-01-01	68f8989	status_quo_vs_improved_vaccine_and_surveillance	0.12093411445888291	improved vaccine and surveillance
-2016-04-01	68f8989	status_quo_vs_improved_vaccine_and_surveillance	0.013359994090270444	improved vaccine and surveillance
-2016-07-01	68f8989	status_quo_vs_improved_vaccine_and_surveillance	0.05895113461228885	improved vaccine and surveillance
-2016-10-01	0704794	status_quo_vs_improved_vaccine_and_surveillance	0.2229936903356333	improved vaccine and surveillance
-2016-10-01	68f8989	status_quo_vs_improved_vaccine_and_surveillance	0.1630489703801673	improved vaccine and surveillance
-2017-01-01	68f8989	status_quo_vs_improved_vaccine_and_surveillance	0.5284940385288331	improved vaccine and surveillance
-2017-04-01	2a2d251	status_quo_vs_improved_vaccine_and_surveillance	0.09003545975475599	improved vaccine and surveillance
-2017-04-01	68f8989	status_quo_vs_improved_vaccine_and_surveillance	-0.12710145576492976	improved vaccine and surveillance
-2017-04-01	8f856a4	status_quo_vs_improved_vaccine_and_surveillance	0.12214183577443741	improved vaccine and surveillance
-2017-07-01	68f8989	status_quo_vs_improved_vaccine_and_surveillance	0.01088843487808816	improved vaccine and surveillance
-2017-07-01	8f856a4	status_quo_vs_improved_vaccine_and_surveillance	-0.22323399633461127	improved vaccine and surveillance
-2017-10-01	8000939	status_quo_vs_improved_vaccine_and_surveillance	0.026636768095865987	improved vaccine and surveillance
-2017-10-01	8f856a4	status_quo_vs_improved_vaccine_and_surveillance	-0.31992148954671634	improved vaccine and surveillance
-2018-01-01	8000939	status_quo_vs_improved_vaccine_and_surveillance	0.005998587535868738	improved vaccine and surveillance
-2018-01-01	8f856a4	status_quo_vs_improved_vaccine_and_surveillance	0.27470920057651227	improved vaccine and surveillance
-2018-04-01	5b360fc	status_quo_vs_improved_vaccine_and_surveillance	0.14817840071442068	improved vaccine and surveillance
-2018-07-01	5b360fc	status_quo_vs_improved_vaccine_and_surveillance	0.19392921241961292	improved vaccine and surveillance
-2018-07-01	ddce0c3	status_quo_vs_improved_vaccine_and_surveillance	0.10568476701804469	improved vaccine and surveillance
-2018-10-01	5b360fc	status_quo_vs_improved_vaccine_and_surveillance	-0.07486294298481228	improved vaccine and surveillance
-2018-10-01	ddce0c3	status_quo_vs_improved_vaccine_and_surveillance	0.24887720331743768	improved vaccine and surveillance
-2019-01-01	5b360fc	status_quo_vs_improved_vaccine_and_surveillance	-0.46022961860209133	improved vaccine and surveillance
-2019-01-01	ddce0c3	status_quo_vs_improved_vaccine_and_surveillance	0.011226728540286474	improved vaccine and surveillance
-2019-04-01	5b360fc	status_quo_vs_improved_vaccine_and_surveillance	-0.015925575177083595	improved vaccine and surveillance
-2019-04-01	ddce0c3	status_quo_vs_improved_vaccine_and_surveillance	-0.1332963457376223	improved vaccine and surveillance
-2019-07-01	5b360fc	status_quo_vs_improved_vaccine_and_surveillance	0.6574694728155909	improved vaccine and surveillance
-2019-07-01	ddce0c3	status_quo_vs_improved_vaccine_and_surveillance	0.1499350789728625	improved vaccine and surveillance
-2019-10-01	9ac056f	status_quo_vs_improved_vaccine_and_surveillance	0.499401519375254	improved vaccine and surveillance
-2019-10-01	ddce0c3	status_quo_vs_improved_vaccine_and_surveillance	0.13122432161247188	improved vaccine and surveillance
+future_timepoint	intervention	difference_in_total_absolute_forecast_error	intervention_name
+2012-04-01	status_quo_vs_improved_vaccine	0.5811160421509738	improved vaccine
+2012-07-01	status_quo_vs_improved_vaccine	0.3186752918019662	improved vaccine
+2012-10-01	status_quo_vs_improved_vaccine	-0.4366379738398576	improved vaccine
+2013-01-01	status_quo_vs_improved_vaccine	0.2909361000298838	improved vaccine
+2013-04-01	status_quo_vs_improved_vaccine	0.8730162146185958	improved vaccine
+2013-07-01	status_quo_vs_improved_vaccine	-0.012201014029139978	improved vaccine
+2013-10-01	status_quo_vs_improved_vaccine	-0.01672739032990961	improved vaccine
+2014-01-01	status_quo_vs_improved_vaccine	0.6471321300323563	improved vaccine
+2014-04-01	status_quo_vs_improved_vaccine	0.2453013375565407	improved vaccine
+2014-07-01	status_quo_vs_improved_vaccine	-0.35217134998409644	improved vaccine
+2014-10-01	status_quo_vs_improved_vaccine	0.5211372628358396	improved vaccine
+2015-01-01	status_quo_vs_improved_vaccine	-0.09381140212429062	improved vaccine
+2015-04-01	status_quo_vs_improved_vaccine	-0.5502884410880737	improved vaccine
+2015-07-01	status_quo_vs_improved_vaccine	0.8705328855361048	improved vaccine
+2015-10-01	status_quo_vs_improved_vaccine	1.4046918331225218	improved vaccine
+2016-01-01	status_quo_vs_improved_vaccine	0.44302167424294514	improved vaccine
+2016-04-01	status_quo_vs_improved_vaccine	-0.4196651478323038	improved vaccine
+2016-07-01	status_quo_vs_improved_vaccine	-0.5358661222326229	improved vaccine
+2016-10-01	status_quo_vs_improved_vaccine	0.4098230812694902	improved vaccine
+2017-01-01	status_quo_vs_improved_vaccine	0.6720261949696655	improved vaccine
+2017-04-01	status_quo_vs_improved_vaccine	0.3251790466946247	improved vaccine
+2017-07-01	status_quo_vs_improved_vaccine	0.4403825383392726	improved vaccine
+2017-10-01	status_quo_vs_improved_vaccine	-0.44736066633119675	improved vaccine
+2018-01-01	status_quo_vs_improved_vaccine	-0.2977627815074433	improved vaccine
+2018-04-01	status_quo_vs_improved_vaccine	1.1030638332985454	improved vaccine
+2018-07-01	status_quo_vs_improved_vaccine	0.27614926306182797	improved vaccine
+2018-10-01	status_quo_vs_improved_vaccine	0.3169834344768619	improved vaccine
+2019-01-01	status_quo_vs_improved_vaccine	-0.06556807900580147	improved vaccine
+2019-04-01	status_quo_vs_improved_vaccine	0.10467994749604947	improved vaccine
+2019-07-01	status_quo_vs_improved_vaccine	0.39517321146853657	improved vaccine
+2019-10-01	status_quo_vs_improved_vaccine	0.5146295838270779	improved vaccine
+2012-04-01	status_quo_vs_improved_surveillance	-0.011313344246386081	improved surveillance
+2012-07-01	status_quo_vs_improved_surveillance	0.12973117066239404	improved surveillance
+2012-10-01	status_quo_vs_improved_surveillance	0.05165652823324762	improved surveillance
+2013-01-01	status_quo_vs_improved_surveillance	-0.24813940559075398	improved surveillance
+2013-04-01	status_quo_vs_improved_surveillance	0.154247153135735	improved surveillance
+2013-07-01	status_quo_vs_improved_surveillance	-0.08268573833701742	improved surveillance
+2013-10-01	status_quo_vs_improved_surveillance	-0.2777311751837697	improved surveillance
+2014-01-01	status_quo_vs_improved_surveillance	0.35105559060985847	improved surveillance
+2014-04-01	status_quo_vs_improved_surveillance	0.2612867489601015	improved surveillance
+2014-07-01	status_quo_vs_improved_surveillance	-0.4477870623804297	improved surveillance
+2014-10-01	status_quo_vs_improved_surveillance	0.23797370320665412	improved surveillance
+2015-01-01	status_quo_vs_improved_surveillance	0.10301719177792734	improved surveillance
+2015-04-01	status_quo_vs_improved_surveillance	-0.22087074405655216	improved surveillance
+2015-07-01	status_quo_vs_improved_surveillance	-0.06709919541689602	improved surveillance
+2015-10-01	status_quo_vs_improved_surveillance	0.13895212483233177	improved surveillance
+2016-01-01	status_quo_vs_improved_surveillance	0.18426229503205638	improved surveillance
+2016-04-01	status_quo_vs_improved_surveillance	-0.217387896192395	improved surveillance
+2016-07-01	status_quo_vs_improved_surveillance	-0.02497721674387765	improved surveillance
+2016-10-01	status_quo_vs_improved_surveillance	-0.06260402402145893	improved surveillance
+2017-01-01	status_quo_vs_improved_surveillance	0.7297247586254583	improved surveillance
+2017-04-01	status_quo_vs_improved_surveillance	0.07896463181758184	improved surveillance
+2017-07-01	status_quo_vs_improved_surveillance	-0.221132331816567	improved surveillance
+2017-10-01	status_quo_vs_improved_surveillance	-0.19006667305626834	improved surveillance
+2018-01-01	status_quo_vs_improved_surveillance	-0.328073289730463	improved surveillance
+2018-04-01	status_quo_vs_improved_surveillance	-0.09469451797907968	improved surveillance
+2018-07-01	status_quo_vs_improved_surveillance	0.06698247026449622	improved surveillance
+2018-10-01	status_quo_vs_improved_surveillance	-0.0331220834625674	improved surveillance
+2019-01-01	status_quo_vs_improved_surveillance	-0.020517633155197668	improved surveillance
+2019-04-01	status_quo_vs_improved_surveillance	-0.5165414789574228	improved surveillance
+2019-07-01	status_quo_vs_improved_surveillance	-0.04251193543366871	improved surveillance
+2019-10-01	status_quo_vs_improved_surveillance	-0.08807660127538308	improved surveillance
+2012-04-01	status_quo_vs_improved_vaccine_and_surveillance	0.575967062874017	improved vaccine and surveillance
+2012-07-01	status_quo_vs_improved_vaccine_and_surveillance	0.18168642585794725	improved vaccine and surveillance
+2012-10-01	status_quo_vs_improved_vaccine_and_surveillance	-0.2701132395391037	improved vaccine and surveillance
+2013-01-01	status_quo_vs_improved_vaccine_and_surveillance	0.26545015703778074	improved vaccine and surveillance
+2013-04-01	status_quo_vs_improved_vaccine_and_surveillance	0.6983347170129127	improved vaccine and surveillance
+2013-07-01	status_quo_vs_improved_vaccine_and_surveillance	0.2451663893894629	improved vaccine and surveillance
+2013-10-01	status_quo_vs_improved_vaccine_and_surveillance	0.09820355904506456	improved vaccine and surveillance
+2014-01-01	status_quo_vs_improved_vaccine_and_surveillance	0.648954527157356	improved vaccine and surveillance
+2014-04-01	status_quo_vs_improved_vaccine_and_surveillance	0.33073693321058456	improved vaccine and surveillance
+2014-07-01	status_quo_vs_improved_vaccine_and_surveillance	-0.301474833848456	improved vaccine and surveillance
+2014-10-01	status_quo_vs_improved_vaccine_and_surveillance	0.6363884853634234	improved vaccine and surveillance
+2015-01-01	status_quo_vs_improved_vaccine_and_surveillance	-0.1455590991638685	improved vaccine and surveillance
+2015-04-01	status_quo_vs_improved_vaccine_and_surveillance	-0.452634234435228	improved vaccine and surveillance
+2015-07-01	status_quo_vs_improved_vaccine_and_surveillance	1.2039845109913978	improved vaccine and surveillance
+2015-10-01	status_quo_vs_improved_vaccine_and_surveillance	1.3954799861499239	improved vaccine and surveillance
+2016-01-01	status_quo_vs_improved_vaccine_and_surveillance	0.4602228614516273	improved vaccine and surveillance
+2016-04-01	status_quo_vs_improved_vaccine_and_surveillance	-0.4746386216927172	improved vaccine and surveillance
+2016-07-01	status_quo_vs_improved_vaccine_and_surveillance	-0.16399262207857485	improved vaccine and surveillance
+2016-10-01	status_quo_vs_improved_vaccine_and_surveillance	0.4323539277286761	improved vaccine and surveillance
+2017-01-01	status_quo_vs_improved_vaccine_and_surveillance	0.6177521805925673	improved vaccine and surveillance
+2017-04-01	status_quo_vs_improved_vaccine_and_surveillance	0.27697671344737096	improved vaccine and surveillance
+2017-07-01	status_quo_vs_improved_vaccine_and_surveillance	0.3177952351956439	improved vaccine and surveillance
+2017-10-01	status_quo_vs_improved_vaccine_and_surveillance	-0.5083475965298152	improved vaccine and surveillance
+2018-01-01	status_quo_vs_improved_vaccine_and_surveillance	-0.19765745682853075	improved vaccine and surveillance
+2018-04-01	status_quo_vs_improved_vaccine_and_surveillance	1.0826188270911012	improved vaccine and surveillance
+2018-07-01	status_quo_vs_improved_vaccine_and_surveillance	0.34310254847456323	improved vaccine and surveillance
+2018-10-01	status_quo_vs_improved_vaccine_and_surveillance	0.09982253050259382	improved vaccine and surveillance
+2019-01-01	status_quo_vs_improved_vaccine_and_surveillance	-0.05465218908818403	improved vaccine and surveillance
+2019-04-01	status_quo_vs_improved_vaccine_and_surveillance	0.09032112372446938	improved vaccine and surveillance
+2019-07-01	status_quo_vs_improved_vaccine_and_surveillance	0.5034571592605321	improved vaccine and surveillance
+2019-10-01	status_quo_vs_improved_vaccine_and_surveillance	0.45405434327084543	improved vaccine and surveillance
