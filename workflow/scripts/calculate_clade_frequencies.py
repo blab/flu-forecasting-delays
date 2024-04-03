@@ -94,7 +94,12 @@ if __name__ == "__main__":
             ).aggregate({
                 "frequency": "sum",
                 "projected_frequency": "sum",
-            }).reset_index()
+                "strain": "count",
+            }).reset_index().rename(
+                columns={
+                    "strain": "n_strains",
+                }
+            )
 
             # Map clades from time t to clades at t - h with delay s.
             initial_clade_names = set(initial_delayed_clade_frequencies["clade_membership"].values)
