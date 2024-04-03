@@ -147,12 +147,14 @@ We also found that reducing submission delays from realistic to ideal conditions
 \subsection{Forecast clade frequency errors}
 
 We estimated the effects of submission delays and forecast horizons on the accuracy of clade frequency forecasts.
-For each combination of initial timepoint, future timepoint, and delay scenario (\FIG{model_of_delays_and_horizons}B), we identified all clades that were present at both timepoints, calculated initial and predicted future frequencies for the given delay, and calculated the corresponding observed future frequencies without delay.
-Where the current clade frequency analysis focused on the most derived clades assigned to each tip, this analysis included ancestral clades to allow comparison between temporally distant populations.
-Therefore, we focused this analysis on clades with an initial frequency $\ge$10\% and $\le$95\% in the corresponding dataset without delays.
-We calculated the error in forecast frequencies for these clades as the difference between predicted future frequencies under the given delay scenario and observed future frequencies without any delay.
+For each combination of initial timepoint, future timepoint, and delay scenario (\FIG{model_of_delays_and_horizons}B), we calculated initial and predicted future frequencies for all clades present under the given delay and then calculated the corresponding observed future frequencies without delay for clades that descended from the clades present at the initial timepoint.
+We calculated the error in forecast frequencies for all clades with an initial frequency $\ge$10\% as the difference between predicted future frequencies under the given delay scenario and observed future frequencies without any delay.
 
-As with current clade frequency errors, forecast clade frequency errors appeared to be normally distributed with mean and median errors near zero and relatively variance (\FIG{h3n2_forecast_clade_frequency_errors}).
+As with current clade frequency errors, forecast clade frequency errors appeared to be normally distributed (\FIG{h3n2_forecast_clade_frequency_errors}).
+This pattern matches our expectation that at any given initial timepoint the overestimation of one clade's future frequency must cause an underestimation of another current clade's future frequency.
+However, we also observed a consistent bias toward the overestimation of future clade frequencies with median errors ranging from -1\% to -9\% across all forecast horizons and submission delays.
+The bias toward overestimation increases as submission delays decrease with the greatest median error when there was no submission delay.
+
 The 12-month forecast horizon produced the most extreme average forecast error (-3\% to -4\%) and standard deviation in error (30\% to 33\%) with a slight bias toward overestimation of future clade frequencies in all delay scenarios (\TABLE{h3n2_forecast_clade_frequency_errors}).
 As the forecast horizon decreased, the average error shifted toward 1\% at the 3-month horizon, representing a slight underestimation of future frequencies.
 The variance in forecast error also decreased with decreasing horizon, following the same pattern we observed for distances to the future.
