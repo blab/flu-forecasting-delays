@@ -111,13 +111,14 @@ These results indicate that reducing submission delays may have little effect un
 Although the distance between predicted and observed future populations in amino acids provides an unbiased metric to optimize forecasting models, in practice, we use these models to forecast clade frequencies.
 To produce these forecasts, we estimate the frequencies of extant clades at an initial timepoint and predict their future frequencies from those initial frequencies and the fitness estimates of each clade's tips.
 Given the importance of initial clade frequencies in these forecasts, we tested the effect of submission delays on current clade frequency estimates.
-For each timepoint in our analysis, we summed the frequency per clade assigned to each tip (see Methods).
-We calculated the frequency error per timepoint and clade as the difference between the clade frequency without submission delays and the frequency with either an ideal or realistic delay.
+For each timepoint and each clade with an initial frequency of at least 1\%, we calculated the clade frequency error as the difference between clade frequency without submission delays and the frequency with either an ideal or realistic delay (see Methods).
+Positive error values represented underestimation of current clades, while negative values represented overestimation.
 
 \begin{figure}[htb]
 \includegraphics[width=\linewidth]{figures/h3n2_current_frequency_errors_by_delay}
 \caption{Clade frequency errors for natural A/H3N2 clades at the same timepoint calculated as the difference between clade frequencies without submission delay and corresponding frequencies with either A) ideal or B) realistic submission delays.
-Distributions of frequency errors appear normally distributed in both delay scenarios for both C) small clades ($\ge$1\% and $<$10\% frequency) and D) large clades ($\ge$10\%).}
+Distributions of frequency errors appear normally distributed in both delay scenarios for both C) small clades ($\ge$1\% and $<$10\% frequency) and D) large clades ($\ge$10\%).
+Dashed lines indicate the median error from the distribution of the delay type with the same color.}
 \label{fig:h3n2_current_clade_frequency_errors}
 %
 \figsupp[Current clade frequency errors for simulated H3N2-like populations]
@@ -129,18 +130,19 @@ Distributions of frequency errors appear normally distributed in both delay scen
 \figsrccode{Jupyter notebook used to produce this figure and the supplemental figure lives in \texttt{workflow/notebooks/plot-current-clade-frequency-errors-by-delay-type-for-populations.py.ipynb}.}\label{figsrccode:current_clade_frequency_errors}
 \end{figure}
 
-Surprisingly, we found that even with an average $\sim$1-month delay in submissions, clade frequencies in the ideal delay scenario almost exactly matched frequencies without any delays at all (\FIG{h3n2_current_clade_frequency_errors}A).
-For both small clades ($\ge$1\% and $<$10\% frequency without delays) and large clades ($\ge$10\% frequency), clade frequency errors for ideal delays rarely exceeded 1\% (\FIG{h3n2_current_clade_frequency_errors}C and D).
-In contrast, realistic delays produced higher errors (\FIG{h3n2_current_clade_frequency_errors}B), ranging between -3\% and 3\% for small clades (\FIG{h3n2_current_clade_frequency_errors}C) and -5\% and 6\% for large clades (\FIG{h3n2_current_clade_frequency_errors}D).
-For both delay scenarios, errors appeared normally distributed without a bias toward over- or underestimation of current clade frequencies.
-These results indicate that reducing submission delays for influenza sequences from a 3-month to 1-month average could effectively eliminate most of our error in current clade frequency estimates.
+We found that our estimates of current clade frequencies were normally distributed with lower variance in the ideal delay scenario than under realistic delays (\FIG{h3n2_current_clade_frequency_errors}A and B).
+For small clades ($\ge$1\% and $<$10\% frequency without delays), errors under ideal delays ranged from -3\% to 4\% with a standard deviation of 1\%, while realistic delays produced errors ranging from -8\% to 7\% with a standard deviation of 2\% (\FIG{h3n2_current_clade_frequency_errors}C).
+We did not observe a bias toward under- or over-estimation of initial small clade frequencies under either delay scenario.
+For large clades ($\ge$10\% frequency), errors under ideal delay ranged from -6\% to 9\% with a standard deviation of 3\% (\FIG{h3n2_current_clade_frequency_errors}D).
+Errors under realistic delays ranged from -17\% to 14\% with a standard deviation of 6\%.
+We observed a slight bias toward underestimation of large clades under the realistic delay scenario, with a median error of 1\%.
+These results show that reducing submission delays for natural H3N2 populations from a 3-month average to a 1-month average could reduce our uncertainty in current clade frequencies by half.
 
-Delayed submissions more strongly affected clade frequencies for simulated A/H3N2-like populations (\FIGSUPP[h3n2_current_clade_frequency_errors]{simulated_current_clade_frequency_errors}).
-With ideal delays, small clade errors ranged from -5\% to 6\% and large clade errors from -7\% to 13\% (\FIGSUPP[h3n2_current_clade_frequency_errors]{simulated_current_clade_frequency_errors}C and D).
-As expected, realistic delays produced higher errors ranging from -13\% to 8\% for small clades and -16\% to 35\% for large clades.
-Delays also induced a bias toward underestimation of large clade frequencies with a mean and median error of 1\% with ideal delays and 3\% with realistic delays (\FIGSUPP[h3n2_current_clade_frequency_errors]{simulated_current_clade_frequency_errors}D).
-This increased error in frequency estimation for simulated populations corresponds with an overall faster evolutionary rate compared to natural A/H3N2 populations, as we observed in the greater distances to the future for simulated populations (\FIGSUPP[h3n2_distances_to_the_future]{simulated_distances_to_the_future}).
-Correspondingly, we would expect seasonal influenza lineages that evolve slower than A/H3N2 (A/H1N1pdm and B/Victoria) to have lower errors in current clade frequency estimates as a result of submission delays.
+Delayed submissions similarly affected clade frequencies for simulated A/H3N2-like populations (\FIGSUPP[h3n2_current_clade_frequency_errors]{simulated_current_clade_frequency_errors}).
+Small clade errors under ideal delays ranged from -3\% to 5\% (standard deviation of 1\%) and under realistic delays ranged from -8\% to 10\% (standard deviation of 2\%) (\FIGSUPP[h3n2_current_clade_frequency_errors]{simulated_current_clade_frequency_errors}C).
+For large clades, errors under ideal delays ranged from -10\% to 11\% (standard deviation of 3\%) and under realistic delays from -15\% to 26\% (standard deviation of 6\%) (\FIGSUPP[h3n2_current_clade_frequency_errors]{simulated_current_clade_frequency_errors}D).
+As with natural H3N2 populations, we observed a slight bias in simulated populations under realistic delays toward underestimation of large clade frequencies with a median error of 1\%.
+We also found that reducing submission delays from realistic to ideal conditions reduces the uncertainty in current clade frequencies by half.
 
 \subsection{Forecast clade frequency errors}
 
@@ -228,10 +230,21 @@ Positive values represented improved forecast accuracy under a given interventio
 \caption{Improvement of clade frequency errors for H3N2 populations between the status quo and realistic interventions.}
 \label{fig:h3n2_effects_of_realistic_interventions}
 %
-\figsupp[Improvement of clade frequency errors for simulated H3N2-like populations]
+\figsupp[Distribution of total absolute clade frequency errors summed across clades per future timepoint for H3N2 populations.]
+{Distribution of total absolute clade frequency errors summed across clades per future timepoint for H3N2 populations.\
+  We calculated the effects of interventions as the difference between these values per future timepoint under the status quo and specific interventions.
+  \figsuppdata{Total absolute clade frequency errors per future timepoint for H3N2 populations; see \url{https://doi.org/xxx}}}
+{\includegraphics[width=6cm]{figures/h3n2_total_absolute_forecast_frequency_errors_by_delay_and_horizon}}\label{figsupp:h3n2_total_absolute_clade_frequency_errors}
+%
+\figsupp[Improvement of clade frequency errors for simulated H3N2-like populations.]
 {Improvement of clade frequency errors for simulated H3N2-like populations between the status quo and realistic interventions.
   \figsuppdata{Differences in absolute clade frequency error per future timepoint and clade between the status quo and realistic interventions for simulated H3N2-like populations; see \url{https://doi.org/xxx}}}
 {\includegraphics[width=6cm]{figures/simulated_effects_of_realistic_interventions}}\label{figsupp:simulated_effects_of_realistic_interventions}
+%
+\figsupp[Distribution of total absolute clade frequency errors summed across clades per future timepoint for simulated H3N2-like populations.]
+{Distribution of total absolute clade frequency errors summed across clades per future timepoint for simulated H3N2-like populations.\
+  \figsuppdata{Total absolute clade frequency errors per future timepoint for simulated H3N2-like populations; see \url{https://doi.org/xxx}}}
+{\includegraphics[width=6cm]{figures/simulated_total_absolute_forecast_frequency_errors_by_delay_and_horizon}}\label{figsupp:simulated_total_absolute_clade_frequency_errors}
 %
 \figdata{Differences in absolute clade frequency error per future timepoint and clade between the status quo and realistic interventions for H3N2 populations.}\label{figdata:h3n2_effects_of_realistic_interventions}
 \figsrccode{Jupyter notebook used to produce this figure and the supplemental figure lives in \texttt{workflow/notebooks/plot-forecast-clade-frequency-errors-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:effects_of_realistic_interventions}
