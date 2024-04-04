@@ -153,7 +153,19 @@ We calculated the error in forecast frequencies for all clades with an initial f
 As with current clade frequency errors, forecast clade frequency errors appeared to be normally distributed (\FIG{h3n2_forecast_clade_frequency_errors}).
 This pattern matches our expectation that at any given initial timepoint the overestimation of one clade's future frequency must cause an underestimation of another current clade's future frequency.
 However, we also observed a consistent bias toward the overestimation of future clade frequencies with median errors ranging from -1\% to -9\% across all forecast horizons and submission delays.
-The bias toward overestimation increases as submission delays decrease with the greatest median error when there was no submission delay.
+For each forecast horizon, the bias toward overestimation increased as submission delays decreased with the greatest median error when there was no submission delay.
+As we reduced the forecast horizon, the median error approached zero, but the pattern of overestimation remained the same across delay types.
+We observed the same pattern in simulated H3N2-like populations (\FIGSUPP[h3n2_forecast_clade_frequency_errors]{simulated_forecast_clade_frequency_errors}), suggesting that overestimation of large clade frequencies is a feature of the forecasting framework itself rather than a feature of the different viral populations or fitness metrics.
+
+If we slightly underestimate current large clade frequencies, why do we slightly overestimate future large clade frequencies?
+Are these the same clades or different clades?
+One reason could be that we also underestimate current frequencies of small clades that quickly rise in frequency.
+What correlates with higher negative forecast error? Initial clade frequency? Initial clade frequency error? Number of samples in the initial clade? Season?
+
+There is a slight trend across all horizons and delays toward overestimating future frequencies of clades with higher initial estimated frequencies.
+There is also a slight trend across all horizons and delays toward overestimating future frequencies of clades with overestimated initial frequencies.
+In other words, we tend to overestimate the initial frequencies of some large clades and thereby overestimate their future frequencies, too.
+At the same time, we slightly tend to underestimate large clade frequencies under realistic delays.
 
 The 12-month forecast horizon produced the most extreme average forecast error (-3\% to -4\%) and standard deviation in error (30\% to 33\%) with a slight bias toward overestimation of future clade frequencies in all delay scenarios (\TABLE{h3n2_forecast_clade_frequency_errors}).
 As the forecast horizon decreased, the average error shifted toward 1\% at the 3-month horizon, representing a slight underestimation of future frequencies.
@@ -180,15 +192,15 @@ These results correspond with the positive effects of reduced submission delays 
 \caption{Forecast clade frequency errors for natural H3N2 populations by forecast horizon in months and submission delay type (none, ideal, or observed).}
 \label{fig:h3n2_forecast_clade_frequency_errors}
 %
-\figsupp[Absolute forecast clade frequency errors for H3N2 populations.]
-{Absolute forecast clade frequency errors for natural H3N2 populations by forecast horizon in months and submission delay type (none, ideal, or observed).
-  \figsuppdata{Current, estimated future, and observed future clade frequencies per initial timepoint, forecast horizon, and submission delay type for H3N2 populations; see \url{https://doi.org/xxx}}}
-{\includegraphics[width=6cm]{figures/h3n2_absolute_forecast_frequency_errors_by_delay_and_horizon}}\label{figsupp:h3n2_absolute_forecast_clade_frequency_errors}
-%
 \figsupp[Forecast clade frequency errors for simulated H3N2-like populations.]
 {Forecast clade frequency errors for simulated H3N2-like HA populations by forecast horizon in months and submission delay type (none, ideal, or realistic).
   \figsuppdata{Current, estimated future, and observed future clade frequencies per initial timepoint, forecast horizon, and submission delay type for simulated H3N2-like populations; see \url{https://doi.org/xxx}}}
 {\includegraphics[width=6cm]{figures/simulated_forecast_frequency_errors_by_delay_and_horizon}}\label{figsupp:simulated_forecast_clade_frequency_errors}
+%
+\figsupp[Absolute forecast clade frequency errors for H3N2 populations.]
+{Absolute forecast clade frequency errors for natural H3N2 populations by forecast horizon in months and submission delay type (none, ideal, or observed).
+  \figsuppdata{Current, estimated future, and observed future clade frequencies per initial timepoint, forecast horizon, and submission delay type for H3N2 populations; see \url{https://doi.org/xxx}}}
+{\includegraphics[width=6cm]{figures/h3n2_absolute_forecast_frequency_errors_by_delay_and_horizon}}\label{figsupp:h3n2_absolute_forecast_clade_frequency_errors}
 %
 \figsupp[Absolute forecast clade frequency errors for simulated H3N2-like populations.]
 {Absolute forecast clade frequency errors for simulated H3N2-like HA populations by forecast horizon in months and submission delay type (none, ideal, or realistic).
