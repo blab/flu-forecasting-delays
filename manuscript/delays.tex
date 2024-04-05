@@ -146,9 +146,9 @@ We also observed the same 50\% reduction in standard deviation of current freque
 
 \subsection{Reducing forecast horizons increases the accuracy and precision of clade frequency forecasts}
 
-We estimated the effects of submission delays and forecast horizons on the accuracy of clade frequency forecasts.
+Next, we estimated the effects of different submission delays and forecast horizons on the accuracy of clade frequency forecasts.
 For each combination of initial timepoint, future timepoint, and delay scenario (\FIG{model_of_delays_and_horizons}B), we calculated initial and predicted future frequencies for all clades present under the given delay and then calculated the corresponding observed future frequencies without delay for clades that descended from the clades present at the initial timepoint.
-For all clades with an initial frequency $\ge$10\% without delays, we calculated the error in forecast frequencies as the difference between predicted future frequencies under the given delay scenario and observed future frequencies without any delay.
+For all clades with an initial frequency $\ge$10\%, we calculated the error in forecast frequencies as the difference between predicted future frequencies under the given delay scenario and observed future frequencies without any delay.
 
 As with current clade frequency errors, forecast clade frequency errors appeared to be normally distributed (\FIG{h3n2_forecast_clade_frequency_errors}).
 This pattern matched our expectation that at any given initial timepoint the overestimation of one clade's future frequency must cause an underestimation of another current clade's future frequency.
@@ -194,7 +194,7 @@ These results suggest that larger clades with overestimated initial frequencies 
 \begin{table}[htb]
   \begin{center}
     \input{tables/h3n2_forecast_frequency_errors_future_by_delay_and_horizon.tex}
-    \caption{Errors in clade frequencies between observed and predicted values by forecast horizon (in months) and submission delay for H3N2 clades with an initial frequency $\geq$10\%.}
+    \caption{Errors in clade frequencies between observed and predicted values by forecast horizon (in months) and submission delay for H3N2 clades with an initial frequency $\geq$10\% under the given delay scenario.}
     \label{tab:h3n2_forecast_clade_frequency_errors}
   \end{center}
 \end{table}
