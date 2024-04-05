@@ -16,7 +16,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% ARTICLE SETUP
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{Effects of delayed strain submission and vaccine development on long-term forecast accuracy of seasonal influenza A/H3N2}
+\title{Effects of delayed sequence submission and vaccine development on long-term forecast accuracy of seasonal influenza A/H3N2}
 
 \author[1*]{John Huddleston}
 \author[2]{Trevor Bedford}
@@ -49,7 +49,7 @@ TKTK
 
 \section{Results}
 
-\subsection{Reducing forecast horizons decreases distances between predicted and observed future populations}
+\subsection{Reducing forecast horizons and submission delays decreases distances between predicted and observed future populations}
 
 Previously, we trained long-term forecasting models that minimized the earth mover's distance \citep{Rubner1998} between predicted and observed future populations \citep{Huddleston2020}.
 Each forecast predicted 12 months into the future from a given initial timepoint to a future timepoint.
@@ -106,7 +106,7 @@ These results indicate that reducing submission delays may have little effect un
   \end{center}
 \end{table}
 
-\subsection{Current clade frequency errors}
+\subsection{Reducing submission delays increases accuracy of current clade frequency estimates}
 
 Although the distance between predicted and observed future populations in amino acids provides an unbiased metric to optimize forecasting models, in practice, we use these models to forecast clade frequencies.
 To produce these forecasts, we estimate the frequencies of extant clades at an initial timepoint and predict their future frequencies from those initial frequencies and the fitness estimates of each clade's tips.
@@ -144,7 +144,7 @@ For large clades, errors under ideal delays ranged from -10\% to 11\% (standard 
 As with natural H3N2 populations, we observed a slight bias in simulated populations under realistic delays toward underestimation of large clade frequencies with a median error of 1\%.
 We also observed the same 50\% reduction in standard deviation of current frequency errors for these simulated H3N2-like populations that we saw for natural H3N2 populations.
 
-\subsection{Forecast clade frequency errors}
+\subsection{Reducing forecast horizons increases the accuracy and precision of clade frequency forecasts}
 
 We estimated the effects of submission delays and forecast horizons on the accuracy of clade frequency forecasts.
 For each combination of initial timepoint, future timepoint, and delay scenario (\FIG{model_of_delays_and_horizons}B), we calculated initial and predicted future frequencies for all clades present under the given delay and then calculated the corresponding observed future frequencies without delay for clades that descended from the clades present at the initial timepoint.
@@ -207,7 +207,7 @@ These results suggest that larger clades with overestimated initial frequencies 
   \end{center}
 \end{table}
 
-\subsection{Effects of realistic interventions on forecast accuracy}
+\subsection{Reduced vaccine development time provides the best improvement in forecast accuracy of available realistic interventions}
 
 Although we have investigated the effects of a range of forecast horizons and submission delays, not all of these scenarios are currently realistic.
 The most we can hope to reduce the forecast horizon with current mRNA vaccine technology is from 12 months to 6 months and the most we could reduce submission delays would be from an average of 3 months to 1 month \citep{Grant2023}.
