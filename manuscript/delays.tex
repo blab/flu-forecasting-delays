@@ -37,7 +37,7 @@
 For the last decade, long-term forecasting models have influenced seasonal influenza vaccine design.
 These models attempt to predict which circulating populations at the time of vaccine strain selection will be dominant 12 months later when the vaccine is distributed to the public.
 Forecasting models depend on hemagglutinin sequences from the WHO’s Global Influenza Surveillance and Response System to identify currently circulating groups of related strains (clades) and estimate clade fitness for forecasts.
-However, the average delay between collection of a hemagglutinin sequence and submission to the Global Initiative on Sharing All Influenza Data (GISAID) database is 3 months.
+However, the average delay between collection of a hemagglutinin sequence and its submission to the Global Initiative on Sharing All Influenza Data (GISAID) database is 3 months.
 Submission delays complicate the already difficult 12-month forecasting problem by reducing our understanding of current clade frequencies at the time of forecasting.
 These constraints of a 12-month forecast horizon and 3-month average submission delays create an upper bound on the accuracy of any long-term forecasting model.
 The global response to the SARS-CoV-2 pandemic revealed that modern vaccine technology can reduce how far we need to forecast into the future to 6 months or less and that expanded support for sequencing can reduce submission delays to GISAID to 1 month on average.
@@ -62,28 +62,34 @@ For this reason, the decision process is partially informed by computational mod
 The earliest of these models predicted future influenza populations from HA sequences alone \citep{Luksza:2014hj,Neher:2014eu,Steinbruck2014}.
 Recent models include phenotypic data from serological experiments \citep{Morris2018,Huddleston2020}, but these models still heavily rely on HA sequences to determine the diversity of clades circulating at the time of a forecast.
 Unfortunately, the average delay between collection of a seasonal influenza A/H3N2 HA sample and submission of its sequence to GISAID is approximately 3 months (\FIG{model_of_delays_and_horizons}A).
-While long-term forecasting models continue to improve technically \citep{Meijers2023}, the constraints of a 12-month forecast horizon and the availability of enough representative HA sequences in GISAID impose an upper bound on the accuracy of long-term forecasts.
+While long-term forecasting models continue to improve technically \citep{Meijers2023}, the constraints of a 12-month forecast horizon and the availability of enough recent, representative HA sequences in GISAID impose an upper bound on the accuracy of long-term forecasts.
 
 The global response to the SARS-CoV-2 pandemic in 2020 showed the speed with which we can develop new vaccines and capture real-time viral genetic diversity.
 Decades of research on mRNA vaccines enabled the development of multiple effective vaccines a year after the emergence of SARS-CoV-2 \citep{Mulligan2020,Baden2021}.
 This mRNA-based vaccine platform also enabled the production of booster vaccines targeting Omicron only 3 months after the choice of a new vaccine candidate \citep{Grant2023}.
+% Additional citation: https://www.who.int/news/item/17-06-2022-interim-statement-on--the-composition-of-current-COVID-19-vaccines
+% recommendation on June 17, 2022 -> boosters available by ? or season start on ?
 In parallel to vaccine development, expanded funding and capacity building for viral genome sequencing enabled unprecedented dense sampling of a pathogen's genetic diversity over a short period of time \citep{Chen2022}.
 By 2021, the average time between collection of a SARS-CoV-2 sample and submission of the sample's genome sequence to GISAID had decreased to approximately 1 month \citep{Brito2022}.
 This reduction in submission delays reflects both increased emergency funding and the sustained efforts by more public health organizations to adopt best practices for genomic epidemiology \citep{Kalia2021,Black2020}.
 
 These technological and societal changes in response to SARS-CoV-2 show that we could realistically expect the same outcomes for seasonal influenza.
 Work on mRNA vaccines for influenza viruses dates back over a decade \citep{Petsch2012,Brazzoli2016,Pardi2018,Feldman2019}.
-A switch from the current egg-based inactivated virus vaccines to mRNA vaccines could reduce the time between vaccine design decisions and the peak influenza season from 12 months to 3 months.
+A switch from the current egg-based inactivated virus vaccines to mRNA vaccines could reduce the time between vaccine design decisions and the peak influenza season from 12 months to 6 months.
 Similarly, the expanded global capacity for sequencing SARS-CoV-2 genomes could easily extend to broader and more rapid genomic surveillance for seasonal influenza, reducing submission delays from 3 months to 1 month on average.
 Assessments of SARS-CoV-2 short-term forecasts show how these reductions in forecast horizon and submission delays can improve the accuracy of short-term forecasts and real-time estimates of clade frequencies \citep{Abousamra2023}.
 
 In this work, we tested the effects of similar improvements to forecast horizons and submission delays on the accuracy of long-term forecasts for seasonal influenza.
 Building on our previously published forecasting framework \citep{Huddleston2020}, we performed a retrospective analysis of HA sequences from simulated and natural A/H3N2 populations under three different submission delay scenarios including a realistic delay (3 months on average), an ideal delay (1 month on average), and no delay (\FIG{model_of_delays_and_horizons}A).
 For each population type and delay scenario, we produced forecasts with previously validated models from 12, 9, 6, and 3 months prior to a given influenza season (\FIG{model_of_delays_and_horizons}B).
-We quantified the improvement in forecasting accuracy based on the genetic distances between and clade frequencies of estimated and observed future populations.
-We also quantified the effect of reduced submission delays on estimates of current clade frequencies.
+We quantified the effect of reduced submission delays on initial clade frequencies as the difference between frequencies with and without a submission delay.
+We calculated forecast accuracy with two metrics including the genetic distance between estimated and observed future populations and difference between estimated and observed clade frequencies of future populations.
 Finally, we calculated the relative improvement in forecast accuracy produced by different realistic interventions including reduced vaccine development time, reduced submission delays, and the combination of both.
 In this way, we show the potential to improve the accuracy of existing long-term forecasting models and, thereby, the quality of vaccine design decisions by simplifying the forecasting problem through realistic societal changes.
+
+% Additional interventions to consider from the forecasting model perspective:
+% 1. Forecast from the same start point to the beginning of the flu season (e.g., 9 months instead of 12 months into the future)
+% 2. Forecast from N weeks earlier than the current date to have more reliable estimates of population composition
 
 \begin{figure}[htb]
 \includegraphics[width=\linewidth]{figures/distribution_of_delays_and_horizons}
