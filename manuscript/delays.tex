@@ -98,7 +98,8 @@ In this way, we show the potential to improve the accuracy of existing long-term
 \label{fig:model_of_delays_and_horizons}
 %
 \figsupp[Distribution of submission delays in days for the pre-pandemic era (2019-2020) and pandemic era (2022-2023)]
-{Distribution of submission delays in days for the pre-pandemic era (2019-2020) and pandemic era (2022-2023).
+{Distribution of submission delays in days for the pre-pandemic era (2019-2020 in blue) and pandemic era (2022-2023 in orange).
+  Vertical dashed lines represent mean delays for each distribution.
   \figsuppdata{Distribution of submission delays; see \url{https://doi.org/xxx}}}
 {\includegraphics[width=6cm]{figures/distribution_of_delays_by_pandemic_era}}\label{figsupp:distribution_of_delays_by_pandemic_era}
 \end{figure}
@@ -362,6 +363,10 @@ We modeled this ideal submission delay distribution by dividing the gamma shape 
 This approach effectively shifted the realistic gamma toward zero, while maintaining the relatively longer upper tail of the distribution.
 To assign ideal submission delays to each sample in our analysis, we randomly sampled from this modified gamma distribution and added the sampled delay in days to the observed collection date.
 Additionally, we required that each sample's ``ideal'' delay be less than or equal to its ``realistic'' delay.
+
+To estimate the effect of increased global sequencing capacity associated with the response to the SARS-CoV-2 pandemic, we summarized the delay distribution for sequences submitted to GISAID between January 1, 2022 and January 1, 2023.
+During this period, global influenza circulation had rebounded to its prepandemic level and 26,394 HA sequences were collected.
+The mean and median submission delays during this period were 76 and 62 days, respectively, representing a trend toward reduced delays compared to the prepandemic era (\FIGSUPP[model_of_delays_and_horizons]{distribution_of_delays_by_pandemic_era}).
 
 \subsection{Forecasting with different forecast horizons}
 
