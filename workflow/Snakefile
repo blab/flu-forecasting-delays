@@ -318,6 +318,7 @@ rule all:
         "results/clade_frequencies_for_simulated.tsv",
         "results/clade_frequencies_for_h3n2.tsv",
         "manuscript/figures/distribution_of_delays_and_horizons.pdf",
+        "manuscript/figures/distribution_of_delays_by_pandemic_era.pdf",
         "manuscript/tables/h3n2_distances_to_the_future_by_delay_and_horizon.tex",
         "manuscript/tables/simulated_distances_to_the_future_by_delay_and_horizon.tex",
         "manuscript/figures/h3n2_distances_to_the_future_by_delay_and_horizon.pdf",
@@ -401,6 +402,7 @@ rule plot_delay_distribution:
         metadata = "data/natural/h3n2/annotated_metadata.tsv",
     output:
         figure = "manuscript/figures/distribution_of_delays_and_horizons.pdf",
+        pre_vs_post_pandemic_era = "manuscript/figures/distribution_of_delays_by_pandemic_era.pdf",
     log:
         notebook = "logs/notebooks/plot-distribution-of-submission-delays-and-horizons.ipynb"
     conda: "envs/notebook.yaml"
