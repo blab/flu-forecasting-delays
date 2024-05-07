@@ -387,6 +387,7 @@ rule plot_distances_to_the_future_by_delay_and_horizon:
     output:
         distances_summary_table="manuscript/tables/{population}_distances_to_the_future_by_delay_and_horizon.tex",
         distances_figure="manuscript/figures/{population}_distances_to_the_future_by_delay_and_horizon.pdf",
+        effects_of_realistic_interventions="manuscript/figures/{population}_effects_of_realistic_interventions_on_distances_to_the_future.pdf",
     log:
         "logs/notebooks/plot-distances-to-the-future-by-delay-type-and-horizon-for-{population}-population.py.ipynb"
     conda: "envs/notebook.yaml"
