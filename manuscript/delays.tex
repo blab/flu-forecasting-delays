@@ -263,7 +263,7 @@ Positive values represented improved forecast accuracy under a given interventio
 
 \begin{figure}[htb]
 \includegraphics[width=\linewidth]{figures/h3n2_effects_of_realistic_interventions}
-\caption{Improvement of clade frequency errors for H3N2 populations between the status quo and realistic interventions.}
+\caption{Improvement of clade frequency errors for H3N2 populations between the status quo (12-month forecast horizon and realistic submission delays) and realistic interventions.}
 \label{fig:h3n2_effects_of_realistic_interventions}
 %
 \figsupp[Distribution of total absolute clade frequency errors summed across clades per future timepoint for H3N2 populations.]
@@ -282,8 +282,21 @@ Positive values represented improved forecast accuracy under a given interventio
   \figsuppdata{Total absolute clade frequency errors per future timepoint for simulated H3N2-like populations; see \url{https://doi.org/xxx}}}
 {\includegraphics[width=6cm]{figures/simulated_total_absolute_forecast_frequency_errors_by_delay_and_horizon}}\label{figsupp:simulated_total_absolute_clade_frequency_errors}
 %
+\figsupp[Improvement of distances to the future (AAs) for H3N2 populations between the status quo (12-month forecast horizon and realistic submission delays) and realistic interventions.]
+{Improvement of distances to the future (AAs) for H3N2 populations between the status quo (12-month forecast horizon and realistic submission delays) and realistic interventions.\
+  The effects of interventions are the differences between distances to the future per future timepoint under the status quo and specific interventions.
+  \figsuppdata{Improvement of distances to the future per future timepoint for H3N2 populations; see \url{https://doi.org/xxx}}}
+{\includegraphics[width=6cm]{figures/h3n2_effects_of_realistic_interventions_on_distances_to_the_future}}\label{figsupp:h3n2_effects_of_realistic_interventions_on_distances_to_the_future}
+%
+\figsupp[Improvement of distances to the future (AAs) for simulated H3N2-like populations between the status quo (12-month forecast horizon and realistic submission delays) and realistic interventions.]
+{Improvement of distances to the future (AAs) for simulated H3N2-like populations between the status quo (12-month forecast horizon and realistic submission delays) and realistic interventions.\
+  The effects of interventions are the differences between distances to the future per future timepoint under the status quo and specific interventions.
+  \figsuppdata{Improvement of distances to the future per future timepoint for simulated H3N2-like populations; see \url{https://doi.org/xxx}}}
+{\includegraphics[width=6cm]{figures/simulated_effects_of_realistic_interventions_on_distances_to_the_future}}\label{figsupp:simulated_effects_of_realistic_interventions_on_distances_to_the_future}
+%
 \figdata{Differences in absolute clade frequency error per future timepoint and clade between the status quo and realistic interventions for H3N2 populations.}\label{figdata:h3n2_effects_of_realistic_interventions}
-\figsrccode{Jupyter notebook used to produce this figure and the supplemental figure lives in \texttt{workflow/notebooks/plot-forecast-clade-frequency-errors-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:effects_of_realistic_interventions}
+\figsrccode{Jupyter notebook used to produce effects of interventions on total absolute clade frequency errors \texttt{workflow/notebooks/plot-forecast-clade-frequency-errors-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:effects_of_realistic_interventions}
+\figsrccode{Jupyter notebook used to produce effects of interventions on distances to the future lives in \texttt{workflow/notebooks/plot-distances-to-the-future-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:effects_of_realistic_interventions_on_distances_to_the_future}
 \end{figure}
 
 \begin{table}[htb]
@@ -302,6 +315,7 @@ Based on the distributions of total absolute forecast error per future timepoint
 We observed similar effects of interventions in simulated H3N2-like populations except that the average effect of reducing submission delays alone was positive for these populations (\FIGSUPP[h3n2_effects_of_realistic_interventions]{simulated_effects_of_realistic_interventions} and \FIGSUPP[h3n2_effects_of_realistic_interventions]{simulated_total_absolute_clade_frequency_errors}).
 Forecasts for simulated H3N2-like populations were generally more accurate than forecasts for natural H3N2 populations, most likely because we knew the true fitness of each simulated sample.
 The decrease in average accuracy of natural H3N2 forecasts under the improved genomic surveillance intervention could reflect the bias of the LBI and mutational load fitness metrics compared to the true fitness of each sample.
+We observed the same patterns for natural and simulated populations, when we calculated the effects of interventions on distances to the future instead of total absolute clade frequency errors (\FIGSUPP[h3n2_effects_of_realistic_interventions]{h3n2_effects_of_realistic_interventions_on_distances_to_the_future} and \FIGSUPP[h3n2_effects_of_realistic_interventions]{simulated_effects_of_realistic_interventions_on_distances_to_the_future}).
 Based on these results, the single most valuable intervention we could make to improve forecast accuracy would be to reduce the forecast horizon to 6 months or less through more rapid vaccine development.
 However, as we reduce the forecast horizon, reducing submission delays should have a greater effect on improving forecast accuracy.
 
