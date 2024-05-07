@@ -390,20 +390,13 @@ This design allowed us to measure the effect of ideal and realistic submission d
 \subsection{Defining clades}
 
 Official clade definitions do not exist for all time periods of our analysis of A/H3N2 populations and do not exist at all for simulated A/H3N2-like populations.
-Therefore, we defined ``clades'' for natural and simulated HA trees based on the amino acid haplotypes of HA at 49 previously defined epitope sites \citep{Luksza:2014hj}.
-This definition of clades follows from realistic clade definitions that tend to depend on mutations in HA1 at known epitope sites.
-Although this automated haplotype-based definition of clades tended to create monophyletic groups, the same haplotype could emerge multiple times independently in different phylogenetic clades.
-
-For each tree in our analysis, we assigned clade labels to each tip and internal node based on their amino acid haplotype at epitope sites.
-For each tip, this clade label was deterministic across trees, as the sequence of a tip did not change.
-Tips also inherited the clade labels of their ancestral nodes in the tree, allowing us to estimate frequencies of larger clades based on the frequencies of tips in those clades.
-However, the inferred sequence at internal nodes varied with the tips present in a given tree.
-For example, submission delays could change the tips present in trees representing the same timepoint, resulting in different internal nodes and inferred sequences.
-Additionally, the continued accumulation of amino acid mutations between timepoints changed the composition of internal nodes over time, complicating the comparison of large clades between initial and future timepoints of a forecast.
-
-To stably define clades for internal nodes in our analysis, we created a single tree with all HA sequences present in our analysis and without delayed sequence submission.
-We inferred ancestral sequences for internal nodes in this tree and assigned clades to each node and tip based on their amino acid haplotypes.
-We created a mapping between each tip and the clades it descended from that allowed us to track clade frequencies across 6-year trees built per timepoint in the analysis.
+Therefore, we defined clades \emph{de novo} for both population types with the same clade assignment algorithm used to produce ``subclades'' for recent seasonal influenza vaccine composition meeting reports \citep{Huddleston2024}.
+The complete algorithm description and implementation is available at \url{https://github.com/neherlab/flu_clades}.
+Briefly, the algorithm scores each node in a phylogenetic tree based on three criteria including the number of child nodes descending from the current node, the number of epitope substitutions on the branch leading to the current node, and the number of amino acid mutations since the last clade assigned to an ancestor in the tree.
+After assigning and normalizing scores, the algorithm traverses the tree in preorder, assigning clade labels to each internal node whose score exceeds a predefined threshold of 1.0.
+Clade labels follow a hierarchical nomenclature inspired by Pangolin \citep{OToole2021} such that the first clade in the tree is named ``A'' and its first immediate descendant is named ``A.1''.
+For each population type, we applied this algorithm to a single phylogeny representing all HA sequences present in our analysis.
+This approach allowed us to produce a single clade assignment per sequence and easily identify related sequences between initial and future timepoints using the hierarchical clade nomenclature.
 
 \subsection{Estimating current and future clade frequencies}
 
