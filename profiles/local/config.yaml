@@ -9,10 +9,6 @@ cores: 4
 # Always let the user know which commands are being executed for each rule and
 # why each rule is being run.
 printshellcmds: True
-reason: True
-
-# Track the run times of each job for debugging.
-stats: stats.json
 
 # Wait a fixed number of seconds for missing files since the cluster file system
 # can be quite slow and the workflow can fail unnecessarily due to this latency.
@@ -22,7 +18,7 @@ latency-wait: 60
 # cluster environment where Docker is not available and Singularity may be
 # prohibitively complicated to setup.
 use-conda: True
-conda-frontend: mamba
+conda-frontend: conda
 
 # Default to rerunning incompete outputs.
 rerun-incomplete: True
