@@ -141,24 +141,24 @@ These results indicate that reducing submission delays may have little effect un
 
 \begin{figure}[htb]
 \includegraphics[width=\linewidth]{figures/h3n2_distances_to_the_future_by_delay_and_horizon}
-\caption{Distances to the future per timepoint (AAs) for natural A/H3N2 populations by forecast horizon and submission delay type based on forecasts from the local branching index (LBI) and mutational load model.
+\caption{Distance to the future per timepoint (AAs) for natural A/H3N2 populations by forecast horizon and submission delay type based on forecasts from the local branching index (LBI) and mutational load model.
   Each point represents a future timepoint whose population was predicted from the number of months earlier corresponding to the forecast horizon.
   Points are colored by submission delay type including forecasts made with no delay (blue), an ideal delay (orange), and a realistic delay (green).}
 \label{fig:h3n2_distances_to_the_future}
 %
-\figsupp[Distances to the future for simulated H3N2-like populations]
-{Distances to the future per timepoint (AAs) for simulated H3N2-like populations by forecast horizon and submission delay type.
-  \figsuppdata{Distances to the future for simulated H3N2-like populations; see \url{https://doi.org/xxx}}}
+\figsupp[Distance to the future for simulated H3N2-like populations]
+{Distance to the future per timepoint (AAs) for simulated H3N2-like populations by forecast horizon and submission delay type.
+  \figsuppdata{Distance to the future for simulated H3N2-like populations; see \url{https://doi.org/xxx}}}
 {\includegraphics[width=6cm]{figures/simulated_distances_to_the_future_by_delay_and_horizon}}\label{figsupp:simulated_distances_to_the_future}
 %
-\figdata{Distances to the future for natural H3N2 populations.}\label{figdata:h3n2_distances_to_the_future}
+\figdata{Distance to the future for natural H3N2 populations.}\label{figdata:h3n2_distances_to_the_future}
 \figsrccode{Jupyter notebook used to produce this figure and the supplemental figure lives in \texttt{workflow/notebooks/plot-distances-to-the-future-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:distances_to_the_future}
 \end{figure}
 
 \begin{table}[htb]
   \begin{center}
     \input{tables/h3n2_distances_to_the_future_by_delay_and_horizon.tex}
-    \caption{Distances to the future in amino acids (mean +/- standard deviation AAs) by forecast horizon (in months) and submission delay for H3N2 populations.}
+    \caption{Distance to the future in amino acids (mean +/- standard deviation AAs) by forecast horizon (in months) and submission delay for H3N2 populations.}
     \label{tab:h3n2_distances_to_the_future}
   \end{center}
 \end{table}
@@ -266,7 +266,8 @@ We selected all forecasts with a 12-month horizon and a realistic delay, to repr
 Then, we selected forecasts for the same future timepoints present in the current conditions for a 6-month horizon and a realistic delay, a 12-month horizon and an ideal delay, and 6-month horizon and an ideal delay.
 Since forecasts between different initial and future timepoints could be represented by different clades, we could not compare forecasts for specific clades between interventions.
 Instead, we calculated the total absolute clade frequency error per future timepoint under each intervention and calculated the improvement in forecast accuracy as the difference in total error between the current conditions and each intervention.
-Positive values represented improved forecast accuracy under a given intervention scenario and negative values represented a reduction in accuracy.
+In addition to this clade-based analysis, we also estimated improvement in forecast accuracy by the difference in distance to the future between different scenarios.
+For both analyses, positive values represented improved forecast accuracy under a given intervention scenario and negative values represented a reduction in accuracy.
 
 \begin{figure}[htb]
 \includegraphics[width=\linewidth]{figures/h3n2_effects_of_realistic_interventions}
