@@ -400,22 +400,24 @@ This approach allowed us to produce a single clade assignment per sequence and e
 
 \subsection{Estimating current and future clade frequencies}
 
-We estimated current clade frequencies for each timepoint in our analysis by summing the frequencies of tips in a given timepoint's tree by the clade assigned to each tip.
+We estimated clade frequencies with a kernel density estimation (KDE) approach as previously described \citep{Huddleston2020} with the \texttt{augur frequencies} command \citep{Huddleston2021}.
+Briefly, we represented each sequence in a given phylogeny by a Gaussian kernel with a mean at the sequence's collection date and a variance of two months.
+We estimated the frequency of each sequence at each timepoint by calculating the probability density function of each KDE at that timepoint and normalizing the resulting values to sum to one.
+
+We calculated clade frequencies for each initial timepoint in our analysis by summing the frequencies of individual sequences in a given timepoint's tree by the clade assigned to each tip.
 To inspect the effects of submission delays on clade frequency estimates, we calculated the clade frequency error per timepoint and clade by subtracting the clade frequency estimated with ideal or realistic delayed sequence submission from the corresponding clade frequency without delays.
 We compared the effects of submission delays for clades of different sizes by filtering clades by their frequency estimated without delays to small clades ($\ge$1\% and $<$10\%) and large clades ($\ge$10\%).
 
-We estimated future clade frequencies for each combination of delay type, initial timepoint, and future timepoint in the analysis using the following steps.
-First, we merged the frequencies per tip at each timepoint with all forecasts made from the same timepoint.
-The resulting table included the initial and predicted frequencies for each tip for each combination of initial timepoint, future timepoint, forecast horizon, and submission delay.
-For each combination of initial timepoint, future timepoint, and forecast horizon under the scenario with no submission delays, we selected the names and frequencies of all tips with nonzero frequencies at the initial or future timepoints.
-Using the tip-to-clade mapping described above, we linked the tips between timepoints based on the most derived (not nested) clades present at both timepoints.
-Specifically, we found all clades associated with tips at the initial timepoint, calculated clade frequencies, merged tips for clades with less than 10\% frequency into their parent clades, and assigned each future tip to its most derived ancestral clade that was also present at the initial timepoint.
-We calculated the observed future frequency of each clade as the sum of tip frequencies at the future timepoint.
-Then, for each delay scenario, we assigned to each tip in the initial timepoint the most derived clade present in the set that linked the initial and future timepoints under no delay.
-From these clade assignments, we calculated the estimated initial and predicted future clade frequencies at the initial timepoint.
-We left-joined the observed future clade frequencies at the future timepoint with the frequencies under the delay scenario, since submission delays could cause some clades from the scenario without delays to be missing at the initial timepoint.
-We set the frequency of missing clades at the initial timepoint to zero.
-Finally, we calculated the forecast error as the difference between the observed and estimated future clade frequencies.
+To estimate the accuracy of clade frequency forecasts, we needed to calculate the predicted and observed future clade frequencies for each combination of delay type, initial timepoint, and future timepoint in the analysis.
+We calculated predicted future frequencies for all clades that existed at given initial timepoint and delay type by summing the predicted future frequency per sequence by the clade assigned to each sequence.
+Clades that existed at any given future timepoint were not always represented at a corresponding initial timepoint either because the clades had not emerged yet or sequences for those clades had a delayed submission.
+For this reason, we calculated observed future clade frequencies in a multi-step process.
+First, we calculated the frequencies of clades observed at the future timepoint without submission delay by summing the individual frequencies of all sequences in each clade.
+Then, we mapped each future clade to its most derived ancestral clade that circulated at the initial timepoint by progressively removing suffixes from the future clade's label until we found a match in the initial timepoint.
+For example, if the future timepoint had a clade named A.1.1.3 and the initial timepoint had the ancestral clade A.1, we would test for the presence of A.1.1.3, A.1.1, and A.1 at the initial timepoint until we found a match.
+The hierarchical nature of the clade assignment algorithm guaranteed that each future clade mapped directly to a clade at each initial timepoint and delay type.
+Finally, we summed the frequencies of future clades by their corresponding initial clades to get the observed future frequencies of clades circulating at the initial timepoint.
+We calculated the accuracy of clade frequency forecasts as the difference between the predicted and observed future clade frequencies.
 
 \section{Acknowledgments}
 
