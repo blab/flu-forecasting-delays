@@ -336,25 +336,34 @@ However, as we reduce the forecast horizon, reducing submission delays should ha
 
 \section{Discussion}
 
-TKTK
+In this work, we showed that decreasing submission delays for seasonal influenza A/H3N2 HA sequences to public databases and decreasing the time to develop new vaccines improves our estimates of current and future populations, respectively.
+Although decreasing submission delays only marginally improved long-term forecast accuracy, shorter delays increased the accuracy of current clade frequency estimates, reduced the bias toward underestimating larger current clades, and improved forecasts 3 months into the future.
+We also confirmed that forecasts became more accurate and more precise with each 3-month reduction in forecast horizon from the status quo of 12 months.
+Under a realistic scenario where a faster vaccine development timeline allowed us to forecast from 6 months before the next season, we found a 25\% improvement in forecasts of total absolute clade frequency and a 38\% improvement in forecasts of mean absolute clade frequencies.
+We confirmed these effects with a previously validated forecasting model using both simulated and natural populations, but we expect that decreasing submission delays and forecast horizons will have similar effect sizes in other forecasting models, too.
 
-% What we learned about submission delays
-% What we learned about forecast horizons
-% What we should do next
+Even without these recommended improvements to sequence submissions and vaccine development, these results inform important next steps to improve forecasting models.
+Current and future frequency estimates should be represented by with corresponding uncertainty intervals.
+From this work, we know that our estimates of larger clade frequencies under realistic submission delays have a wide range of errors of plus or minus 15\%.
+Similarly, the range of 12-month forecast frequency errors under realistic delays include overestimates by up to 66\% and underestimates up to 78\%.
+Long-term forecasts with incomplete current data are highly uncertain by their nature.
+To support informed decisions about vaccine updates, we must communicate that uncertainty of the present and future to decision-makers.
+One simple immediate strategy to provide these uncertainty estimates is to estimate current and future clade frequencies from count data with multinomial probability distributions.
+These uncertainty estimates should also be asymmetric to represent the biases we observed toward underestimating current clade frequencies and overestimating future clade frequencies.
+Another immediate improvement would be to develop models that can use all available data in a way that properly accounts for geographic and temporal biases.
+Current models based on phylogenetic trees need to evenly sample the diversity of currently circulating viruses to produce unbiased trees in a reasonable amount of time.
+Models that could estimate sample fitness and compare predicted and future populations without trees could use more available sequence data from GISAID and reduce the uncertainty in current and future clade frequencies.
+Finally, we could improve existing models by changing the start and end times of our long-term forecasts.
+We could change our forecasting target from the middle of the next season to the beginning of the season, reducing the forecast horizon from 12 to 9 months.
+We could also start forecasting a month earlier than the current date to minimize the effect of submission delays on our estimates of the current global influenza population.
 
-% Reducing forecast horizons from 12 to 6 months would improve forecast accuracy by reducing the uncertainty in our estimates even if a bias toward overestimating clade frequencies remains
-% Start now to forecast to start of the next season (9 months) instead of the middle of the season (12 months)
-% Start forecasting from an initial timepoint in the past, to minimize current clade frequency error associated with submission delays.
-
-% Reducing submission delays does not improve forecasts dramatically, but it does improve our estimates of current clade frequencies.
-
-% Need to move toward methods that use all available data (i.e., non-phylogenetic approaches) in a way that accounts for geographic and temporal bias but allows us to detect emerging haplotypes and compensate for delayed submissions
-
-% Related, need to move toward methods that estimate uncertainty in initial and predicted clade frequencies from count data to give decision-makers a clearer sense of how confident we can be in our estimates of current and future flu populations.
-
-% Need to continue funding global genomic surveillance
-
-% Reducing submission delays impacts other aspects of forecasting beyond clade frequencies: strain selection for serological assays depend on timely submission (Loes et al.), use of escape score calculations relies on detecting any recent sequences with high-scoring escape mutations even if we can't accurately forecast the populations at such low frequencies (Greaney et al., Welsh et al.).
+Despite the small effect that reducing sequence submission delays had on long-term forecasting accuracy, we still see a need to continue funding global genomic surveillance at higher levels than the pre-pandemic period.
+Forecasts of future influenza populations represent a small part of the overall decision-making process for vaccine development compared to estimates of current populations.
+Virologists measure antigenic drift in currently circulating clades with serological assays and use these experimental measurements to recommend potential vaccine candidates \citep{Morris2018,Loes2024}.
+Similarly, prospective measurements of antigenic escape from human sera allow researchers to predict substitutions that could escape global immunity \citep{Lee2019,Greaney2022,Welsh2023}.
+The appearance of even a single sequence in GISAID with a potentially important antigenic substitution could be enough to inform choices of vaccine candidate viruses.
+More rapid sequence submission will improve our understanding of the present and give decision-makers more choices for new vaccines.
+Such reductions in submission delays depend on substantial, sustained funding and capacity building globally.
 
 % Models may also benefit from explicitly accounting for submission delays by geographic region to better estimate uncertainty (e.g., Feng et al. 2024).
 % For example, our original model (Huddleston et al. 2020) used all available data at each timepoint to fit model parameters which could have produced unrealistic model accuracy.
