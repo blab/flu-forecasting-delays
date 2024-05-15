@@ -361,8 +361,8 @@ rule plot_forecast_frequency_errors_by_delay_and_horizon:
         effects_of_realistic_interventions_source_table="manuscript/tables/{population}_effects_of_realistic_interventions.tsv",
     conda: "envs/notebook.yaml"
     params:
-        large_frequency_lower_threshold=0.1,
-        large_frequency_upper_threshold=1.0,
+        large_frequency_lower_threshold=10.0,
+        large_frequency_upper_threshold=100.0,
         realistic_delay_type="realistic",
     log:
         "logs/plot-forecast-clade-frequency-errors-by-delay-type-and-horizon-for-{population}-population.py.ipynb"
