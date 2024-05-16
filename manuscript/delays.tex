@@ -16,7 +16,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% ARTICLE SETUP
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{Effects of delayed sequence submission and vaccine development on long-term forecast accuracy of seasonal influenza A/H3N2}
+\title{Effects of delayed vaccine development and sequence submission on long-term forecast accuracy of seasonal influenza A/H3N2}
+%\title{Faster vaccine development improves the accuracy and precision of long-term forecasts for seasonal influenza A/H3N2}
 
 \author[1*]{John Huddleston}
 \author[2]{Trevor Bedford}
@@ -42,7 +43,7 @@ Submission delays complicate the already difficult 12-month forecasting problem 
 These constraints of a 12-month forecast horizon and 3-month average submission delays create an upper bound on the accuracy of any long-term forecasting model.
 The global response to the SARS-CoV-2 pandemic revealed that modern vaccine technology can reduce how far we need to forecast into the future to 6 months or less and that expanded support for sequencing can reduce submission delays to GISAID to 1 month on average.
 To determine whether these recent advances could also improve long-term forecasts for seasonal influenza, we quantified the effects of reducing forecast horizons and submission delays on the accuracy of forecasts for A/H3N2 populations.
-We found that reducing forecast horizons from 12 months to 6 or 3 months reduced average forecasting errors by 36\% and 56\%, respectively.
+We found that reducing forecast horizons from 12 months to 6 or 3 months reduced average absolute forecasting errors by 36\% and 56\%, respectively.
 Reducing submission delays provided little improvement to forecasting accuracy but decreased the uncertainty in current clade frequencies by 50\%.
 These results show the potential to substantially improve the accuracy of existing influenza forecasting models by modernizing influenza vaccine development and increasing global sequencing capacity to match global efforts in response to the SARS-CoV-2 pandemic.
 \end{abstract}
@@ -80,11 +81,13 @@ A switch from the current egg-based inactivated virus vaccines to mRNA vaccines 
 Similarly, the expanded global capacity for sequencing SARS-CoV-2 genomes could reasonably extend to broader and more rapid genomic surveillance for seasonal influenza, reducing submission delays from 3 months to 1 month on average.
 Even in the years immediately after the onset of the SARS-CoV-2 pandemic, we have observed a trend toward the reduced average submission delays that we would expect from increased global capacity for genome sequencing (\FIGSUPP[model_of_delays_and_horizons]{distribution_of_delays_by_pandemic_era}).
 
-In this work, we tested the effects of similar improvements to forecast horizons and submission delays on the accuracy of long-term forecasts for seasonal influenza.
-Building on our previously published forecasting framework \citep{Huddleston2020}, we performed a retrospective analysis of HA sequences from simulated and natural A/H3N2 populations under three different submission delay scenarios including a realistic delay (3 months on average), an ideal delay (1 month on average), and no delay (\FIG{model_of_delays_and_horizons}A).
-For each population type and delay scenario, we produced forecasts with previously validated models from 12, 9, 6, and 3 months prior to a given influenza season (\FIG{model_of_delays_and_horizons}B).
-We quantified the effect of reduced submission delays on initial clade frequencies as the difference between frequencies with and without a submission delay.
-We calculated forecast accuracy with two metrics including the genetic distance between estimated and observed future populations and difference between estimated and observed clade frequencies of future populations.
+In this work, we tested the effects of similar reductions in forecast horizons and submission delays on the accuracy of long-term forecasts for seasonal influenza.
+Building on our previously published forecasting framework \citep{Huddleston2020}, we performed a retrospective analysis of HA sequences from simulated and natural A/H3N2 populations.
+For each population type, we produced forecasts from 12, 9, 6, and 3 months prior to a given influenza season (\FIG{model_of_delays_and_horizons}A).
+We made each forecast under three different submission delay scenarios including a realistic delay (3 months on average), an ideal delay (1 month on average), and no delay (\FIG{model_of_delays_and_horizons}B).
+First, we calculated the genetic distance between predicted and observed future populations using the same earth mover's distance metric that we originally used to train our forecasting models \citep{Rubner1998}.
+Next, we calculated the effect of forecast horizon and submission delays on clade frequencies.
+We quantified the effect of reduced submission delays on initial clade frequencies, and we calculated forecast accuracy as the difference between predicted and observed clade frequencies of future populations.
 Finally, we calculated the relative improvement in forecast accuracy produced by different realistic interventions including reduced vaccine development time, reduced submission delays, and the combination of both.
 In this way, we show the potential to improve the accuracy of existing long-term forecasting models and, thereby, the quality of vaccine design decisions by simplifying the forecasting problem through realistic societal changes.
 
@@ -94,14 +97,15 @@ In this way, we show the potential to improve the accuracy of existing long-term
 
 \begin{figure}[htb!]
 \includegraphics[width=\linewidth]{figures/distribution_of_delays_and_horizons}
-\caption{Model of submission delays and forecast horizons.
-  A) Observed delays in days between collection of viral samples and submission of corresponding HA sequences to GISAID (purple) for samples collected in 2019 have a mean of 98 days (approximately 3 months).
+\caption{Model of forecast horizons and submission delays.
+  A) Long-term forecasting models historically predicted 12 months into the future from April and October because of the time required to develop and distribute a new vaccine \citep{Luksza:2014hj}.
+  We test three additional shorter forecast horizons in three-month intervals of 9, 6, and 3 months prior to the same time in the future season.
+  For each forecast horizon, we calculate the accuracy of forecasts under each of the three submission delays reflected above including no delay (blue), realistic delay (green), and ideal delay (orange).
+  B) Observed delays in days between collection of viral samples and submission of corresponding HA sequences to GISAID (purple) for samples collected in 2019 have a mean of 98 days (approximately 3 months).
   A gamma distribution fit to the observed delay distribution with a similar mean and shape (green) represents a realistic submission delay that we sample from to assign ``submission dates'' to simulated and natural H3N2 populations.
   A gamma distribution with a mean that is one third of the realistic distribution (orange) represents an ideal submission delay analogous to the 1-month average observed delays for SARS-CoV-2 genomes.
   Retrospective analyses including fitting of forecasting models typically filter HA sequences by collection date instead of submission dates in which case there is no delay (blue).
-  B) Long-term forecasting models historically predicted 12 months into the future from April and October because of the time required to develop and distribute a new vaccine \citep{Luksza:2014hj}.
-  We test three additional shorter forecast horizons in three-month intervals of 9, 6, and 3 months prior to the same time in the future season.
-  For each forecast horizon, we calculate the accuracy of forecasts under each of the three submission delays reflected above including no delay (blue), realistic delay (green), and ideal delay (orange).}\label{fig:model_of_delays_and_horizons}
+}\label{fig:model_of_delays_and_horizons}
 %
 \figsupp[Distribution of submission delays in days for the pre-pandemic era (2019-2020) and pandemic era (2022-2023)]
 {Distribution of submission delays in days for the pre-pandemic era (2019-2020 in blue) and pandemic era (2022-2023 in orange).
@@ -112,7 +116,7 @@ In this way, we show the potential to improve the accuracy of existing long-term
 
 \section{Results}
 
-\subsection{Reducing submission delays and forecast horizons decreases distances between predicted and observed future populations}
+\subsection{Reducing forecast horizons and submission delays decreases distances between predicted and observed future populations}
 
 Previously, we trained long-term forecasting models that minimized the genetic distance between predicted and observed future populations \citep{Huddleston2020}.
 We predicted each future population by projecting the frequency of each sample from the initial population 12 months in the future based on the estimated fitness per sample.
@@ -122,21 +126,19 @@ This approach also allowed us to measure forecasting accuracy without prior clad
 We identified the best forecasting models as those that minimized this distance between populations.
 The most accurate sequence-only model for the 12-month forecast horizon estimated fitness with local branching index (LBI) \citep{Neher:2014eu} and mutational load \citep{Luksza:2014hj}.
 
-To understand the effects of reducing submission delays and forecast horizons on long-term forecast accuracy, we produced forecasts 3, 6, 9, and 12 months into the future using HA sequences available at each initial timepoint under each submission delay scenario including no delay, ideal delay ($\sim$1-month average), and realistic delay ($\sim$3-month average) (\FIG{model_of_delays_and_horizons}).
+To understand the effects of reducing forecast horizons and submission delays on long-term forecast accuracy, we produced forecasts 3, 6, 9, and 12 months into the future using HA sequences available at each initial timepoint under each submission delay scenario including no delay, ideal delay ($\sim$1-month average), and realistic delay ($\sim$3-month average) (\FIG{model_of_delays_and_horizons}).
 For natural A/H3N2 populations, we used the best sequence-only forecasting model, LBI and mutational load, which we previously trained on 12-month forecasts without any submission delay.
 For simulated A/H3N2-like populations, we used the observed fitness per sample provided by the simulator.
-For each submission delay type and forecast horizon, we calculated the earth mover's distance between the predicted future populations under the given delay scenario and the observed future populations without any delay in sequence availability.
-We anticipated that reducing either the submission delay or the forecast horizon would reduce the distance to the future in amino acids (AAs), representing increased accuracy of the forecasting models.
+For each forecast horizon and submission delay type, we calculated the earth mover's distance between the predicted future populations under the given delay scenario and the observed future populations without any delay in sequence availability.
+We anticipated that reducing either the forecast horizon or the submission delay would reduce the distance to the future in amino acids (AAs), representing increased accuracy of the forecasting models.
 
-We found that reducing submission delays from a $\sim$3-month average delay in the realistic scenario to a $\sim$1-month average delay in the ideal scenario had relatively little effect on distance to the future.
-At the 12-month forecast horizon, the ideal and realistic delay scenarios produced similar predictions, with the only noticeable improvement observed under the scenario without any submission delays (\FIG{h3n2_distances_to_the_future}).
-As the forecast horizon decreased, the effect of submission delays appeared more prominent, with the greatest effect of reduced delays observed at the 3-month forecast horizon.
-However, the average improvement from the realistic to the ideal submission delay scenario at the 3-month horizon was still only $~\sim$0.3 AAs (\TABLE{h3n2_distances_to_the_future}).
-Reducing submission delays also had little effect on the variance per timepoint in predicted future populations.
-Interestingly, we observed a stronger effect of reducing submission delays in simulated A/H3N2-like populations (\FIGSUPP[h3n2_distances_to_the_future]{simulated_distances_to_the_future}).
-We found the best average improvement between realistic and ideal delays of $\sim$0.7 AAs at the 3-month horizon.
-As with natural A/H3N2 populations, the effect of reducing submission delays appeared to increase as the forecast horizon decreased.
-These results indicate that reducing submission delays may have little effect under the current 12-month forecast approach used for influenza vaccine composition, but reducing submission delays should become increasingly important as we forecast from closer to future influenza populations.
+We found that reducing the forecast horizon from the current standard of 12 months linearly reduced the distance to the future population predicted by the LBI and mutational load model (\FIG{h3n2_distances_to_the_future}).
+Under the all three submission delay scenarios, the distance to the future reduced by approximately 1 AA on average for each 3-month reduction in forecast horizon (\TABLE{h3n2_distances_to_the_future}).
+We observed the greatest average reduction in distance to the future ($\sim$1.4 AAs) between the 6- and 3-month forecast horizons.
+Reducing the forecast horizon also noticeably reduced the variance per timepoint in predicted future populations across all delay scenarios (\FIG{h3n2_distances_to_the_future}).
+For example, the standard deviation of distances to the future reduced from $\sim$2.6 AAs at the 12-month horizon to $\sim$1 AA at the 3-month horizon (\TABLE{h3n2_distances_to_the_future}).
+We observed the same pattern for simulated A/H3N2-like populations (\FIGSUPP[h3n2_distances_to_the_future]{simulated_distances_to_the_future}).
+Thus, reducing how far we have to predict into the future increased both forecast accuracy and precision.
 
 \begin{figure}[htb]
 \includegraphics[width=\linewidth]{figures/h3n2_distances_to_the_future_by_delay_and_horizon}
@@ -162,15 +164,17 @@ These results indicate that reducing submission delays may have little effect un
   \end{center}
 \end{table}
 
-In contrast, we found that reducing the forecast horizon from the current standard of 12 months linearly reduced the distance to the future population predicted by the LBI and mutational load model (\FIG{h3n2_distances_to_the_future}).
-Under the all three submission delay scenarios, the distance to the future reduced by approximately 1 AA on average for each 3-month reduction in forecast horizon (\TABLE{h3n2_distances_to_the_future}).
-We observed the greatest average reduction in distance to the future ($\sim$1.4 AAs) between the 6- and 3-month forecast horizons.
-Reducing the forecast horizon also noticeably reduced the variance per timepoint in predicted future populations across all delay scenarios (\FIG{h3n2_distances_to_the_future}).
-For example, the standard deviation of distances to the future reduced from $\sim$2.6 AAs at the 12-month horizon to $\sim$1 AA at the 3-month horizon (\TABLE{h3n2_distances_to_the_future}).
-We observed the same pattern for simulated A/H3N2-like populations (\FIGSUPP[h3n2_distances_to_the_future]{simulated_distances_to_the_future}).
-Thus, reducing how far we have to predict into the future increased both forecast accuracy and precision.
+In contrast, we found that reducing submission delays from a $\sim$3-month average delay in the realistic scenario to a $\sim$1-month average delay in the ideal scenario had a weaker effect on distance to the future.
+At the 12-month forecast horizon, the ideal and realistic delay scenarios produced similar predictions, with the only noticeable improvement observed under the scenario without any submission delays (\FIG{h3n2_distances_to_the_future}).
+As the forecast horizon decreased, the effect of submission delays appeared more prominent, with the greatest effect of reduced delays observed at the 3-month forecast horizon.
+However, the average improvement from the realistic to the ideal submission delay scenario at the 3-month horizon was still only $~\sim$0.3 AAs (\TABLE{h3n2_distances_to_the_future}).
+Reducing submission delays also had little effect on the variance per timepoint in predicted future populations.
+Interestingly, we observed a stronger effect of reducing submission delays in simulated A/H3N2-like populations (\FIGSUPP[h3n2_distances_to_the_future]{simulated_distances_to_the_future}).
+We found the best average improvement between realistic and ideal delays of $\sim$0.7 AAs at the 3-month horizon.
+As with natural A/H3N2 populations, the effect of reducing submission delays appeared to increase as the forecast horizon decreased.
+These results indicate that reducing submission delays may have little effect under the current 12-month forecast approach used for influenza vaccine composition, but reducing submission delays should become increasingly important as we forecast from closer to future influenza populations.
 
-\subsection{Reducing submission delays increases accuracy of current clade frequency estimates}
+\subsection{Reducing submission delays improves estimates of current clade frequencies}
 
 Although the distance between predicted and observed future populations in amino acids provides an unbiased metric to optimize forecasting models, in practice, we use these models to forecast clade frequencies.
 To produce these forecasts, we estimate the frequencies of extant clades at an initial timepoint and predict their future frequencies from those initial frequencies and the fitness estimates of each clade's tips.
@@ -178,7 +182,7 @@ Given the importance of initial clade frequencies in these forecasts, we tested 
 For each timepoint and each clade with an initial frequency of at least 1\%, we calculated the clade frequency error as the difference between clade frequency without submission delays and the frequency with either an ideal or realistic delay.
 Positive error values represented underestimation of current clades, while negative values represented overestimation.
 
-We found that our estimates of current clade frequencies were normally distributed with lower variance in the ideal delay scenario than under realistic delays (\FIG{h3n2_current_clade_frequency_errors}A and B).
+We found that errors in current clade frequencies were normally distributed with lower variance in the ideal delay scenario than under realistic delays (\FIG{h3n2_current_clade_frequency_errors}A and B).
 For small clades ($\ge$1\% and $<$10\% frequency without delays), errors under ideal delays ranged from -3\% to 4\% with a standard deviation of 1\%, while realistic delays produced errors ranging from -8\% to 7\% with a standard deviation of 2\% (\FIG{h3n2_current_clade_frequency_errors}C).
 We did not observe a bias toward underestimation or overestimation of initial small clade frequencies under either delay scenario.
 For large clades ($\ge$10\% frequency), errors under ideal delay ranged from -6\% to 9\% with a standard deviation of 3\% (\FIG{h3n2_current_clade_frequency_errors}D).
@@ -210,16 +214,16 @@ We also observed the same 50\% reduction in standard deviation of current freque
 
 \subsection{Reducing forecast horizons increases the accuracy and precision of clade frequency forecasts}
 
-Next, we estimated the effects of different submission delays and forecast horizons on the accuracy of clade frequency forecasts.
-For each combination of initial timepoint, future timepoint, and delay scenario (\FIG{model_of_delays_and_horizons}B), we calculated initial and predicted future frequencies for all clades present under the given delay and then calculated the corresponding observed future frequencies without delay for clades that descended from the clades present at the initial timepoint.
+Next, we estimated the effects of different forecast horizons and submission delays on the accuracy of clade frequency forecasts.
+For each combination of initial timepoint, future timepoint, and delay scenario (\FIG{model_of_delays_and_horizons}A), we calculated initial and predicted future frequencies for all clades present under the given delay and then calculated the corresponding observed future frequencies without delay for clades that descended from the clades present at the initial timepoint.
 For all clades with an initial frequency $\ge$10\%, we calculated the error in forecast frequencies as the difference between predicted future frequencies under the given delay scenario and observed future frequencies without any delay.
 
 As with current clade frequency errors, forecast clade frequency errors appeared to be normally distributed (\FIG{h3n2_forecast_clade_frequency_errors}).
 This pattern matched our expectation that at any given initial timepoint the overestimation of one clade's future frequency must cause an underestimation of another current clade's future frequency.
 The standard deviation of forecast errors decreased with decreasing forecast horizon and, with the exception of the 12-month horizon, with decreasing submission delays (\TABLE{h3n2_forecast_clade_frequency_errors}).
 Reducing the forecast horizon had a greater effect on the variation in forecast errors than reducing submission delays.
-For example, the standard deviation of forecast errors at the 12-month horizon under realistic submission delays was 0.30, while the standard deviation for the 6-month horizon under realistic delays was 0.17 (\TABLE{h3n2_forecast_clade_frequency_errors}).
-In contrast, the standard deviation at the 12-month horizon under ideal submission delays was slightly higher at 0.32.
+For example, the standard deviation of forecast errors at the 12-month horizon under realistic submission delays was 30\%, while the standard deviation for the 6-month horizon under realistic delays was 17\% (\TABLE{h3n2_forecast_clade_frequency_errors}).
+In contrast, the standard deviation at the 12-month horizon under ideal submission delays was slightly higher at 32\%.
 For all other forecast horizons, reducing the submission delays from realistic to ideal only reduced the standard deviation by 1\%.
 We found similar patterns for the absolute values of forecast clade frequency errors where reducing the forecast horizon from 12 months to 6 reduced the average absolute error from 24\% to 15\%, but reducing the submission delays under any forecast horizon had little effect (\TABLE{h3n2_forecast_clade_frequency_errors}).
 These results show that the effect size of submission delays on forecast errors is low relative to the effect of the forecast horizon.
@@ -231,7 +235,7 @@ These results show that the effect size of submission delays on forecast errors 
 %
 \figsupp[Forecast clade frequency errors for simulated H3N2-like populations.]
 {Forecast clade frequency errors for simulated H3N2-like HA populations by forecast horizon in months and submission delay type (none, ideal, or realistic).
-  \figsuppdata{Current, estimated future, and observed future clade frequencies per initial timepoint, forecast horizon, and submission delay type for simulated H3N2-like populations; see \url{https://doi.org/xxx}}}
+  \figsuppdata{Current, predicted future, and observed future clade frequencies per initial timepoint, forecast horizon, and submission delay type for simulated H3N2-like populations; see \url{https://doi.org/xxx}}}
 {\includegraphics[width=6cm]{figures/simulated_forecast_frequency_errors_by_delay_and_horizon}}\label{figsupp:simulated_forecast_clade_frequency_errors}
 %
 \figsupp[Forecast clade frequency errors for H3N2 populations plotted by initial frequency with delays.]
@@ -242,7 +246,7 @@ These results show that the effect size of submission delays on forecast errors 
 {Forecast clade frequency errors for H3N2 populations plotted by initial frequency errors with delay.}
 {\includegraphics[width=6cm]{figures/h3n2_forecast_frequency_errors_by_initial_frequency_errors_delay_and_horizon}}\label{figsupp:h3n2_forecast_clade_frequency_errors_by_initial_frequency_errors}
 %
-\figdata{Current, estimated future, and observed future clade frequencies per initial timepoint, forecast horizon, and submission delay type for H3N2 populations.}\label{figdata:h3n2_clade_frequencies}
+\figdata{Current, predicted future, and observed future clade frequencies per initial timepoint, forecast horizon, and submission delay type for H3N2 populations.}\label{figdata:h3n2_clade_frequencies}
 \figsrccode{Jupyter notebook used to produce this figure and the supplemental figures lives in \texttt{workflow/notebooks/plot-forecast-clade-frequency-errors-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:forecast_clade_frequency_errors}
 \end{figure}
 
@@ -269,7 +273,7 @@ Although we have investigated the effects of a range of forecast horizons and su
 The most we can hope to reduce the forecast horizon with current mRNA vaccine technology is from 12 months to 6 months and the most we could reduce submission delays would be from an average of 3 months to 1 month \citep{Grant2023}.
 In practice, we wanted to know how much a reduction in forecast horizon or submission delay could improve the accuracy of forecasts to each future timepoint.
 To determine the effects of realistic interventions on forecast accuracy, we inspected the reduction in total absolute forecast error per future timepoint associated with improved vaccine development (reducing forecast horizon from 12 months to 6 months), improved genomic surveillance (reducing delays from a 3-month average to 1 month), and the combination of both improvements.
-We selected all forecasts with a 12-month horizon and a realistic delay, to represent current forecast conditions.
+We selected all forecasts with a 12-month horizon and a realistic delay, to represent current forecast conditions or ``the status quo''.
 Then, we selected forecasts for the same future timepoints present in the current conditions for a 6-month horizon and a realistic delay, a 12-month horizon and an ideal delay, and 6-month horizon and an ideal delay.
 Since forecasts between different initial and future timepoints could be represented by different clades, we could not compare forecasts for specific clades between interventions.
 Instead, we calculated the total absolute clade frequency error per future timepoint under each intervention and calculated the improvement in forecast accuracy as the difference in total error between the current conditions and each intervention.
@@ -336,13 +340,13 @@ However, as we reduce the forecast horizon, reducing submission delays should ha
 
 \section{Discussion}
 
-In this work, we showed that decreasing submission delays for seasonal influenza A/H3N2 HA sequences to public databases and decreasing the time to develop new vaccines improves our estimates of current and future populations, respectively.
+In this work, we showed that decreasing the time to develop new vaccines for seasonal influenza A/H3N2 and decreasing submission delays of HA sequences to public databases improves our estimates of future and current populations, respectively.
+We confirmed that forecasts became more accurate and more precise with each 3-month reduction in forecast horizon from the status quo of 12 months.
 Although decreasing submission delays only marginally improved long-term forecast accuracy, shorter delays increased the accuracy of current clade frequency estimates, reduced the bias toward underestimating larger current clades, and improved forecasts 3 months into the future.
-We also confirmed that forecasts became more accurate and more precise with each 3-month reduction in forecast horizon from the status quo of 12 months.
 Under a realistic scenario where a faster vaccine development timeline allowed us to forecast from 6 months before the next season, we found a 25\% improvement in forecasts of total absolute clade frequency and a 38\% improvement in forecasts of mean absolute clade frequencies.
-We confirmed these effects with a previously validated forecasting model using both simulated and natural populations, but we expect that decreasing submission delays and forecast horizons will have similar effect sizes in other forecasting models, too.
+We confirmed these effects with a previously validated forecasting model using both simulated and natural populations, but we expect that decreasing forecast horizons and submission delays will have similar effect sizes in other forecasting models, too.
 
-Even without these recommended improvements to sequence submissions and vaccine development, these results inform important next steps to improve forecasting models.
+Even without these recommended improvements to vaccine development and sequence submissions, these results inform important next steps to improve forecasting models.
 Current and future frequency estimates should be represented by with corresponding uncertainty intervals.
 From this work, we know that our estimates of larger clade frequencies under realistic submission delays have a wide range of errors of plus or minus 15\%.
 Similarly, the range of 12-month forecast frequency errors under realistic delays include overestimates by up to 66\% and underestimates up to 78\%.
@@ -358,10 +362,10 @@ We could change our forecasting target from the middle of the next season to the
 We could also start forecasting a month earlier than the current date to minimize the effect of submission delays on our estimates of the current global influenza population.
 
 Despite the small effect that reducing sequence submission delays had on long-term forecasting accuracy, we still see a need to continue funding global genomic surveillance at higher levels than the pre-pandemic period.
-Forecasts of future influenza populations represent a small part of the overall decision-making process for vaccine development compared to estimates of current populations.
-Virologists measure antigenic drift in currently circulating clades with serological assays and use these experimental measurements to recommend potential vaccine candidates \citep{Morris2018,Loes2024}.
+Compared to estimates of current viral diversity, forecasts of future influenza populations only represent one component of the overall decision-making process for vaccine development.
+For example, virologists must choose potential vaccine candidates from the diversity of circulating clades well in advance of vaccine composition meetings to have time to grow virus in cells and eggs and measure antigenic drift with serological assays \citep{Morris2018,Loes2024}.
 Similarly, prospective measurements of antigenic escape from human sera allow researchers to predict substitutions that could escape global immunity \citep{Lee2019,Greaney2022,Welsh2023}.
-The appearance of even a single sequence in GISAID with a potentially important antigenic substitution could be enough to inform choices of vaccine candidate viruses.
+The appearance of even a few sequences in GISAID with a potentially important antigenic substitution could be enough to inform choices of vaccine candidate viruses.
 More rapid sequence submission will improve our understanding of the present and give decision-makers more choices for new vaccines.
 Such reductions in submission delays depend on substantial, sustained funding and capacity building globally.
 
