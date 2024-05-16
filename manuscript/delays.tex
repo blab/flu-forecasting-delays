@@ -60,9 +60,9 @@ The WHO's understanding of that genetic diversity comes from HA sequences collec
 Given the 12-month delay between the decision to update an influenza vaccine and the peak of the following influenza season, the vaccine composition decision is commonly framed as a long-term forecasting problem \citep{Lassig2017}.
 For this reason, the decision process is partially informed by computational models that attempt to predict the genetic composition of seasonal influenza populations 12 months in the future based on genetic and phenotypic data \citep{Morris2018}.
 The earliest of these models predicted future influenza populations from HA sequences alone \citep{Luksza:2014hj,Neher:2014eu,Steinbruck2014}.
-Recent models include phenotypic data from serological experiments \citep{Morris2018,Huddleston2020}, but these models still heavily rely on HA sequences to determine the diversity of clades circulating at the time of a forecast.
+Recent models include phenotypic data from serological experiments \citep{Morris2018,Huddleston2020,Meijers2023}, but these models still heavily rely on HA sequences to determine the diversity of clades circulating at the time of a forecast.
 Unfortunately, the average delay between collection of a seasonal influenza A/H3N2 HA sample and submission of its sequence to GISAID had been approximately 3 months in the era prior to the SARS-CoV-2 pandemic (\FIG{model_of_delays_and_horizons}A).
-While long-term forecasting models continue to improve technically \citep{Meijers2023}, the constraints of a 12-month forecast horizon and the availability of enough recent, representative HA sequences in GISAID impose an upper bound on the accuracy of long-term forecasts.
+While long-term forecasting models continue to improve technically, the constraints of a 12-month forecast horizon and the availability of enough recent, representative HA sequences in GISAID impose an upper bound on the accuracy of long-term forecasts.
 
 The global response to the SARS-CoV-2 pandemic in 2020 showed the speed with which we can develop new vaccines and capture real-time viral genetic diversity.
 Decades of research on mRNA vaccines enabled the development of multiple effective vaccines a year after the emergence of SARS-CoV-2 \citep{Mulligan2020,Baden2021}.
@@ -78,7 +78,7 @@ These technological and societal changes in response to SARS-CoV-2 suggest that 
 Work on mRNA vaccines for influenza viruses dates back over a decade \citep{Petsch2012,Brazzoli2016,Pardi2018,Feldman2019}.
 A switch from the current egg-based inactivated virus vaccines to mRNA vaccines could reduce the time between vaccine design decisions and the peak influenza season from 12 months to 6 months.
 Similarly, the expanded global capacity for sequencing SARS-CoV-2 genomes could reasonably extend to broader and more rapid genomic surveillance for seasonal influenza, reducing submission delays from 3 months to 1 month on average.
-Even since the pandemic era, we have observed a trend toward the reduced average submission delays that we would expect from increased global capacity for genome sequencing (\FIGSUPP[model_of_delays_and_horizons]{distribution_of_delays_by_pandemic_era}).
+Even in the years immediately after the onset of the SARS-CoV-2 pandemic, we have observed a trend toward the reduced average submission delays that we would expect from increased global capacity for genome sequencing (\FIGSUPP[model_of_delays_and_horizons]{distribution_of_delays_by_pandemic_era}).
 
 In this work, we tested the effects of similar improvements to forecast horizons and submission delays on the accuracy of long-term forecasts for seasonal influenza.
 Building on our previously published forecasting framework \citep{Huddleston2020}, we performed a retrospective analysis of HA sequences from simulated and natural A/H3N2 populations under three different submission delay scenarios including a realistic delay (3 months on average), an ideal delay (1 month on average), and no delay (\FIG{model_of_delays_and_horizons}A).
