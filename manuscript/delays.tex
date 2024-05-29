@@ -120,8 +120,8 @@ In this way, we show the potential to improve the accuracy of existing long-term
 
 \subsection{Reducing forecast horizons and submission delays decreases distances between predicted and observed future populations}
 
-Previously, we trained long-term forecasting models that minimized the genetic distance between predicted and observed future populations \citep{Huddleston2020}.
-We predicted each future population by projecting the frequency of each sample from the initial population 12 months in the future based on the estimated fitness per sample.
+Previously, we trained long-term forecasting models that minimized the genetic distance between predicted and observed future populations of HA sequences \citep{Huddleston2020}.
+We predicted each future population by projecting the frequency of each HA sequence from the initial population 12 months in the future based on the estimated fitness per sequence.
 We calculated the distance between the frequencies and HA amino acid sequences of the predicted and observed future populations using the earth mover's distance metric \citep{Rubner1998}.
 This metric effectively provided an average distance between amino acid sequences of the two populations.
 This approach also allowed us to measure forecasting accuracy without prior clade definitions that could borrow information from the future or change between initial and future timepoints.
@@ -171,21 +171,23 @@ At the 12-month forecast horizon, the ideal and realistic delay scenarios produc
 As the forecast horizon decreased, the effect of submission delays appeared more prominent, with the greatest effect of reduced delays observed at the 3-month forecast horizon.
 However, the average improvement from the realistic to the ideal submission delay scenario at the 3-month horizon was still only $~\sim$0.3 AAs (\TABLE{h3n2_distances_to_the_future}).
 Reducing submission delays also had little effect on the variance per timepoint in predicted future populations.
-Interestingly, we observed a stronger effect of reducing submission delays in simulated A/H3N2-like populations (\FIGSUPP[h3n2_distances_to_the_future]{simulated_distances_to_the_future}).
-We found the best average improvement between realistic and ideal delays of $\sim$0.7 AAs at the 3-month horizon.
+Interestingly, we observed a stronger effect of reducing submission delays in simulated A/H3N2-like populations, with the best average improvement between realistic and ideal delays of $\sim$0.7 AAs at the 3-month horizon (\FIGSUPP[h3n2_distances_to_the_future]{simulated_distances_to_the_future}).
 As with natural A/H3N2 populations, the effect of reducing submission delays appeared to increase as the forecast horizon decreased.
 These results indicate that reducing submission delays may have little effect under the current 12-month forecast approach used for influenza vaccine composition, but reducing submission delays should become increasingly important as we forecast from closer to future influenza populations.
 
 \subsection{Reducing submission delays improves estimates of current clade frequencies}
 
 Although the distance between predicted and observed future populations in amino acids provides an unbiased metric to optimize forecasting models, in practice, we use these models to forecast clade frequencies.
-To produce these forecasts, we estimate the frequencies of extant clades at an initial timepoint and predict their future frequencies from those initial frequencies and the fitness estimates of each clade's tips.
+We predict each clade's future frequency as the sum of the initial frequency times the estimated fitness for each HA sequence in the clade.
 Given the importance of initial clade frequencies in these forecasts, we tested the effect of submission delays on current clade frequency estimates.
 For each timepoint and each clade with an initial frequency of at least 1\%, we calculated the clade frequency error as the difference between clade frequency without submission delays and the frequency with either an ideal or realistic delay.
 Positive error values represented underestimation of current clades, while negative values represented overestimation.
 
-We found that errors in current clade frequencies were normally distributed with lower variance in the ideal delay scenario than under realistic delays (\FIG{h3n2_current_clade_frequency_errors}A and B).
-For small clades ($\ge$1\% and $<$10\% frequency without delays), errors under ideal delays ranged from -3\% to 4\% with a standard deviation of 1\%, while realistic delays produced errors ranging from -8\% to 7\% with a standard deviation of 2\% (\FIG{h3n2_current_clade_frequency_errors}C).
+Across all clade frequencies, we found that errors in current clade frequencies appeared normally distributed with lower variance in the ideal delay scenario than under realistic delays (\FIG{h3n2_current_clade_frequency_errors}A and B).
+Of the 822 clades under the scenario without delays, 374 (45\%) had a frequency less than 1\% below the threshold that we could consider for forecasting.
+Another 361 clades (44\%) had a frequency greater than 1\% but less than 10\%, while the remaining 87 (11\%) had a frequency of 10\% or greater.
+To understand whether delays had different effects on these small and large clades, respectively, we inspected clades from these latter two groups separately.
+For small clades ($\ge$1\% and $<$10\% frequency), errors under ideal delays ranged from -3\% to 4\% with a standard deviation of 1\%, while realistic delays produced errors ranging from -8\% to 7\% with a standard deviation of 2\% (\FIG{h3n2_current_clade_frequency_errors}C).
 We did not observe a bias toward underestimation or overestimation of initial small clade frequencies under either delay scenario.
 For large clades ($\ge$10\% frequency), errors under ideal delay ranged from -6\% to 9\% with a standard deviation of 3\% (\FIG{h3n2_current_clade_frequency_errors}D).
 Errors under realistic delays ranged from -17\% to 14\% with a standard deviation of 6\%.
