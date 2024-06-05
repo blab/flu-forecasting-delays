@@ -184,7 +184,7 @@ For each timepoint and each clade with an initial frequency of at least 1\%, we 
 Positive error values represented underestimation of current clades, while negative values represented overestimation.
 
 Across all clade frequencies, we found that errors in current clade frequencies appeared normally distributed with lower variance in the ideal delay scenario than under realistic delays (\FIG{h3n2_current_clade_frequency_errors}A and B).
-Of the 822 clades under the scenario without delays, 374 (45\%) had a frequency less than 1\% below the threshold that we could consider for forecasting.
+Of the 822 clades under the scenario without delays, 374 (45\%) had a frequency less than 1\% which is below the threshold that we could consider for forecasting.
 Another 361 clades (44\%) had a frequency greater than 1\% but less than 10\%, representing small, emerging clades.
 The remaining 87 (11\%) had a frequency of 10\% or greater, representing larger clades that could be more likely to succeed.
 To understand whether delays had different effects on these small and large clades, respectively, we inspected clades from these latter two groups separately.
@@ -257,13 +257,14 @@ These results show that the effect size of submission delays on forecast errors 
 \end{figure}
 
 We observed a slight but consistent bias toward the overestimation of future clade frequencies with median errors ranging from -5\% to -10\% across all forecast horizons and submission delays (\FIG{h3n2_forecast_clade_frequency_errors} and \TABLE{h3n2_forecast_clade_frequency_errors}).
-Although the average absolute clade frequency error consistently decreased with decreasing forecast horizon, we did not see the same decrease in the average clade frequency except at a forecast horizon of 3 months (\TABLE{h3n2_forecast_clade_frequency_errors}).
-We observed the same pattern in simulated H3N2-like populations (\FIGSUPP[h3n2_forecast_clade_frequency_errors]{simulated_forecast_clade_frequency_errors}), suggesting that overestimation of large clade frequencies is a feature of the forecasting framework itself rather than a feature of the different viral populations or fitness metrics.
-To understand this pattern, we investigated the relationship between forecast errors and initial clade frequencies across forecast horizons and delays.
+Although the average absolute clade frequency error consistently decreased with decreasing forecast horizon, we did not see the same decrease in the average clade frequency error except at a forecast horizon of 3 months (\TABLE{h3n2_forecast_clade_frequency_errors}).
+We observed the same pattern in simulated H3N2-like populations (\FIGSUPP[h3n2_forecast_clade_frequency_errors]{simulated_forecast_clade_frequency_errors}).
+Since this pattern of overestimation appeared in both natural and simulated populations even without submission delays, overestimation may be a feature of the forecasting framework itself rather than a feature of the different viral populations or fitness metrics.
+To better understand this pattern, we investigated the relationship between forecast errors and initial clade frequencies across forecast horizons and delays.
 We found a weak trend toward overestimation of forecast frequencies for clades with higher initial frequencies under a given delay (\FIGSUPP[h3n2_forecast_clade_frequency_errors]{h3n2_forecast_clade_frequency_errors_by_initial_frequency}).
 We also found that clades with overestimated initial frequencies tended to have overestimated forecast frequencies (\FIGSUPP[h3n2_forecast_clade_frequency_errors]{h3n2_forecast_clade_frequency_errors_by_initial_frequency_errors}).
-These results suggest that larger clades with overestimated initial frequencies cause the observed bias toward overestimating forecast clade frequencies.
-This pattern is also consistent with the limitations of predicting the future frequencies of large clades circulating at a given time when extant smaller clades are likely to grow during the period of the forecast horizon.
+These results suggest that larger clades with overestimated initial frequencies partially contribute to the observed bias toward overestimating forecast clade frequencies.
+However, we attributed the majority of this pattern to the limitations of predicting the future frequencies of large clades circulating at a given time when extant smaller clades are likely to grow during the period of the forecast horizon.
 
 \begin{table}[htb]
   \begin{center}
@@ -340,7 +341,7 @@ Based on the distributions of total absolute forecast error per future timepoint
 We observed similar effects of interventions in simulated H3N2-like populations except that the average effect of reducing submission delays alone was positive for these populations (\FIGSUPP[h3n2_effects_of_realistic_interventions]{simulated_effects_of_realistic_interventions} and \FIGSUPP[h3n2_effects_of_realistic_interventions]{simulated_total_absolute_clade_frequency_errors}).
 Forecasts for simulated H3N2-like populations were generally more accurate than forecasts for natural H3N2 populations, most likely because we knew the true fitness of each simulated sample.
 The decrease in average accuracy of natural H3N2 forecasts under the improved genomic surveillance intervention could reflect the bias of the LBI and mutational load fitness metrics compared to the true fitness of each sample.
-We observed the same patterns for natural and simulated populations, when we calculated the effects of interventions on distances to the future instead of total absolute clade frequency errors (\FIGSUPP[h3n2_effects_of_realistic_interventions]{h3n2_effects_of_realistic_interventions_on_distances_to_the_future} and \FIGSUPP[h3n2_effects_of_realistic_interventions]{simulated_effects_of_realistic_interventions_on_distances_to_the_future}).
+When we calculated the effects of interventions on distances to the future instead of total absolute clade frequency errors, we observed the same patterns for natural and simulated populations (\FIGSUPP[h3n2_effects_of_realistic_interventions]{h3n2_effects_of_realistic_interventions_on_distances_to_the_future} and \FIGSUPP[h3n2_effects_of_realistic_interventions]{simulated_effects_of_realistic_interventions_on_distances_to_the_future}).
 Based on these results, the single most valuable intervention we could make to improve forecast accuracy would be to reduce the forecast horizon to 6 months or less through more rapid vaccine development.
 However, as we reduce the forecast horizon, reducing submission delays should have a greater effect on improving forecast accuracy.
 
