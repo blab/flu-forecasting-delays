@@ -114,6 +114,20 @@ In this way, we show the potential to improve the accuracy of existing long-term
   Vertical dashed lines represent mean delays for each distribution.
   \figsuppdata{Distribution of submission delays; see \url{https://doi.org/xxx}}}
 {\includegraphics[width=6cm]{figures/distribution_of_delays_by_pandemic_era}}\label{figsupp:distribution_of_delays_by_pandemic_era}
+%
+\figsupp[Number and proportion of H3N2 sequences available per timepoint and delay type]
+{
+  A) Number of H3N2 sequences available per timepoint and delay type.
+  B) Proportion of all H3N2 sequences without delay per timepoint and delay type.
+}
+{\includegraphics[width=6cm]{figures/h3n2_distribution_of_sequences_per_timepoint_and_delay}}\label{figsupp:distribution_of_h3n2_sequences_per_timepoint_and_delay}
+%
+\figsupp[Number and proportion of simulated H3N2-like sequences available per timepoint and delay type]
+{
+  A) Number of simulated H3N2-like sequences available per timepoint and delay type.
+  B) Proportion of all simulated H3N2-like sequences without delay per timepoint and delay type.
+}
+{\includegraphics[width=6cm]{figures/simulated_distribution_of_sequences_per_timepoint_and_delay}}\label{figsupp:distribution_of_simulated_sequences_per_timepoint_and_delay}
 \end{figure}
 
 \section{Results}
@@ -128,7 +142,7 @@ This approach also allowed us to measure forecasting accuracy without prior clad
 We identified the best forecasting models as those that minimized this distance between populations.
 The most accurate sequence-only model for the 12-month forecast horizon estimated fitness with local branching index (LBI) \citep{Neher:2014eu} and mutational load \citep{Luksza:2014hj}.
 
-To understand the effects of reducing forecast horizons and submission delays on long-term forecast accuracy, we produced forecasts 3, 6, 9, and 12 months into the future using HA sequences available at each initial timepoint under each submission delay scenario including no delay, ideal delay ($\sim$1-month average), and realistic delay ($\sim$3-month average) (\FIG{model_of_delays_and_horizons}).
+To understand the effects of reducing forecast horizons and submission delays on long-term forecast accuracy, we produced forecasts 3, 6, 9, and 12 months into the future using HA sequences available at each initial timepoint under each submission delay scenario including no delay, ideal delay ($\sim$1-month average), and realistic delay ($\sim$3-month average) (\FIG{model_of_delays_and_horizons}, \FIGSUPP[model_of_delays_and_horizons]{distribution_of_h3n2_sequences_per_timepoint_and_delay}, \FIGSUPP[model_of_delays_and_horizons]{distribution_of_simulated_sequences_per_timepoint_and_delay}).
 For natural A/H3N2 populations, we used the best sequence-only forecasting model, LBI and mutational load, which we previously trained on 12-month forecasts without any submission delay.
 For simulated A/H3N2-like populations, we used the observed fitness per sample provided by the simulator.
 For each forecast horizon and submission delay type, we calculated the earth mover's distance between the predicted future populations under the given delay scenario and the observed future populations without any delay in sequence availability.

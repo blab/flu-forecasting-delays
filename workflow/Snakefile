@@ -51,6 +51,7 @@ def _get_timepoints_for_build_interval(start_date, end_date, pivot_interval, min
 
 path_to_fauna = config["path_to_fauna"]
 
+POPULATIONS = ["h3n2", "simulated"]
 TIMEPOINT_TYPES = []
 TIMEPOINT_SAMPLES = []
 TIMEPOINTS = []
@@ -319,6 +320,7 @@ rule all:
         "results/clade_frequencies_for_h3n2.tsv",
         "manuscript/figures/distribution_of_delays_and_horizons.pdf",
         "manuscript/figures/distribution_of_delays_by_pandemic_era.pdf",
+        expand("manuscript/figures/{population}_distribution_of_sequences_per_timepoint_and_delay.pdf", population=POPULATIONS),
         "manuscript/tables/h3n2_distances_to_the_future_by_delay_and_horizon.tex",
         "manuscript/tables/simulated_distances_to_the_future_by_delay_and_horizon.tex",
         "manuscript/figures/h3n2_distances_to_the_future_by_delay_and_horizon.pdf",
@@ -396,6 +398,15 @@ rule plot_distances_to_the_future_by_delay_and_horizon:
     conda: "envs/notebook.yaml"
     notebook:
         "notebooks/plot-distances-to-the-future-by-delay-type-and-horizon-for-population.py.ipynb"
+
+rule plot_sequence_distribution_per_timepoint:
+    input:
+        metadata = "results/tip_attributes_for_{population}.tsv",
+    output:
+        figure = "manuscript/figures/{population}_distribution_of_sequences_per_timepoint_and_delay.pdf",
+    conda: "envs/notebook.yaml"
+    notebook:
+        "notebooks/plot-distribution-of-sequences-per-timepoint-and-delay.py.ipynb"
 
 rule plot_delay_distribution:
     input:
