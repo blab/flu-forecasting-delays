@@ -59,6 +59,7 @@ if __name__ == "__main__":
             "clade_membership"
         ).aggregate({
             "frequency": "sum",
+            "strain": "count",
         }).reset_index()
 
         future_clade_names = set(observed_future_clade_frequencies["clade_membership"].values)
@@ -132,10 +133,14 @@ if __name__ == "__main__":
             # Recalculate observed future frequencies for the initial clades.
             observed_future_clade_frequencies_with_initial_names = observed_future_clade_frequencies_with_initial_names.groupby(
                 "initial_clade_membership"
-            )["frequency"].sum().reset_index().rename(
+            ).aggregate({
+                "frequency": "sum",
+                "strain": "sum",
+            }).reset_index().rename(
                 columns={
                     "initial_clade_membership": "clade_membership",
                     "frequency": "observed_frequency",
+                    "strain": "future_n_strains",
                 }
             )
 
@@ -164,6 +169,7 @@ if __name__ == "__main__":
             clade_frequencies["future_timepoint"] = future_timepoint
             clade_frequencies["delta_month"] = delta_month
             clade_frequencies["delay_type"] = delay
+            clade_frequencies["future_n_strains"] = clade_frequencies["future_n_strains"].astype(int)
 
             all_clade_frequencies.append(clade_frequencies)
 
