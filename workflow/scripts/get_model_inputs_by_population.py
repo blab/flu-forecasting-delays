@@ -14,7 +14,15 @@ if __name__ == "__main__":
     df = pd.read_csv(
         args.input,
         sep="\t",
-        usecols=["delay_type", "delta_month", "sample", "validation_error", "validation_timepoint", "future_timepoint"],
+        usecols=[
+            "delay_type",
+            "delta_month",
+            "sample",
+            "validation_error",
+            "optimal_validation_error",
+            "validation_timepoint",
+            "future_timepoint",
+        ],
     )
 
     month_delay_by_sample = {
@@ -35,6 +43,7 @@ if __name__ == "__main__":
     df = df.rename(
         columns={
             "validation_error": "distance",
+            "optimal_validation_error": "optimal_distance",
             "delta_month": "horizon",
             "validation_timepoint": "initial_timepoint",
         }
