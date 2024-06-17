@@ -380,7 +380,7 @@ rule plot_current_frequency_errors_by_delay:
         current_frequency_errors_by_delay="manuscript/figures/{population}_current_frequency_errors_by_delay.pdf",
     conda: "envs/notebook.yaml"
     params:
-        small_frequency_threshold=0.01,
+        small_frequency_threshold=0.0,
         large_frequency_threshold=0.1,
         realistic_delay_type="realistic",
     log:
