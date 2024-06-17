@@ -157,6 +157,32 @@ if __name__ == "__main__":
                 on="clade_membership",
                 how="left",
             ).fillna(0.0)
+
+            # Recalculate nested clade frequencies for each clade based on the
+            # its frequencies assigned above and those of its children. This
+            # step forces the observed future frequencies for each clade to be
+            # the same at the same future timepoint even when the mapping of
+            # clades between timepoints above varies with the delay.
+            nested_clade_frequencies = []
+            for clade in clade_frequencies["clade_membership"].drop_duplicates().values:
+                # The following approach relies on the fact that child clades
+                # always have a prefix that matches their parent clades, so we
+                # can search on the current clade name plus a "." to find the
+                # children. This approach would not work if we implemented
+                # aliasing of clade names.
+                clade_dataframe = clade_frequencies.loc[
+                    (
+                        (clade_frequencies["clade_membership"] == clade) |
+                        (clade_frequencies["clade_membership"].str.startswith(f"{clade}."))
+                    ),
+                ].copy()
+                clade_dataframe["clade_membership"] = clade
+                clade_dataframe = clade_dataframe.groupby("clade_membership").sum().reset_index()
+                nested_clade_frequencies.append(clade_dataframe)
+
+            clade_frequencies = pd.concat(nested_clade_frequencies, ignore_index=True)
+
+            # Calculate forecast error for the nested clade frequencies.
             clade_frequencies["forecast_error"] = clade_frequencies["observed_frequency"] - clade_frequencies["projected_frequency"]
             clade_frequencies["absolute_forecast_error"] = clade_frequencies["forecast_error"].abs()
 
