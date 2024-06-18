@@ -202,7 +202,7 @@ Of the 822 clades under the scenario without delays, 374 (45\%) had a frequency 
 Another 361 clades (44\%) had a frequency greater than 1\% but less than 10\%, representing small, emerging clades.
 The remaining 87 (11\%) had a frequency of 10\% or greater, representing larger clades that could be more likely to succeed.
 To understand whether delays had different effects on these small and large clades, respectively, we inspected clades from these latter two groups separately.
-For small clades ($\ge$1\% and $<$10\% frequency), errors under ideal delays ranged from -3\% to 4\% with a standard deviation of 1\%, while realistic delays produced errors ranging from -8\% to 7\% with a standard deviation of 2\% (\FIG{h3n2_current_clade_frequency_errors}C).
+For small clades ($>$0\% and $<$10\% frequency), errors under ideal delays ranged from -3\% to 4\% with a standard deviation of 1\%, while realistic delays produced errors ranging from -8\% to 7\% with a standard deviation of 2\% (\FIG{h3n2_current_clade_frequency_errors}C).
 We did not observe a bias toward underestimation or overestimation of initial small clade frequencies under either delay scenario.
 For large clades ($\ge$10\% frequency), errors under ideal delay ranged from -6\% to 9\% with a standard deviation of 3\% (\FIG{h3n2_current_clade_frequency_errors}D).
 Errors under realistic delays ranged from -17\% to 14\% with a standard deviation of 6\%.
@@ -212,7 +212,7 @@ These results show that reducing submission delays for natural H3N2 populations 
 \begin{figure}[htb!]
 \includegraphics[width=\linewidth]{figures/h3n2_current_frequency_errors_by_delay}
 \caption{Clade frequency errors for natural A/H3N2 clades at the same timepoint calculated as the difference between clade frequencies without submission delay and corresponding frequencies with either A) ideal or B) realistic submission delays.
-Distributions of frequency errors appear normally distributed in both delay scenarios for both C) small clades ($\ge$1\% and $<$10\% frequency) and D) large clades ($\ge$10\%).
+Distributions of frequency errors appear normally distributed in both delay scenarios for both C) small clades ($>$0\% and $<$10\% frequency) and D) large clades ($\ge$10\%).
 Dashed lines indicate the median error from the distribution of the delay type with the same color.}
 \label{fig:h3n2_current_clade_frequency_errors}
 %
@@ -333,7 +333,7 @@ For both analyses, positive values represented improved forecast accuracy under 
   \begin{center}
     \input{tables/h3n2_effects_of_realistic_interventions.tex}
     \caption{Improvement in H3N2 forecast accuracy under realistic interventions of improved vaccine development (reducing 12-month to 6-month forecast horizon), improved surveillance (reducing submission delays from 3 months on average to 1 month), or a combination of both interventions.
-      We measured improvements from the status quo (12-month forecast horizon and 3-month average submission delay) for clades with an initial frequency of $\geq$10\% as the difference in total absolute clade frequency error per future timepoint and the number and proportion of future timepoint forecasts that improved under the intervention.}
+      We measured improvements from the status quo (12-month forecast horizon and 3-month average submission delay) as the difference in total absolute clade frequency error per future timepoint and the number and proportion of future timepoint forecasts that improved under the intervention.}
     \label{tab:h3n2_effects_of_realistic_interventions}
   \end{center}
 \end{table}
