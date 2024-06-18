@@ -442,12 +442,12 @@ We estimated clade frequencies with a kernel density estimation (KDE) approach a
 Briefly, we represented each sequence in a given phylogeny by a Gaussian kernel with a mean at the sequence's collection date and a variance of two months.
 We estimated the frequency of each sequence at each timepoint by calculating the probability density function of each KDE at that timepoint and normalizing the resulting values to sum to one.
 
-We calculated clade frequencies for each initial timepoint in our analysis by summing the frequencies of individual sequences in a given timepoint's tree by the clade assigned to each tip.
+We calculated clade frequencies for each initial timepoint in our analysis by first summing the frequencies of individual sequences in a given timepoint's tree by the clade assigned to each sequence and then summing the frequencies for each clade and its descendants to obtain nested clade frequencies.
 To inspect the effects of submission delays on clade frequency estimates, we calculated the clade frequency error per timepoint and clade by subtracting the clade frequency estimated with ideal or realistic delayed sequence submission from the corresponding clade frequency without delays.
-We compared the effects of submission delays for clades of different sizes by filtering clades by their frequency estimated without delays to small clades ($\ge$1\% and $<$10\%) and large clades ($\ge$10\%).
+We compared the effects of submission delays for clades of different sizes by filtering clades by their frequency estimated without delays to small clades ($>$0\% and $<$10\%) and large clades ($\ge$10\%).
 
 To estimate the accuracy of clade frequency forecasts, we needed to calculate the predicted and observed future clade frequencies for each combination of delay type, initial timepoint, and future timepoint in the analysis.
-We calculated predicted future frequencies for all clades that existed at given initial timepoint and delay type by summing the predicted future frequency per sequence by the clade assigned to each sequence.
+We calculated predicted future frequencies for all clades that existed at given initial timepoint and delay type by first summing the predicted future frequency per sequence by the clade assigned to each sequence and then summing the predicted frequencies for each clade and its descendants.
 Clades that existed at any given future timepoint were not always represented at a corresponding initial timepoint either because the clades had not emerged yet or sequences for those clades had a delayed submission.
 For this reason, we calculated observed future clade frequencies in a multi-step process.
 First, we calculated the frequencies of clades observed at the future timepoint without submission delay by summing the individual frequencies of all sequences in each clade.
