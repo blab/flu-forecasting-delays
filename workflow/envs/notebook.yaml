@@ -3,7 +3,7 @@ channels:
 - conda-forge
 - defaults
 dependencies:
-- jupyter=1.0.0
+- jupyter>=1.0.0
 - jupyterlab_code_formatter=2
-- python=3
+- python=3.11
 - seaborn=0.13.2
