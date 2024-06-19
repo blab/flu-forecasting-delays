@@ -137,8 +137,7 @@ In this way, we show the potential to improve the accuracy of existing long-term
 Previously, we trained long-term forecasting models that minimized the genetic distance between predicted and observed future populations of HA sequences \citep{Huddleston2020}.
 We predicted each future population by projecting the frequency of each HA sequence from the initial population 12 months in the future based on the estimated fitness per sequence.
 We calculated the distance between the frequencies and HA amino acid sequences of the predicted and observed future populations using the earth mover's distance metric \citep{Rubner1998}.
-This metric effectively provided an average distance between amino acid sequences of the two populations.
-This approach also allowed us to measure forecasting accuracy without prior clade definitions that could borrow information from the future or change between initial and future timepoints.
+This metric provided an average distance between amino acid sequences of the two populations, allowing us to measure forecasting accuracy without prior clade definitions that could borrow information from the future or change between initial and future timepoints.
 We identified the best forecasting models as those that minimized this distance between populations.
 The most accurate sequence-only model for the 12-month forecast horizon estimated fitness with local branching index (LBI) \citep{Neher:2014eu} and mutational load \citep{Luksza:2014hj}.
 
@@ -197,7 +196,7 @@ Given the importance of initial clade frequencies in these forecasts, we tested 
 For each timepoint and clade with a frequency greater than zero under the scenario without delays, we calculated the clade frequency error as the difference between clade frequency without submission delays and the frequency with either an ideal or realistic delay.
 Positive error values represented underestimation of current clades, while negative values represented overestimation.
 
-Across all clade frequencies, we found that errors in current clade frequencies appeared normally distributed with lower variance in the ideal delay scenario than under realistic delays (\FIG{h3n2_current_clade_frequency_errors}A and B).
+Across all clade frequencies, we found that errors in current clade frequencies for H3N2 appeared normally distributed with lower variance in the ideal delay scenario than under realistic delays (\FIG{h3n2_current_clade_frequency_errors}A and B).
 Of the 822 clades under the scenario without delays, 613 (75\%) had a frequency less than 10\%, representing small, emerging clades.
 The remaining 209 (25\%) had a frequency of 10\% or greater, representing larger clades that could be more likely to succeed.
 To understand whether delays had different effects on these small and large clades, respectively, we inspected clades from these latter two groups separately.
@@ -228,7 +227,7 @@ Delayed submissions similarly affected clade frequencies for simulated A/H3N2-li
 Small clade errors under ideal delays ranged from -4\% to 6\% (standard deviation of 1\%) and under realistic delays ranged from -9\% to 8\% (standard deviation of 2\%) (\FIGSUPP[h3n2_current_clade_frequency_errors]{simulated_current_clade_frequency_errors}C).
 For large clades, errors under ideal delays ranged from -8\% to 18\% (standard deviation of 3\%) and under realistic delays from -14\% to 40\% (standard deviation of 7\%) (\FIGSUPP[h3n2_current_clade_frequency_errors]{simulated_current_clade_frequency_errors}D).
 As with natural H3N2 populations, we observed a slight bias in simulated populations under realistic delays toward underestimation of large clade frequencies with a median error of 2\%.
-We also observed the same 50\% reduction in standard deviation of current frequency errors for these simulated H3N2-like populations that we saw for natural H3N2 populations.
+We also observed a similar reduction in standard deviation of current frequency errors for these simulated H3N2-like populations when switching from realistic to ideal submission delays.
 
 \subsection{Reducing forecast horizons increases the accuracy and precision of clade frequency forecasts}
 
