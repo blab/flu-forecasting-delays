@@ -232,12 +232,22 @@ We also observed a similar reduction in standard deviation of current frequency 
 \subsection{Reducing forecast horizons increases the accuracy and precision of clade frequency forecasts}
 
 Next, we estimated the effects of different forecast horizons and submission delays on the accuracy of clade frequency forecasts.
-For this analysis, we focused on larger clades with an initial frequency $\ge$10\% which represent more established clades that would appear in biannual reports to the WHO's vaccine composition meetings \citep{Huddleston2024}.
+As with the current clade frequency analysis, we analyzed small clades ($<$10\% initial frequency) and large clades ($\ge$10\% initial frequency) separately.
 For each combination of initial timepoint, future timepoint, and delay scenario (\FIG{model_of_delays_and_horizons}A), we calculated initial and predicted future frequencies for all clades present under the given delay and then calculated the corresponding observed future frequencies without delay for clades that descended from the clades present at the initial timepoint.
 We calculated the error in forecast frequencies as the difference between predicted future frequencies under the given delay scenario and observed future frequencies without any delay.
 
-As with current clade frequency errors, forecast clade frequency errors appeared to be normally distributed (\FIG{h3n2_forecast_clade_frequency_errors}).
+The majority of forecast frequency errors for small clades appeared to be normally distributed around plus or minus 10\% (\FIG{h3n2_forecast_clade_frequency_errors}).
 This pattern matched our expectation that at any given initial timepoint the overestimation of one clade's future frequency must cause an underestimation of another current clade's future frequency.
+We observed a long tail of clades with underestimated future frequencies at all forecast horizons.
+Each 3-month reduction of the forecast horizon linearly reduced the extent of overestimated small clades.
+Reducing the forecast horizon only reduced the extent of underestimated small clades at the 6- and 3-month horizons.
+In contrast, reducing submission delays had no effect on forecast errors for these small clades.
+
+Forecast frequency errors for large clades were also normally distributed without a consistent bias toward under- or overestimation (\FIG{h3n2_forecast_clade_frequency_errors}).
+As with small clades, each 3-month reduction in forecast horizon reduced the degree to which the forecasts overestimated large clades.
+However, the most extreme cases of underestimation under realistic delays persisted at all forecast horizons above 3 months.
+Reducing submission delays consistently reduced the range of forecast errors.
+
 The standard deviation of forecast errors decreased with decreasing forecast horizon and, with the exception of the 12-month horizon, with decreasing submission delays (\TABLE{h3n2_forecast_clade_frequency_errors}).
 Reducing the forecast horizon had a greater effect on the variation in forecast errors than reducing submission delays.
 For example, the standard deviation of forecast errors at the 12-month horizon under realistic submission delays was 30\%, while the standard deviation for the 6-month horizon under realistic delays was 17\% (\TABLE{h3n2_forecast_clade_frequency_errors}).
