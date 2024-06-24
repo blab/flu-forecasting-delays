@@ -140,11 +140,14 @@ We calculated the distance between the frequencies and HA amino acid sequences o
 This metric provided an average distance between amino acid sequences of the two populations, allowing us to measure forecasting accuracy without prior clade definitions that could borrow information from the future or change between initial and future timepoints.
 We identified the best forecasting models as those that minimized this distance between populations.
 The most accurate sequence-only model for the 12-month forecast horizon estimated fitness with local branching index (LBI) \citep{Neher:2014eu} and mutational load \citep{Luksza:2014hj}.
+As a positive control, we calculated the posthoc empirical fitness of each initial population based on the composition of the corresponding future population.
+These empirical fitnesses provided the lower bound on the earth mover's distance which represented the number of amino acid substitutions accumulated between populations.
 
 To understand the effects of reducing forecast horizons and submission delays on long-term forecast accuracy, we produced forecasts 3, 6, 9, and 12 months into the future using HA sequences available at each initial timepoint under each submission delay scenario including no delay, ideal delay ($\sim$1-month average), and realistic delay ($\sim$3-month average) (\FIG{model_of_delays_and_horizons}, \FIGSUPP[model_of_delays_and_horizons]{distribution_of_h3n2_sequences_per_timepoint_and_delay}, \FIGSUPP[model_of_delays_and_horizons]{distribution_of_simulated_sequences_per_timepoint_and_delay}).
 For natural A/H3N2 populations, we used the best sequence-only forecasting model, LBI and mutational load, which we previously trained on 12-month forecasts without any submission delay.
 For simulated A/H3N2-like populations, we used the observed fitness per sample provided by the simulator.
 For each forecast horizon and submission delay type, we calculated the earth mover's distance between the predicted future populations under the given delay scenario and the observed future populations without any delay in sequence availability.
+For both populations, we also calculated the optimal distance between initial and future populations based on posthoc empirical fitness of the initial population.
 We anticipated that reducing either the forecast horizon or the submission delay would reduce the distance to the future in amino acids (AAs), representing increased accuracy of the forecasting models.
 
 We found that reducing the forecast horizon from the current standard of 12 months linearly reduced the distance to the future population predicted by the LBI and mutational load model (\FIG{h3n2_distances_to_the_future}).
@@ -152,7 +155,7 @@ Under the all three submission delay scenarios, the distance to the future reduc
 We observed the greatest average reduction in distance to the future ($\sim$1.4 AAs) between the 6- and 3-month forecast horizons.
 Reducing the forecast horizon also noticeably reduced the variance per timepoint in predicted future populations across all delay scenarios (\FIG{h3n2_distances_to_the_future}).
 For example, the standard deviation of distances to the future reduced from $\sim$2.6 AAs at the 12-month horizon to $\sim$1 AA at the 3-month horizon (\TABLE{h3n2_distances_to_the_future}).
-We observed the same pattern for simulated A/H3N2-like populations (\FIGSUPP[h3n2_distances_to_the_future]{simulated_distances_to_the_future}).
+We observed the same patterns for forecasts of simulated A/H3N2-like populations (\FIGSUPP[h3n2_distances_to_the_future]{simulated_distances_to_the_future}) and optimal distances to the future for natural and simulated populations (\FIGSUPP[h3n2_distances_to_the_future]{h3n2_optimal_distances_to_the_future} and \FIGSUPP[h3n2_distances_to_the_future]{simulated_optimal_distances_to_the_future}).
 Thus, reducing how far we have to predict into the future increased both forecast accuracy and precision.
 
 \begin{figure}[htb]
@@ -163,9 +166,17 @@ Thus, reducing how far we have to predict into the future increased both forecas
 \label{fig:h3n2_distances_to_the_future}
 %
 \figsupp[Distance to the future for simulated H3N2-like populations]
-{Distance to the future per timepoint (AAs) for simulated H3N2-like populations by forecast horizon and submission delay type.
+{Distance to the future per timepoint (AAs) for simulated H3N2-like populations by forecast horizon and submission delay type based on forecasts from the ``true fitness'' model.
   \figsuppdata{Distance to the future for simulated H3N2-like populations; see \url{https://doi.org/xxx}}}
 {\includegraphics[width=6cm]{figures/simulated_distances_to_the_future_by_delay_and_horizon}}\label{figsupp:simulated_distances_to_the_future}
+%
+\figsupp[Optimal distance to the future for natural A/H3N2 populations]
+{Optimal distance to the future per timepoint (AAs) for natural A/H3N2 populations by forecast horizon and submission delay type based on posthoc empirical fitness of the initial population.}
+{\includegraphics[width=6cm]{figures/h3n2_optimal_distances_to_the_future_by_delay_and_horizon}}\label{figsupp:h3n2_optimal_distances_to_the_future}
+%
+\figsupp[Optimal distance to the future for simulated A/H3N2-like populations]
+{Optimal distance to the future per timepoint (AAs) for simulated A/H3N2-like populations by forecast horizon and submission delay type based on posthoc empirical fitness of the initial population.}
+{\includegraphics[width=6cm]{figures/simulated_optimal_distances_to_the_future_by_delay_and_horizon}}\label{figsupp:simulated_optimal_distances_to_the_future}
 %
 \figdata{Distance to the future for natural H3N2 populations.}\label{figdata:h3n2_distances_to_the_future}
 \figsrccode{Jupyter notebook used to produce this figure and the supplemental figure lives in \texttt{workflow/notebooks/plot-distances-to-the-future-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:distances_to_the_future}
