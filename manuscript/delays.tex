@@ -241,13 +241,6 @@ This pattern matched our expectation that at any given initial timepoint the ove
 Each 3-month reduction of the forecast horizon linearly reduced the variance in forecast errors for small and large clades.
 However, we observed a long tail of small clades with underestimated future frequencies at all forecast horizons, indicating that correctly predicting the growth of small clades remains more difficult than predicting their decline (\FIG{h3n2_forecast_clade_frequency_errors}A).
 Reducing submission delays appeared to have no effect on forecast errors for small clades.
-For large clades, almost all decreases in forecast horizon and submission delay (except ideal submission delays at the 12-month horizon) reduced the standard deviation of forecast errors and the absolute forecast errors (\FIG{h3n2_forecast_clade_frequency_errors}B, \TABLE{h3n2_forecast_clade_frequency_errors}).
-Reducing the forecast horizon had a greater effect on the variation in forecast errors than reducing submission delays.
-For example, the standard deviation of forecast errors at the 12-month horizon under realistic submission delays was 31\%, while the standard deviation for the 6-month horizon under realistic delays was 20\% (\TABLE{h3n2_forecast_clade_frequency_errors}).
-In contrast, the standard deviation at the 12-month horizon under ideal submission delays did not change from the realistic delays at 31\%.
-For all other forecast horizons, reducing the submission delays from realistic to ideal only reduced the standard deviation by 1--2\%.
-We observed the same general patterns in simulated populations (\FIGSUPP[h3n2_forecast_clade_frequency_errors]{simulated_forecast_clade_frequency_errors}).
-These results show that the effect size of submission delays on forecast errors is low relative to the effect of the forecast horizon.
 
 \begin{figure}[htb]
 \includegraphics[width=\linewidth]{figures/h3n2_forecast_frequency_errors_by_delay_and_horizon}
@@ -262,6 +255,18 @@ These results show that the effect size of submission delays on forecast errors 
 \figdata{Current, predicted future, and observed future clade frequencies per initial timepoint, forecast horizon, and submission delay type for H3N2 populations.}\label{figdata:h3n2_clade_frequencies}
 \figsrccode{Jupyter notebook used to produce this figure and the supplemental figures lives in \texttt{workflow/notebooks/plot-forecast-clade-frequency-errors-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:forecast_clade_frequency_errors}
 \end{figure}
+
+For large clades, almost all decreases in forecast horizon and submission delay (except ideal submission delays at the 12-month horizon) reduced the standard deviation of forecast errors and the absolute forecast errors (\FIG{h3n2_forecast_clade_frequency_errors}B, \TABLE{h3n2_forecast_clade_frequency_errors}).
+Reducing the forecast horizon had a greater effect on the standard deviation and absolute values of forecast errors than reducing submission delays.
+For example, the standard deviation of forecast errors at the 12-month horizon under realistic submission delays was 31\%, while the standard deviation for the 6-month horizon under realistic delays was 20\% (\TABLE{h3n2_forecast_clade_frequency_errors}).
+Similarly, the average absolute forecast error decreased from 20\% at the 12-month horizon to 15\% at the 6-month horizon.
+In contrast, the standard deviation at the 12-month horizon under ideal submission delays did not change from the realistic delays at 31\%, and the average absolute forecast error increased by 1\% from 20\%.
+For all other forecast horizons, reducing the submission delays from realistic to ideal only reduced the standard deviation and the average absolute error by 1--2\%.
+The strongest effect of reducing submission delays was the reduction in maximum forecast error, corresponding to reduction in underestimation of large clades.
+The switch from realistic to ideal delays at 12-, 9-, 6-, and 3-month horizons reduced the maximum forecast error by 4\%, 21\%, 22\%, and 14\%, respectively (\TABLE{h3n2_forecast_clade_frequency_errors}).
+We observed the same general patterns in simulated populations (\FIGSUPP[h3n2_forecast_clade_frequency_errors]{simulated_forecast_clade_frequency_errors}).
+These results confirmed that the effect size of submission delays on forecast errors is low relative to the effect of the forecast horizon.
+However, reducing submission delays can substantially lower the upper bound for forecasting errors of large clades.
 
 \begin{table}[htb]
   \begin{center}
