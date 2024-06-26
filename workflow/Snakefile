@@ -51,6 +51,7 @@ def _get_timepoints_for_build_interval(start_date, end_date, pivot_interval, min
 
 path_to_fauna = config["path_to_fauna"]
 
+POPULATIONS = ["h3n2", "simulated"]
 TIMEPOINT_TYPES = []
 TIMEPOINT_SAMPLES = []
 TIMEPOINTS = []
@@ -319,6 +320,7 @@ rule all:
         "results/clade_frequencies_for_h3n2.tsv",
         "manuscript/figures/distribution_of_delays_and_horizons.pdf",
         "manuscript/figures/distribution_of_delays_by_pandemic_era.pdf",
+        expand("manuscript/figures/{population}_distribution_of_sequences_per_timepoint_and_delay.pdf", population=POPULATIONS),
         "manuscript/tables/h3n2_distances_to_the_future_by_delay_and_horizon.tex",
         "manuscript/tables/simulated_distances_to_the_future_by_delay_and_horizon.tex",
         "manuscript/figures/h3n2_distances_to_the_future_by_delay_and_horizon.pdf",
@@ -327,8 +329,6 @@ rule all:
         "manuscript/figures/simulated_current_frequency_errors_by_delay.pdf",
         "manuscript/figures/h3n2_forecast_frequency_errors_by_delay_and_horizon.pdf",
         "manuscript/figures/simulated_forecast_frequency_errors_by_delay_and_horizon.pdf",
-        "manuscript/figures/h3n2_forecast_frequency_errors_by_initial_frequency_delay_and_horizon.pdf",
-        "manuscript/figures/h3n2_forecast_frequency_errors_by_initial_frequency_errors_delay_and_horizon.pdf",
         "manuscript/figures/h3n2_total_absolute_forecast_frequency_errors_by_delay_and_horizon.pdf",
         "manuscript/figures/simulated_total_absolute_forecast_frequency_errors_by_delay_and_horizon.pdf",
         "manuscript/figures/h3n2_effects_of_realistic_interventions.pdf",
@@ -337,8 +337,8 @@ rule all:
         "manuscript/figures/simulated_effects_of_realistic_interventions_on_distances_to_the_future.pdf",
         "manuscript/tables/h3n2_forecast_frequency_errors_future_by_delay_and_horizon.tex",
         "manuscript/tables/simulated_forecast_frequency_errors_future_by_delay_and_horizon.tex",
-        "manuscript/tables/h3n2_total_absolute_forecast_frequency_errors_by_delay_and_horizon.tex",
-        "manuscript/tables/simulated_total_absolute_forecast_frequency_errors_by_delay_and_horizon.tex",
+        "manuscript/tables/h3n2_total_absolute_forecast_frequency_errors_future_by_delay_and_horizon.tex",
+        "manuscript/tables/simulated_total_absolute_forecast_frequency_errors_future_by_delay_and_horizon.tex",
         "manuscript/tables/h3n2_effects_of_realistic_interventions.tex",
         "manuscript/tables/simulated_effects_of_realistic_interventions.tex",
         "manuscript/tables/h3n2_effects_of_realistic_interventions.tsv",
@@ -354,8 +354,6 @@ rule plot_forecast_frequency_errors_by_delay_and_horizon:
         forecast_frequency_errors_summary_table="manuscript/tables/{population}_forecast_frequency_errors_future_by_delay_and_horizon.tex",
         total_absolute_forecast_frequency_errors_by_delay_and_horizon="manuscript/figures/{population}_total_absolute_forecast_frequency_errors_by_delay_and_horizon.pdf",
         total_absolute_forecast_frequency_errors_summary_table="manuscript/tables/{population}_total_absolute_forecast_frequency_errors_future_by_delay_and_horizon.tex",
-        forecast_frequency_errors_by_initial_frequency_errors_delay_and_horizon="manuscript/figures/{population}_forecast_frequency_errors_by_initial_frequency_errors_delay_and_horizon.pdf",
-        forecast_frequency_errors_by_initial_frequency_delay_and_horizon="manuscript/figures/{population}_forecast_frequency_errors_by_initial_frequency_delay_and_horizon.pdf",
         effects_of_realistic_interventions="manuscript/figures/{population}_effects_of_realistic_interventions.pdf",
         effects_of_realistic_interventions_summary_table="manuscript/tables/{population}_effects_of_realistic_interventions.tex",
         effects_of_realistic_interventions_source_table="manuscript/tables/{population}_effects_of_realistic_interventions.tsv",
@@ -376,7 +374,7 @@ rule plot_current_frequency_errors_by_delay:
         current_frequency_errors_by_delay="manuscript/figures/{population}_current_frequency_errors_by_delay.pdf",
     conda: "envs/notebook.yaml"
     params:
-        small_frequency_threshold=0.01,
+        small_frequency_threshold=0.0,
         large_frequency_threshold=0.1,
         realistic_delay_type="realistic",
     log:
@@ -390,12 +388,23 @@ rule plot_distances_to_the_future_by_delay_and_horizon:
     output:
         distances_summary_table="manuscript/tables/{population}_distances_to_the_future_by_delay_and_horizon.tex",
         distances_figure="manuscript/figures/{population}_distances_to_the_future_by_delay_and_horizon.pdf",
+        optimal_distances_figure="manuscript/figures/{population}_optimal_distances_to_the_future_by_delay_and_horizon.pdf",
         effects_of_realistic_interventions="manuscript/figures/{population}_effects_of_realistic_interventions_on_distances_to_the_future.pdf",
+        optimal_effects_of_realistic_interventions="manuscript/figures/{population}_optimal_effects_of_realistic_interventions_on_distances_to_the_future.pdf",
     log:
         "logs/notebooks/plot-distances-to-the-future-by-delay-type-and-horizon-for-{population}-population.py.ipynb"
     conda: "envs/notebook.yaml"
     notebook:
         "notebooks/plot-distances-to-the-future-by-delay-type-and-horizon-for-population.py.ipynb"
+
+rule plot_sequence_distribution_per_timepoint:
+    input:
+        metadata = "results/tip_attributes_for_{population}.tsv",
+    output:
+        figure = "manuscript/figures/{population}_distribution_of_sequences_per_timepoint_and_delay.pdf",
+    conda: "envs/notebook.yaml"
+    notebook:
+        "notebooks/plot-distribution-of-sequences-per-timepoint-and-delay.py.ipynb"
 
 rule plot_delay_distribution:
     input:
