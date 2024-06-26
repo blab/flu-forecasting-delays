@@ -54,7 +54,7 @@ These results show the potential to substantially improve the accuracy of existi
 Seasonal influenza virus infections cause approximately half a million deaths per year \citep{flufactsheet}.
 Vaccination provides the best protection against hospitalization and death, but the rapid evolution of the influenza surface protein hemagglutinin (HA) allows viruses to escape existing immunity and requires regular updates to influenza vaccines \citep{Petrova2018}.
 The World Health Organization (WHO) meets twice a year to decide on vaccine updates for the Northern and Southern Hemispheres \citep{Morris2018}.
-The dominant influenza vaccine is an inactivated whole virus vaccine grown in chicken eggs \citep{Wong2013} which takes 6 to 8 months to develop and contains a single representative vaccine virus per seasonal influenza subtype including A/H1N1pdm, A/H3N2, and B/Victoria \citep{Morris2018}.
+The dominant influenza vaccine platform is an inactivated whole virus vaccine grown in chicken eggs \citep{Wong2013} which takes 6 to 8 months to develop and contains a single representative vaccine virus per seasonal influenza subtype including A/H1N1pdm, A/H3N2, and B/Victoria \citep{Morris2018}.
 As a result, the WHO must select a single immunologically-representative virus per subtype approximately 12 months before the peak of the next influenza season.
 These selections depend on the diversity of currently circulating phylogenetic clades, groups of influenza viruses that all share a recent common ancestor.
 The WHO's understanding of that genetic diversity comes from HA sequences collected by the WHO's Global Influenza and Surveillance and Response System (GISRS) \citep{Hay2018} and submitted to the Global Initiative on Sharing All Influenza Data (GISAID) database \citep{gisaid}.
@@ -135,9 +135,10 @@ In this way, we show the potential to improve the accuracy of existing long-term
 \subsection{Reducing forecast horizons and submission delays decreases distances between predicted and observed future populations}
 
 Previously, we trained long-term forecasting models that minimized the genetic distance between predicted and observed future populations of HA sequences \citep{Huddleston2020}.
-We predicted each future population by projecting the frequency of each HA sequence from the initial population 12 months in the future based on the estimated fitness per sequence.
-We calculated the distance between the frequencies and HA amino acid sequences of the predicted and observed future populations using the earth mover's distance metric \citep{Rubner1998}.
-This metric provided an average distance between amino acid sequences of the two populations, allowing us to measure forecasting accuracy without prior clade definitions that could borrow information from the future or change between initial and future timepoints.
+We predicted each population 12 months in the future based on the frequencies and fitness estimates of HA sequences in the current population.
+We calculated the distance between predicted and observed future populations with the earth mover's distance metric \citep{Rubner1998}.
+This metric provided an average genetic distance between amino acid sequences of the two populations weighted by the frequencies of sequences in each population.
+This approach allowed us to measure forecasting accuracy without first defining phylogenetic clades, a process that can borrow information from the future or change clade definitions between initial and future timepoints.
 We identified the best forecasting models as those that minimized this distance between populations.
 The most accurate sequence-only model for the 12-month forecast horizon estimated fitness with local branching index (LBI) \citep{Neher:2014eu} and mutational load \citep{Luksza:2014hj}.
 As a positive control, we calculated the posthoc empirical fitness of each initial population based on the composition of the corresponding future population.
@@ -147,7 +148,7 @@ To understand the effects of reducing forecast horizons and submission delays on
 For natural A/H3N2 populations, we used the best sequence-only forecasting model, LBI and mutational load, which we previously trained on 12-month forecasts without any submission delay.
 For simulated A/H3N2-like populations, we used the observed fitness per sample provided by the simulator.
 For each forecast horizon and submission delay type, we calculated the earth mover's distance between the predicted future populations under the given delay scenario and the observed future populations without any delay in sequence availability.
-For both populations, we also calculated the optimal distance between initial and future populations based on posthoc empirical fitness of the initial population.
+As a control, we also calculated the optimal distance between initial and future populations based on posthoc empirical fitness of the initial population.
 We anticipated that reducing either the forecast horizon or the submission delay would reduce the distance to the future in amino acids (AAs), representing increased accuracy of the forecasting models.
 
 We found that reducing the forecast horizon from the current standard of 12 months linearly reduced the distance to the future population predicted by the LBI and mutational load model (\FIG{h3n2_distances_to_the_future}).
@@ -202,7 +203,8 @@ These results indicate that reducing submission delays may have little effect un
 \subsection{Reducing submission delays improves estimates of current clade frequencies}
 
 Although the distance between predicted and observed future populations in amino acids provides an unbiased metric to optimize forecasting models, in practice, we use these models to forecast clade frequencies.
-We predict each clade's future frequency as the sum of the initial frequency times the estimated fitness for each HA sequence in the clade.
+We predict each clade's future frequency as the sum of predicted future frequencies for each HA sequence in the clade.
+We calculate these sequence-specific future frequencies as the initial sequence frequency times the estimated sequence fitness \citep{Luksza:2014hj,Huddleston2020}.
 Given the importance of initial clade frequencies in these forecasts, we tested the effect of submission delays on current clade frequency estimates.
 For each timepoint and clade with a frequency greater than zero under the scenario without delays, we calculated the clade frequency error as the difference between clade frequency without submission delays and the frequency with either an ideal or realistic delay.
 Positive error values represented underestimation of current clades, while negative values represented overestimation.
@@ -295,9 +297,9 @@ The most we can hope to reduce the forecast horizon with current mRNA vaccine te
 In practice, we wanted to know how much a reduction in forecast horizon or submission delay could improve the accuracy of forecasts to each future timepoint.
 To determine the effects of realistic interventions on forecast accuracy, we inspected the reduction in total absolute forecast error per future timepoint associated with improved vaccine development (reducing forecast horizon from 12 months to 6 months), improved genomic surveillance (reducing delays from a 3-month average to 1 month), and the combination of both improvements.
 We selected all forecasts with a 12-month horizon and a realistic delay, to represent current forecast conditions or ``the status quo''.
-Then, we selected forecasts for the same future timepoints present in the current conditions for a 6-month horizon and a realistic delay, a 12-month horizon and an ideal delay, and 6-month horizon and an ideal delay.
+For the same future timepoints present in the status quo conditions, we selected the corresponding forecasts for a 6-month horizon and a realistic delay, a 12-month horizon and an ideal delay, and 6-month horizon and an ideal delay.
 Since forecasts between different initial and future timepoints could be represented by different clades, we could not compare forecasts for specific clades between interventions.
-Instead, we calculated the total absolute clade frequency error per future timepoint under each intervention and calculated the improvement in forecast accuracy as the difference in total error between the current conditions and each intervention.
+Instead, we calculated the total absolute clade frequency error per future timepoint under each intervention and calculated the improvement in forecast accuracy as the difference in total error between the status quo and each intervention.
 In addition to this clade-based analysis, we also estimated effects of interventions on the difference in distance to the future between different scenarios for both estimated and empirical fitnesses.
 For all analyses, positive values represented improved forecast accuracy under a given intervention scenario and negative values represented a reduction in accuracy.
 
@@ -359,8 +361,8 @@ For all analyses, positive values represented improved forecast accuracy under a
 \end{table}
 
 Both interventions with improved vaccine development increased forecast accuracy for the majority of future timepoints (\FIG{h3n2_effects_of_realistic_interventions}, \TABLE{h3n2_effects_of_realistic_interventions}, and \FIGSUPP[h3n2_effects_of_realistic_interventions]{h3n2_total_absolute_clade_frequency_errors}).
-In contrast, the intervention that only improved genomic surveillance decreased forecast accuracy by an average of 11\%.
 Improving vaccine development alone increased total forecast accuracy by 53\% on average, while the addition of improved genomic surveillance under that 6-month forecast horizon increased total forecast accuracy by 54\% on average.
+In contrast, the intervention that only improved genomic surveillance decreased forecast accuracy by an average of 11\%.
 Based on the distributions of total absolute forecast error per future timepoint, we would expect improved genomic surveillance to improve forecast accuracy at a forecast horizon of 3 months (\FIGSUPP[h3n2_effects_of_realistic_interventions]{h3n2_total_absolute_clade_frequency_errors}).
 We observed similar effects of interventions in simulated A/H3N2-like populations except that the average effect of reducing submission delays alone was positive for these populations (\FIGSUPP[h3n2_effects_of_realistic_interventions]{simulated_effects_of_realistic_interventions} and \FIGSUPP[h3n2_effects_of_realistic_interventions]{simulated_total_absolute_clade_frequency_errors}).
 When we calculated the effects of interventions on distances to the future instead of total absolute clade frequency errors, we observed the same patterns for natural and simulated populations (\FIGSUPP[h3n2_effects_of_realistic_interventions]{h3n2_effects_of_realistic_interventions_on_distances_to_the_future} and \FIGSUPP[h3n2_effects_of_realistic_interventions]{simulated_effects_of_realistic_interventions_on_distances_to_the_future}).
@@ -390,8 +392,8 @@ We confirmed these effects with a previously validated forecasting model using b
 We expect that decreasing forecast horizons and submission delays will have similar effect sizes in other forecasting models, too.
 
 Even without these recommended improvements to vaccine development and sequence submissions, these results inform important next steps to improve forecasting models.
-Current and future frequency estimates should be represented by with corresponding uncertainty intervals.
-From this work, we know that our current frequency estimates for large clades ($>$10\% frequency) under realistic submission delays have a wide range of errors (-16\% to 29\%).
+Current and future frequency estimates should be presented with corresponding uncertainty intervals.
+From this work, we know that our current frequency estimates for large clades ($\ge$10\% frequency) under realistic submission delays have a wide range of errors (-16\% to 29\%).
 Similarly, the range of 12-month forecast frequency errors under realistic delays include overestimates by up to 78\% and underestimates up to 78\%.
 Long-term forecasts with incomplete current data are highly uncertain by their nature.
 To support informed decisions about vaccine updates, we must communicate that uncertainty of the present and future to decision-makers.
@@ -447,7 +449,7 @@ We produced these trees for each timepoint with three different delay scenarios:
 For each scenario, we selected sequences for analysis at a given timepoint based on their collection date, ideal submission date, or realistic submission date, respectively.
 This experimental design produced forecasts for three delay types at each of the four forecast horizons (e.g., \FIG{model_of_delays_and_horizons}B, blue, green, and orange initial timepoints for the 3-month forecast horizon).
 
-Since submission dates were not available prior to April 2005, our analysis of natural A/H3N2 sequences spanned from April 1, 2005 to October 1, 2019.
+Since reliable submission dates were not available prior to April 2005, our analysis of natural A/H3N2 sequences spanned from April 1, 2005 to October 1, 2019.
 To simplify the data required for these analyses, we produced forecasts of natural A/H3N2 populations with our best sequence-only model from our prior work \citep{Huddleston2020}, a composite model based on local branching index (LBI) \citep{Neher:2014eu} and mutational load \citep{Luksza:2014hj}.
 For simulated A/H3N2-like populations, we produced forecasts with the ``true fitness'' model that relies on the normalized fitness value of each simulated sample.
 
