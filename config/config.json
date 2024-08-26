@@ -215,6 +215,7 @@
             "h3n2_realistic_delay": {
                 "description": "H3N2 forecasts with realistic submission delay",
                 "dataset_sample": "h3n2",
+                "full_tree_build": "h3n2_no_delay_full_tree",
                 "validation_build": "h3n2_no_delay",
                 "delay_type": "realistic",
                 "sequences": "data/natural/h3n2/filtered_sequences.fasta",
@@ -238,6 +239,7 @@
             "h3n2_ideal_delay": {
                 "description": "H3N2 forecasts with ideal submission delay with a mean delay of approximately one month",
                 "dataset_sample": "h3n2",
+                "full_tree_build": "h3n2_no_delay_full_tree",
                 "validation_build": "h3n2_no_delay",
                 "delay_type": "ideal",
                 "sequences": "data/natural/h3n2/filtered_sequences.fasta",
