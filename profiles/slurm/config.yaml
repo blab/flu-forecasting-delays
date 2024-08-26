@@ -34,7 +34,7 @@ conda-frontend: mamba
 # resources. This is analogous to the spot resources on AWS.
 default-resources:
   - mem_mb=256
-  - runtime="0:05:00"
+  - runtime="5m"
   - partition="campus-new"
   - qos="campus-new"
 
