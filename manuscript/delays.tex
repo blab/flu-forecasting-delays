@@ -41,13 +41,10 @@
 % Words: 316
 For the last decade, evolutionary forecasting models have influenced seasonal influenza vaccine design.
 These models attempt to predict which genetic variants circulating at the time of vaccine strain selection will be dominant 12 months later in the influenza season targeted by vaccination campaign.
-% TB: vaccine is often available ~6 months later in August, even if the main target is February
 Forecasting models depend on hemagglutinin (HA) sequences from the WHO’s Global Influenza Surveillance and Response System to identify currently circulating groups of related strains (clades) and estimate clade fitness for forecasts.
 However, the average delay between collection of clinical sample and the submission of its sequence to the Global Initiative on Sharing All Influenza Data (GISAID) EpiFlu database is $\sim$3 months.
-% TB: this is an important distinction! Sequences are not collected. Samples are collected. Phrasing made it sound like labs are sitting on data.
 Submission delays complicate the already difficult 12-month forecasting problem by reducing understanding of current clade frequencies at the time of forecasting.
 These constraints of a 12-month forecast horizon and 3-month average submission delays create an upper bound on the accuracy of any long-term forecasting model.
-% TB: A perfect model with informed DMS data could theoretically pick out of sample mutations that will arise. In a perfect world you could imagine a forecasting model that predicts multiple years out.
 The global response to the SARS-CoV-2 pandemic revealed that modern vaccine technology like mRNA vaccines can reduce how far we need to forecast into the future to 6 months or less and that expanded support for sequencing can reduce submission delays to GISAID to 1 month on average.
 To determine whether these recent advances could also improve long-term forecasts for seasonal influenza, we quantified the effects of reducing forecast horizons and submission delays on the accuracy of forecasts for A/H3N2 populations.
 We found that reducing forecast horizons from 12 months to 6 or 3 months reduced average absolute forecasting errors by 25\% and 50\%, respectively.
@@ -70,8 +67,7 @@ Given the 12-month delay between the decision to update an influenza vaccine and
 For this reason, the decision process is partially informed by computational models that attempt to predict the genetic composition of seasonal influenza populations 12 months in the future based on current genetic and phenotypic data \citep{Morris2018}.
 The earliest of these models predicted future influenza populations from HA sequences alone \citep{Luksza:2014hj,Neher:2014eu,Steinbruck2014}.
 Recent models include phenotypic data from serological experiments \citep{Morris2018,Huddleston2020,Meijers2023,Meijers2024}, but these models still heavily rely on HA sequences to determine the viruses circulating at the time of a forecast.
-Unfortunately, the average delay between collection of a seasonal influenza A/H3N2 HA sample and submission of its sequence had been approximately 3 months in the era prior to the SARS-CoV-2 pandemic (\FIG{model_of_delays_and_horizons}A).
-% TB: I don't like "3 months". I'd suggest either to caveat as rounded via "~3 months" or provide appropriate precision, ie "3.0 months"
+Unfortunately, the average delay between collection of a seasonal influenza A/H3N2 HA sample and submission of its sequence had been $\sim$3 months in the era prior to the SARS-CoV-2 pandemic (\FIG{model_of_delays_and_horizons}A).
 While long-term forecasting models continue to improve technically, the constraints of a 12-month forecast horizon and the availability of enough recent, representative HA sequences impose an upper bound on the accuracy of long-term forecasts.
 
 The global response to the SARS-CoV-2 pandemic in 2020 showed the speed with which we can develop new vaccines and capture real-time viral genetic diversity.
@@ -114,7 +110,6 @@ In this way, we show the potential to improve the accuracy of existing long-term
   A gamma distribution fit to the observed delay distribution with a similar mean and shape (green) represents a realistic submission delay that we sample from to assign ``submission dates'' to simulated and natural A/H3N2 populations.
   A gamma distribution with a mean that is one third of the realistic distribution (orange) represents an ideal submission delay analogous to the 1-month average observed delays for SARS-CoV-2 genomes.
   Retrospective analyses including fitting of forecasting models typically filter HA sequences by collection date instead of submission dates in which case there is no delay (blue).
-  % TB: Update x-axis label of panel B to "Delay between sample collection and sequence submission (days)" or "Lag between sample collection and sequence submission (days)".
 }\label{fig:model_of_delays_and_horizons}
 %
 \figsupp[Distribution of submission delays in days for the pre-pandemic era (2019-2020) and pandemic era (2022-2023)]
