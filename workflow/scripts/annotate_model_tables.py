@@ -28,7 +28,7 @@ if __name__ == "__main__":
     frequencies = pd.concat([
         pd.DataFrame(scores["validation_data"]["y_hat"])
         for scores in model["scores"]
-    ]).loc[:, ["timepoint", "strain", "projected_frequency"]].copy()
+    ]).loc[:, ["timepoint", "strain", "projected_frequency", "optimal_projected_frequency"]].copy()
     frequencies["future_timepoint"] = pd.to_datetime(frequencies["timepoint"]) + pd.DateOffset(months=args.delta_months)
 
     # Load the original model table output for validation/test errors.

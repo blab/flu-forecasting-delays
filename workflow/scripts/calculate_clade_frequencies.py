@@ -78,6 +78,7 @@ if __name__ == "__main__":
                     "strain",
                     "frequency",
                     "projected_frequency",
+                    "optimal_projected_frequency",
                 )
             ]
             initial_delayed_tip_names = initial_delayed_tips["strain"].drop_duplicates().values
@@ -95,6 +96,7 @@ if __name__ == "__main__":
             ).aggregate({
                 "frequency": "sum",
                 "projected_frequency": "sum",
+                "optimal_projected_frequency": "sum",
                 "strain": "count",
             }).reset_index().rename(
                 columns={
@@ -185,6 +187,9 @@ if __name__ == "__main__":
             # Calculate forecast error for the nested clade frequencies.
             clade_frequencies["forecast_error"] = clade_frequencies["observed_frequency"] - clade_frequencies["projected_frequency"]
             clade_frequencies["absolute_forecast_error"] = clade_frequencies["forecast_error"].abs()
+
+            clade_frequencies["optimal_forecast_error"] = clade_frequencies["observed_frequency"] - clade_frequencies["optimal_projected_frequency"]
+            clade_frequencies["optimal_absolute_forecast_error"] = clade_frequencies["optimal_forecast_error"].abs()
 
             # Record the values of t, t - h, h, s, c, observed future clade
             # frequency, predicted future clade frequency, forecast error, and
