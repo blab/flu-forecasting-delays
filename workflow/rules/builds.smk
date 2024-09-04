@@ -55,7 +55,7 @@ rule align:
     threads: 4
     resources:
         mem_mb=16000,
-        runtime="0:30:00",
+        runtime="30m",
         partition="campus-new",
         qos="campus-new",
     shell:
@@ -95,7 +95,7 @@ rule tree:
     threads: 4
     resources:
         mem_mb=16000,
-        runtime="2:00:00",
+        runtime="2h",
         partition="campus-new",
         qos="campus-new",
     shell:
@@ -126,7 +126,7 @@ rule refine:
     log: "logs/refine_" + BUILD_SEGMENT_LOG_STEM + ".log"
     resources:
         mem_mb=16000,
-        runtime="4:00:00",
+        runtime="4h",
         partition="campus-new",
         qos="campus-new",
     shell:
@@ -221,7 +221,7 @@ rule ancestral:
     log: "logs/ancestral_" + BUILD_SEGMENT_LOG_STEM + ".txt"
     resources:
         mem_mb=4000,
-        runtime="0:15:00",
+        runtime="15m",
     shell:
         """
         augur ancestral \
@@ -335,7 +335,7 @@ rule distances:
     conda: "../envs/anaconda.python3.yaml"
     resources:
         mem_mb=8000,
-        runtime="00:30:00",
+        runtime="30m",
     shell:
         """
         augur distance \
@@ -596,7 +596,7 @@ rule fit_models_by_distances:
     log: "logs/fitness_model_distances_" + BUILD_LOG_STEM + "_{predictors}.txt"
     resources:
         mem_mb=20000,
-        runtime="06:00:00",
+        runtime="6h",
         partition="campus-new",
         qos="campus-new",
     shell:
@@ -762,7 +762,7 @@ rule test_distance_models:
     log: "logs/test_fitness_model_distances_" + BUILD_LOG_STEM + "_{delta_month}_{predictors}.txt"
     resources:
         mem_mb=20000,
-        runtime="0:20:00",
+        runtime="20m",
         partition="campus-new",
         qos="campus-new",
     shell:
