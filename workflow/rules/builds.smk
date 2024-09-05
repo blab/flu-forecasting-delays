@@ -524,9 +524,32 @@ rule annotate_sample_and_delay_type_to_tip_attributes:
         """
 
 
+# TODO: annotate full tree frequencies here
+def _get_tip_frequencies_for_full_tree_by_wildcards(wildcards):
+    full_tree_sample = _get_full_tree_sample_by_wildcards(wildcards)
+    full_tree_end_date = config["builds"][wildcards.type][full_tree_sample]["end_date"]
+    tip_frequencies_path = "results/auspice/flu_" + BUILD_SEGMENT_LOG_STEM + "_original-tip-frequencies.json"
+    return tip_clades_path.format(type=wildcards.type, sample=full_tree_sample, timepoint=full_tree_end_date)
+
+rule annotate_retrospective_frequencies:
+    input:
+        attributes = rules.collect_tip_attributes.output.attributes,
+        frequencies = _get_tip_frequencies_for_full_tree_by_wildcards,
+    output:
+        attributes = BUILD_PATH + "tip_attributes_with_retrospective_frequencies.tsv",
+    conda: "../envs/anaconda.python3.yaml"
+    shell:
+        """
+        python3 workflow/scripts/annotate_retrospective_frequencies.py \
+            --tip-attributes {input.attributes} \
+            --frequencies {input.frequencies} \
+            --output {output.attributes}
+        """
+
+
 rule annotate_naive_tip_attribute:
     input:
-        attributes = rules.collect_tip_attributes.output.attributes
+        attributes = rules.annotate_retrospective_frequencies.output.attributes
     output:
         attributes = BUILD_PATH + "tip_attributes_with_naive_predictor.tsv"
     conda: "../envs/anaconda.python3.yaml"
