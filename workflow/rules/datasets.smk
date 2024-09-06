@@ -379,6 +379,18 @@ if "RETHINK_HOST" in os.environ and "RETHINK_AUTH_KEY" in os.environ:
                 --strains {input.strains} \
                 --output {output.metadata}
             """
+
+    rule build_gisaid_accessions_table:
+        input:
+            metadata = DATA_NATURAL_ROOT_PATH + "strains_metadata.tsv",
+        output:
+            accessions_table = "results/gisaid_accessions.tsv",
+        conda: "../envs/anaconda.python3.yaml"
+        shell:
+            """
+            tsv-select -H -f strain,accession,originating_lab,submitting_lab {input.metadata} > {output.accessions_table}
+            """
+
 else:
     logger.warning("\nNote that sequences for natural populations must be downloaded manually from GISAID.")
     logger.warning("See instructions for downloading these sequences in the project's documentation:\n")
