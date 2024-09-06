@@ -150,6 +150,8 @@ As a positive control, we calculated the posthoc empirical fitness of each initi
 These empirical fitnesses provided the lower bound on the earth mover's distance which represented the number of amino acid substitutions accumulated between populations.
 
 To understand the effects of reducing forecast horizons and submission lags on long-term forecast accuracy, we produced forecasts 3, 6, 9, and 12 months into the future using HA sequences available at each initial timepoint under each submission lag scenario including no lag, ideal lag ($\sim$1-month average), and realistic lag ($\sim$3-month average) (\FIG{model_of_delays_and_horizons}, \FIGSUPP[model_of_delays_and_horizons]{distribution_of_h3n2_sequences_per_timepoint_and_delay}, \FIGSUPP[model_of_delays_and_horizons]{distribution_of_simulated_sequences_per_timepoint_and_delay}).
+For both natural and simulated populations, we assigned ideal and realistic lags to each sequence from the modeled distributions in \FIG{model_of_delays_and_horizons}B.
+This approach allowed us to assign uncorrelated lag values to both population types while avoiding the biases associated with historical submission patterns for natural A/H3N2 HA sequences.
 For natural A/H3N2 populations, we used the best sequence-only forecasting model, LBI and mutational load, which we previously trained on 12-month forecasts without any submission lag.
 For simulated A/H3N2-like populations, we used the observed fitness per sample provided by the simulator.
 For each forecast horizon and submission lag type, we calculated the earth mover's distance between the predicted future populations under the given lag scenario and the observed future populations without any lag in sequence availability.
@@ -454,6 +456,7 @@ We modeled the shape of the observed lag distribution as a gamma distribution us
 With this approach, we estimated a shape parameter of 1.76, a scale parameter of 53.18, and location parameter of 3.98.
 The product of these shape and scale values corresponded to a mean lag of 93.76 days (\FIG{model_of_delays_and_horizons}A, green).
 To assign realistic submission lags to each sample in our analysis, we randomly sampled from this gamma distribution and calculated a ``realistic submission date'' by adding the sampled lag in days to the observed collection date.
+This approach allowed us to assign realistic lags to natural and simulated populations without the biases and autocorrelations associated with historical submission patterns across different submitting labs.
 
 Based on the observed rapid submission of SARS-CoV-2 genomes during the first years of the pandemic, we expected that an achievable ``ideal'' submission lag for seasonal influenza sequences would have a 1-month average lag instead of the observed $\sim$3-month lag from the pre-pandemic period.
 We modeled this ideal submission lag distribution by dividing the gamma shape parameter by 3 to get a value of 0.59 and a corresponding mean lag of 31.25 days (\FIG{model_of_delays_and_horizons}A, orange).
