@@ -14,4 +14,5 @@ rm -f ${TITLE}.pdf
 pdflatex -draftmode ${TITLE}
 bibtex ${TITLE}
 pdflatex -draftmode ${TITLE}
+pdflatex -draftmode ${TITLE}
 pdflatex ${TITLE}
