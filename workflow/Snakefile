@@ -312,7 +312,7 @@ include: "rules/builds.smk"
 
 rule all:
     input:
-        "results/gisaid_accessions.tsv",
+        "results/gisaid_accessions.csv",
         "results/model_inputs_for_simulated_populations.tsv",
         "results/model_inputs_for_h3n2_populations.tsv",
         "results/tip_attributes_for_simulated.tsv",

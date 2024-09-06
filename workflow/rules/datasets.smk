@@ -384,11 +384,12 @@ if "RETHINK_HOST" in os.environ and "RETHINK_AUTH_KEY" in os.environ:
         input:
             metadata = "data/natural/h3n2/strains_metadata.tsv",
         output:
-            accessions_table = "results/gisaid_accessions.tsv",
+            accessions_table = "results/gisaid_accessions.csv",
         conda: "../envs/csv.yaml"
         shell:
             """
-            tsv-select -H -f strain,accession,originating_lab,submitting_lab {input.metadata} > {output.accessions_table}
+            csvtk -t cut -f strain,accession,originating_lab,submitting_lab {input.metadata} \
+                | csvtk tab2csv > {output.accessions_table}
             """
 
 else:
