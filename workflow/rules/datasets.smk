@@ -385,7 +385,7 @@ if "RETHINK_HOST" in os.environ and "RETHINK_AUTH_KEY" in os.environ:
             metadata = "data/natural/h3n2/strains_metadata.tsv",
         output:
             accessions_table = "results/gisaid_accessions.tsv",
-        conda: "../envs/anaconda.python3.yaml"
+        conda: "../envs/csv.yaml"
         shell:
             """
             tsv-select -H -f strain,accession,originating_lab,submitting_lab {input.metadata} > {output.accessions_table}
