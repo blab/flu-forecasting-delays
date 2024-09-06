@@ -5,3 +5,4 @@ channels:
 - defaults
 dependencies:
 - csvtk=0.25.0
+- tsv-utils=2.2.3
