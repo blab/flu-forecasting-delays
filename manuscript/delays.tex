@@ -343,16 +343,6 @@ For all analyses, positive values represented improved forecast accuracy under a
   \figsuppdata{Improvement of distances to the future per future timepoint for simulated A/H3N2-like populations; see \url{https://doi.org/xxx}}}
 {\includegraphics[width=6cm]{figures/simulated_effects_of_realistic_interventions_on_distances_to_the_future}}\label{figsupp:simulated_effects_of_realistic_interventions_on_distances_to_the_future}
 %
-\figsupp[Improvement of optimal distances to the future (AAs) for A/H3N2 populations between the status quo (12-month forecast horizon and realistic submission lags) and realistic interventions.]
-{Improvement of optimal distances to the future (AAs) for A/H3N2 populations between the status quo (12-month forecast horizon and realistic submission lags) and realistic interventions.\
-  \figsuppdata{Improvement of optimal distances to the future per future timepoint for A/H3N2 populations; see \url{https://doi.org/xxx}}}
-{\includegraphics[width=6cm]{figures/h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future}}\label{figsupp:h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future}
-%
-\figsupp[Improvement of optimal distances to the future (AAs) for simulated A/H3N2-like populations between the status quo (12-month forecast horizon and realistic submission lags) and realistic interventions.]
-{Improvement of optimal distances to the future (AAs) for simulated A/H3N2-like populations between the status quo (12-month forecast horizon and realistic submission lags) and realistic interventions.\
-  \figsuppdata{Improvement of optimal distances to the future per future timepoint for simulated A/H3N2-like populations; see \url{https://doi.org/xxx}}}
-{\includegraphics[width=6cm]{figures/simulated_optimal_effects_of_realistic_interventions_on_distances_to_the_future}}\label{figsupp:simulated_optimal_effects_of_realistic_interventions_on_distances_to_the_future}
-%
 \figdata{Differences in absolute clade frequency error per future timepoint and clade between the status quo and realistic interventions for A/H3N2 populations.}\label{figdata:h3n2_effects_of_realistic_interventions}
 \figsrccode{Jupyter notebook used to produce effects of interventions on total absolute clade frequency errors \texttt{workflow/notebooks/plot-forecast-clade-frequency-errors-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:effects_of_realistic_interventions}
 \figsrccode{Jupyter notebook used to produce effects of interventions on distances to the future lives in \texttt{workflow/notebooks/plot-distances-to-the-future-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:effects_of_realistic_interventions_on_distances_to_the_future}
@@ -382,12 +372,28 @@ Adding more sequences at initial timepoints where LBI already overestimates clad
 To test this hypothesis, we calculated the effects of the same interventions on the optimal distances to the future for both natural and simulated populations.
 Since optimal distances reflected the empirical fitnesses of the initial populations, the effects of interventions should be independent of biases from fitness metrics.
 We expected all interventions to maintain or improve the optimal distance to the future without any cases where an intervention decreased accuracy.
-As expected, all interventions improved on the optimal distance to the future for both populations (\FIGSUPP[h3n2_effects_of_realistic_interventions]{h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future} and \FIGSUPP[h3n2_effects_of_realistic_interventions]{simulated_optimal_effects_of_realistic_interventions_on_distances_to_the_future}).
+As expected, all interventions improved on the optimal distance to the future for both populations (\FIG{h3n2_optimal_effects_of_realistic_interventions} and \FIGSUPP[h3n2_optimal_effects_of_realistic_interventions]{simulated_optimal_effects_of_realistic_interventions_on_distances_to_the_future}).
 For natural A/H3N2 populations, the average improvement of the vaccine intervention was 1.1 AAs and the improvement of the surveillance intervention was 0.27 AAs or approximately 25\% of the vaccine intervention.
 The average improvement of both interventions was only slightly less than additive at 1.28 AAs.
 These results confirmed the relatively stronger effect of reducing forecast horizons compared to submission lags.
 They also confirmed that reducing submission lags can improve forecasts under optimal forecasting conditions.
 For this reason, we expect that simultaneous improvements to forecasting models and genomic surveillance will have a mutually beneficial effect on forecast accuracy.
+
+\begin{figure}[htb!]
+\includegraphics[width=\linewidth]{figures/h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future}
+\caption{Improvement of optimal distances to the future (AAs) for A/H3N2 populations between the status quo (12-month forecast horizon and realistic submission lags) and realistic interventions.
+  We measured improvements from the status quo as the difference in optimal distances to the future per future timepoint.
+  Each point represents the improvement of forecasts for a specific future timepoint under the given intervention.}
+\label{fig:h3n2_optimal_effects_of_realistic_interventions}
+%
+\figsupp[Improvement of optimal distances to the future (AAs) for simulated A/H3N2-like populations between the status quo (12-month forecast horizon and realistic submission lags) and realistic interventions.]
+{Improvement of optimal distances to the future (AAs) for simulated A/H3N2-like populations between the status quo (12-month forecast horizon and realistic submission lags) and realistic interventions.\
+  \figsuppdata{Improvement of optimal distances to the future per future timepoint for simulated A/H3N2-like populations; see \url{https://doi.org/xxx}}}
+{\includegraphics[width=6cm]{figures/simulated_optimal_effects_of_realistic_interventions_on_distances_to_the_future}}\label{figsupp:simulated_optimal_effects_of_realistic_interventions_on_distances_to_the_future}
+%
+\figdata{Differences in optimal distances to the future per future timepoint between the status quo and realistic interventions for A/H3N2 populations.}\label{figdata:h3n2_optimal_effects_of_realistic_interventions}
+\figsrccode{Jupyter notebook used to produce optimal effects of interventions on distances to the future lives in \texttt{workflow/notebooks/plot-distances-to-the-future-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:optimal_effects_of_realistic_interventions_on_distances_to_the_future}
+\end{figure}
 
 \section{Discussion}
 
