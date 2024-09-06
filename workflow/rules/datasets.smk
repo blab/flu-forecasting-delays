@@ -382,7 +382,7 @@ if "RETHINK_HOST" in os.environ and "RETHINK_AUTH_KEY" in os.environ:
 
     rule build_gisaid_accessions_table:
         input:
-            metadata = DATA_NATURAL_ROOT_PATH + "strains_metadata.tsv",
+            metadata = "data/natural/h3n2/strains_metadata.tsv",
         output:
             accessions_table = "results/gisaid_accessions.tsv",
         conda: "../envs/anaconda.python3.yaml"
