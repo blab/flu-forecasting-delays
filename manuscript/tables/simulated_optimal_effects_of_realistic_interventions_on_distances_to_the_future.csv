@@ -1,0 +1,280 @@
+future_timepoint,intervention,difference_in_optimal_distance,intervention_name
+2017-10-01,status_quo_vs_improved_vaccine,1.4263148307800293,improved vaccine
+2018-01-01,status_quo_vs_improved_vaccine,1.3156299591064453,improved vaccine
+2018-04-01,status_quo_vs_improved_vaccine,0.9755043983459468,improved vaccine
+2018-07-01,status_quo_vs_improved_vaccine,0.5980236530303955,improved vaccine
+2018-10-01,status_quo_vs_improved_vaccine,1.0624690055847177,improved vaccine
+2019-01-01,status_quo_vs_improved_vaccine,1.3228747844696045,improved vaccine
+2019-04-01,status_quo_vs_improved_vaccine,1.2927966117858887,improved vaccine
+2019-07-01,status_quo_vs_improved_vaccine,1.032692432403565,improved vaccine
+2019-10-01,status_quo_vs_improved_vaccine,2.043938159942627,improved vaccine
+2020-01-01,status_quo_vs_improved_vaccine,0.5115203857421875,improved vaccine
+2020-04-01,status_quo_vs_improved_vaccine,1.5350556373596191,improved vaccine
+2020-07-01,status_quo_vs_improved_vaccine,2.3426196575164795,improved vaccine
+2020-10-01,status_quo_vs_improved_vaccine,2.703510284423828,improved vaccine
+2021-01-01,status_quo_vs_improved_vaccine,1.3860654830932626,improved vaccine
+2021-04-01,status_quo_vs_improved_vaccine,0.9573423862457275,improved vaccine
+2021-07-01,status_quo_vs_improved_vaccine,1.768251657485962,improved vaccine
+2021-10-01,status_quo_vs_improved_vaccine,1.420581340789795,improved vaccine
+2022-01-01,status_quo_vs_improved_vaccine,1.4203147888183594,improved vaccine
+2022-04-01,status_quo_vs_improved_vaccine,0.9815809726715088,improved vaccine
+2022-07-01,status_quo_vs_improved_vaccine,1.2707788944244376,improved vaccine
+2022-10-01,status_quo_vs_improved_vaccine,1.4146192073822021,improved vaccine
+2023-01-01,status_quo_vs_improved_vaccine,1.625741720199585,improved vaccine
+2023-04-01,status_quo_vs_improved_vaccine,1.4906885623931885,improved vaccine
+2023-07-01,status_quo_vs_improved_vaccine,1.6383626461029053,improved vaccine
+2023-10-01,status_quo_vs_improved_vaccine,2.86870527267456,improved vaccine
+2024-01-01,status_quo_vs_improved_vaccine,2.0152068138122563,improved vaccine
+2024-04-01,status_quo_vs_improved_vaccine,1.2241883277893066,improved vaccine
+2024-07-01,status_quo_vs_improved_vaccine,1.9315211772918701,improved vaccine
+2024-10-01,status_quo_vs_improved_vaccine,2.651048183441162,improved vaccine
+2025-01-01,status_quo_vs_improved_vaccine,2.1503183841705322,improved vaccine
+2025-04-01,status_quo_vs_improved_vaccine,1.3560140132904053,improved vaccine
+2025-07-01,status_quo_vs_improved_vaccine,1.748277187347412,improved vaccine
+2025-10-01,status_quo_vs_improved_vaccine,1.9913744926452637,improved vaccine
+2026-01-01,status_quo_vs_improved_vaccine,1.9582977294921875,improved vaccine
+2026-04-01,status_quo_vs_improved_vaccine,3.4150376319885254,improved vaccine
+2026-07-01,status_quo_vs_improved_vaccine,2.8213768005371094,improved vaccine
+2026-10-01,status_quo_vs_improved_vaccine,0.6719770431518555,improved vaccine
+2027-01-01,status_quo_vs_improved_vaccine,2.3468008041381836,improved vaccine
+2027-04-01,status_quo_vs_improved_vaccine,3.311979532241821,improved vaccine
+2027-07-01,status_quo_vs_improved_vaccine,2.0015885829925537,improved vaccine
+2027-10-01,status_quo_vs_improved_vaccine,1.181189775466919,improved vaccine
+2028-01-01,status_quo_vs_improved_vaccine,1.3306605815887451,improved vaccine
+2028-04-01,status_quo_vs_improved_vaccine,2.148775577545166,improved vaccine
+2028-07-01,status_quo_vs_improved_vaccine,1.0235137939453125,improved vaccine
+2028-10-01,status_quo_vs_improved_vaccine,2.972965955734253,improved vaccine
+2029-01-01,status_quo_vs_improved_vaccine,4.397525787353515,improved vaccine
+2029-04-01,status_quo_vs_improved_vaccine,2.209283351898193,improved vaccine
+2029-07-01,status_quo_vs_improved_vaccine,1.4679145812988281,improved vaccine
+2029-10-01,status_quo_vs_improved_vaccine,1.779939889907837,improved vaccine
+2030-01-01,status_quo_vs_improved_vaccine,1.7969212532043457,improved vaccine
+2030-04-01,status_quo_vs_improved_vaccine,1.0500826835632324,improved vaccine
+2030-07-01,status_quo_vs_improved_vaccine,1.7781398296356201,improved vaccine
+2030-10-01,status_quo_vs_improved_vaccine,1.866685152053833,improved vaccine
+2031-01-01,status_quo_vs_improved_vaccine,0.872124433517456,improved vaccine
+2031-04-01,status_quo_vs_improved_vaccine,1.2835030555725098,improved vaccine
+2031-07-01,status_quo_vs_improved_vaccine,2.780254602432251,improved vaccine
+2031-10-01,status_quo_vs_improved_vaccine,2.051523208618164,improved vaccine
+2032-01-01,status_quo_vs_improved_vaccine,3.7062900066375732,improved vaccine
+2032-04-01,status_quo_vs_improved_vaccine,3.223442554473877,improved vaccine
+2032-07-01,status_quo_vs_improved_vaccine,1.366795301437378,improved vaccine
+2032-10-01,status_quo_vs_improved_vaccine,1.4646649360656734,improved vaccine
+2033-01-01,status_quo_vs_improved_vaccine,1.5008633136749268,improved vaccine
+2033-04-01,status_quo_vs_improved_vaccine,1.5478858947753915,improved vaccine
+2033-07-01,status_quo_vs_improved_vaccine,1.4331519603729248,improved vaccine
+2033-10-01,status_quo_vs_improved_vaccine,1.4136831760406494,improved vaccine
+2034-01-01,status_quo_vs_improved_vaccine,0.937302827835083,improved vaccine
+2034-04-01,status_quo_vs_improved_vaccine,1.9946682453155522,improved vaccine
+2034-07-01,status_quo_vs_improved_vaccine,2.466846227645874,improved vaccine
+2034-10-01,status_quo_vs_improved_vaccine,0.2523965835571289,improved vaccine
+2035-01-01,status_quo_vs_improved_vaccine,1.7884092330932617,improved vaccine
+2035-04-01,status_quo_vs_improved_vaccine,2.8973004817962646,improved vaccine
+2035-07-01,status_quo_vs_improved_vaccine,1.6917622089385986,improved vaccine
+2035-10-01,status_quo_vs_improved_vaccine,0.9745280742645268,improved vaccine
+2036-01-01,status_quo_vs_improved_vaccine,1.4855258464813232,improved vaccine
+2036-04-01,status_quo_vs_improved_vaccine,2.1706159114837646,improved vaccine
+2036-07-01,status_quo_vs_improved_vaccine,1.117056131362915,improved vaccine
+2036-10-01,status_quo_vs_improved_vaccine,0.732957124710083,improved vaccine
+2037-01-01,status_quo_vs_improved_vaccine,0.7938599586486821,improved vaccine
+2037-04-01,status_quo_vs_improved_vaccine,0.15716934204101562,improved vaccine
+2037-07-01,status_quo_vs_improved_vaccine,1.6609048843383794,improved vaccine
+2037-10-01,status_quo_vs_improved_vaccine,2.5075364112854004,improved vaccine
+2038-01-01,status_quo_vs_improved_vaccine,1.2789621353149414,improved vaccine
+2038-04-01,status_quo_vs_improved_vaccine,0.4102001190185547,improved vaccine
+2038-07-01,status_quo_vs_improved_vaccine,1.4906423091888428,improved vaccine
+2038-10-01,status_quo_vs_improved_vaccine,2.0088887214660645,improved vaccine
+2039-01-01,status_quo_vs_improved_vaccine,1.1922314167022705,improved vaccine
+2039-04-01,status_quo_vs_improved_vaccine,1.2319688796997075,improved vaccine
+2039-07-01,status_quo_vs_improved_vaccine,0.6492002010345459,improved vaccine
+2039-10-01,status_quo_vs_improved_vaccine,0.40675067901611417,improved vaccine
+2040-01-01,status_quo_vs_improved_vaccine,2.4577763080596924,improved vaccine
+2040-04-01,status_quo_vs_improved_vaccine,3.2275283336639404,improved vaccine
+2040-07-01,status_quo_vs_improved_vaccine,1.909684658050537,improved vaccine
+2040-10-01,status_quo_vs_improved_vaccine,1.4650311470031738,improved vaccine
+2017-10-01,status_quo_vs_improved_surveillance,0.041731834411621094,improved surveillance
+2018-01-01,status_quo_vs_improved_surveillance,0.0835733413696289,improved surveillance
+2018-04-01,status_quo_vs_improved_surveillance,0.10268807411193803,improved surveillance
+2018-07-01,status_quo_vs_improved_surveillance,0.05395340919494629,improved surveillance
+2018-10-01,status_quo_vs_improved_surveillance,0.2422485351562509,improved surveillance
+2019-01-01,status_quo_vs_improved_surveillance,0.3561286926269531,improved surveillance
+2019-04-01,status_quo_vs_improved_surveillance,0.4542818069458008,improved surveillance
+2019-07-01,status_quo_vs_improved_surveillance,0.47756385803222656,improved surveillance
+2019-10-01,status_quo_vs_improved_surveillance,0.44747352600097656,improved surveillance
+2020-01-01,status_quo_vs_improved_surveillance,0.340329647064209,improved surveillance
+2020-04-01,status_quo_vs_improved_surveillance,0.00534820556640625,improved surveillance
+2020-07-01,status_quo_vs_improved_surveillance,0.3023414611816406,improved surveillance
+2020-10-01,status_quo_vs_improved_surveillance,0.06317329406738281,improved surveillance
+2021-01-01,status_quo_vs_improved_surveillance,0.8818426132202157,improved surveillance
+2021-04-01,status_quo_vs_improved_surveillance,0.11389398574829102,improved surveillance
+2021-07-01,status_quo_vs_improved_surveillance,0.7962815761566162,improved surveillance
+2021-10-01,status_quo_vs_improved_surveillance,0.44072175025939897,improved surveillance
+2022-01-01,status_quo_vs_improved_surveillance,0.5101051330566406,improved surveillance
+2022-04-01,status_quo_vs_improved_surveillance,0.30802249908447266,improved surveillance
+2022-07-01,status_quo_vs_improved_surveillance,0.05397796630859375,improved surveillance
+2022-10-01,status_quo_vs_improved_surveillance,0.6662571430206299,improved surveillance
+2023-01-01,status_quo_vs_improved_surveillance,0.21596002578735352,improved surveillance
+2023-04-01,status_quo_vs_improved_surveillance,0.65618896484375,improved surveillance
+2023-07-01,status_quo_vs_improved_surveillance,0.023761749267578125,improved surveillance
+2023-10-01,status_quo_vs_improved_surveillance,0.44178104400634766,improved surveillance
+2024-01-01,status_quo_vs_improved_surveillance,0.009463787078857422,improved surveillance
+2024-04-01,status_quo_vs_improved_surveillance,0.010605812072753906,improved surveillance
+2024-07-01,status_quo_vs_improved_surveillance,0.005459308624267578,improved surveillance
+2024-10-01,status_quo_vs_improved_surveillance,0.03543901443481445,improved surveillance
+2025-01-01,status_quo_vs_improved_surveillance,0.02942371368408292,improved surveillance
+2025-04-01,status_quo_vs_improved_surveillance,0.047600746154785156,improved surveillance
+2025-07-01,status_quo_vs_improved_surveillance,0.16957378387451083,improved surveillance
+2025-10-01,status_quo_vs_improved_surveillance,0.006611824035644531,improved surveillance
+2026-01-01,status_quo_vs_improved_surveillance,0.008544921875,improved surveillance
+2026-04-01,status_quo_vs_improved_surveillance,0.00926065444946289,improved surveillance
+2026-07-01,status_quo_vs_improved_surveillance,0.017278194427490234,improved surveillance
+2026-10-01,status_quo_vs_improved_surveillance,0.006707668304443359,improved surveillance
+2027-01-01,status_quo_vs_improved_surveillance,0.2828965187072754,improved surveillance
+2027-04-01,status_quo_vs_improved_surveillance,1.0201969146728516,improved surveillance
+2027-07-01,status_quo_vs_improved_surveillance,0.2186107635498047,improved surveillance
+2027-10-01,status_quo_vs_improved_surveillance,0.9146003723144527,improved surveillance
+2028-01-01,status_quo_vs_improved_surveillance,0.004799365997314453,improved surveillance
+2028-04-01,status_quo_vs_improved_surveillance,0.9880361557006836,improved surveillance
+2028-07-01,status_quo_vs_improved_surveillance,0.13081741333007812,improved surveillance
+2028-10-01,status_quo_vs_improved_surveillance,0.13249492645263672,improved surveillance
+2029-01-01,status_quo_vs_improved_surveillance,1.438520908355712,improved surveillance
+2029-04-01,status_quo_vs_improved_surveillance,0.19886207580566406,improved surveillance
+2029-07-01,status_quo_vs_improved_surveillance,0.18057966232299805,improved surveillance
+2029-10-01,status_quo_vs_improved_surveillance,0.07990407943725586,improved surveillance
+2030-01-01,status_quo_vs_improved_surveillance,0.042360782623291016,improved surveillance
+2030-04-01,status_quo_vs_improved_surveillance,0.1730499267578125,improved surveillance
+2030-07-01,status_quo_vs_improved_surveillance,0.07361364364624023,improved surveillance
+2030-10-01,status_quo_vs_improved_surveillance,0.40283632278442383,improved surveillance
+2031-01-01,status_quo_vs_improved_surveillance,0.1925816535949707,improved surveillance
+2031-04-01,status_quo_vs_improved_surveillance,0.038197994232177734,improved surveillance
+2031-07-01,status_quo_vs_improved_surveillance,1.0838117599487305,improved surveillance
+2031-10-01,status_quo_vs_improved_surveillance,0.43116331100463867,improved surveillance
+2032-01-01,status_quo_vs_improved_surveillance,0.8829126358032227,improved surveillance
+2032-04-01,status_quo_vs_improved_surveillance,0.9841756820678711,improved surveillance
+2032-07-01,status_quo_vs_improved_surveillance,0.01303243637084961,improved surveillance
+2032-10-01,status_quo_vs_improved_surveillance,0.5535664558410645,improved surveillance
+2033-01-01,status_quo_vs_improved_surveillance,0.007800102233886719,improved surveillance
+2033-04-01,status_quo_vs_improved_surveillance,0.843226671218873,improved surveillance
+2033-07-01,status_quo_vs_improved_surveillance,0.543921947479248,improved surveillance
+2033-10-01,status_quo_vs_improved_surveillance,0.0018510818481445312,improved surveillance
+2034-01-01,status_quo_vs_improved_surveillance,0.020986557006835938,improved surveillance
+2034-04-01,status_quo_vs_improved_surveillance,0.3208341598510742,improved surveillance
+2034-07-01,status_quo_vs_improved_surveillance,0.1465773582458496,improved surveillance
+2034-10-01,status_quo_vs_improved_surveillance,0.004878044128417969,improved surveillance
+2035-01-01,status_quo_vs_improved_surveillance,0.032466888427734375,improved surveillance
+2035-04-01,status_quo_vs_improved_surveillance,1.8380980491638184,improved surveillance
+2035-07-01,status_quo_vs_improved_surveillance,0.6273083686828613,improved surveillance
+2035-10-01,status_quo_vs_improved_surveillance,0.1466808319091797,improved surveillance
+2036-01-01,status_quo_vs_improved_surveillance,0.3067183494567871,improved surveillance
+2036-04-01,status_quo_vs_improved_surveillance,0.40456104278564453,improved surveillance
+2036-07-01,status_quo_vs_improved_surveillance,0.21480607986450195,improved surveillance
+2036-10-01,status_quo_vs_improved_surveillance,0.06097412109375,improved surveillance
+2037-01-01,status_quo_vs_improved_surveillance,0.2928071022033696,improved surveillance
+2037-04-01,status_quo_vs_improved_surveillance,0.09708738327026367,improved surveillance
+2037-07-01,status_quo_vs_improved_surveillance,0.020528793334961826,improved surveillance
+2037-10-01,status_quo_vs_improved_surveillance,0.04441499710083008,improved surveillance
+2038-01-01,status_quo_vs_improved_surveillance,0.8128554821014404,improved surveillance
+2038-04-01,status_quo_vs_improved_surveillance,0.2128000259399414,improved surveillance
+2038-07-01,status_quo_vs_improved_surveillance,0.1257939338684082,improved surveillance
+2038-10-01,status_quo_vs_improved_surveillance,0.10930442810058594,improved surveillance
+2039-01-01,status_quo_vs_improved_surveillance,0.2513086795806885,improved surveillance
+2039-04-01,status_quo_vs_improved_surveillance,0.5020880699157719,improved surveillance
+2039-07-01,status_quo_vs_improved_surveillance,0.07509565353393555,improved surveillance
+2039-10-01,status_quo_vs_improved_surveillance,-0.0001063346862784087,improved surveillance
+2040-01-01,status_quo_vs_improved_surveillance,0.018186569213867188,improved surveillance
+2040-04-01,status_quo_vs_improved_surveillance,2.1970696449279785,improved surveillance
+2040-07-01,status_quo_vs_improved_surveillance,0.004480838775634766,improved surveillance
+2040-10-01,status_quo_vs_improved_surveillance,0.014133453369140625,improved surveillance
+2017-10-01,status_quo_vs_improved_vaccine_and_surveillance,1.6782128810882568,improved vaccine and surveillance
+2018-01-01,status_quo_vs_improved_vaccine_and_surveillance,1.4032957553863525,improved vaccine and surveillance
+2018-04-01,status_quo_vs_improved_vaccine_and_surveillance,1.184330701828003,improved vaccine and surveillance
+2018-07-01,status_quo_vs_improved_vaccine_and_surveillance,1.085325002670288,improved vaccine and surveillance
+2018-10-01,status_quo_vs_improved_vaccine_and_surveillance,1.5438311100006112,improved vaccine and surveillance
+2019-01-01,status_quo_vs_improved_vaccine_and_surveillance,1.6931753158569336,improved vaccine and surveillance
+2019-04-01,status_quo_vs_improved_vaccine_and_surveillance,1.8947780132293701,improved vaccine and surveillance
+2019-07-01,status_quo_vs_improved_vaccine_and_surveillance,1.7934086322784424,improved vaccine and surveillance
+2019-10-01,status_quo_vs_improved_vaccine_and_surveillance,2.112178325653076,improved vaccine and surveillance
+2020-01-01,status_quo_vs_improved_vaccine_and_surveillance,2.0320796966552734,improved vaccine and surveillance
+2020-04-01,status_quo_vs_improved_vaccine_and_surveillance,1.7683653831481934,improved vaccine and surveillance
+2020-07-01,status_quo_vs_improved_vaccine_and_surveillance,3.065417289733887,improved vaccine and surveillance
+2020-10-01,status_quo_vs_improved_vaccine_and_surveillance,2.9743995666503906,improved vaccine and surveillance
+2021-01-01,status_quo_vs_improved_vaccine_and_surveillance,2.077329635620118,improved vaccine and surveillance
+2021-04-01,status_quo_vs_improved_vaccine_and_surveillance,1.5913991928100586,improved vaccine and surveillance
+2021-07-01,status_quo_vs_improved_vaccine_and_surveillance,2.2028651237487793,improved vaccine and surveillance
+2021-10-01,status_quo_vs_improved_vaccine_and_surveillance,1.83815336227417,improved vaccine and surveillance
+2022-01-01,status_quo_vs_improved_vaccine_and_surveillance,1.6267836093902588,improved vaccine and surveillance
+2022-04-01,status_quo_vs_improved_vaccine_and_surveillance,1.664269208908081,improved vaccine and surveillance
+2022-07-01,status_quo_vs_improved_vaccine_and_surveillance,1.7950096130371094,improved vaccine and surveillance
+2022-10-01,status_quo_vs_improved_vaccine_and_surveillance,1.8553886413574219,improved vaccine and surveillance
+2023-01-01,status_quo_vs_improved_vaccine_and_surveillance,1.7850773334503174,improved vaccine and surveillance
+2023-04-01,status_quo_vs_improved_vaccine_and_surveillance,1.767632007598877,improved vaccine and surveillance
+2023-07-01,status_quo_vs_improved_vaccine_and_surveillance,1.812068223953247,improved vaccine and surveillance
+2023-10-01,status_quo_vs_improved_vaccine_and_surveillance,2.9086503982543945,improved vaccine and surveillance
+2024-01-01,status_quo_vs_improved_vaccine_and_surveillance,2.225833892822265,improved vaccine and surveillance
+2024-04-01,status_quo_vs_improved_vaccine_and_surveillance,1.2637357711791992,improved vaccine and surveillance
+2024-07-01,status_quo_vs_improved_vaccine_and_surveillance,2.0031163692474365,improved vaccine and surveillance
+2024-10-01,status_quo_vs_improved_vaccine_and_surveillance,2.7818219661712646,improved vaccine and surveillance
+2025-01-01,status_quo_vs_improved_vaccine_and_surveillance,2.538524389266968,improved vaccine and surveillance
+2025-04-01,status_quo_vs_improved_vaccine_and_surveillance,1.450552225112915,improved vaccine and surveillance
+2025-07-01,status_quo_vs_improved_vaccine_and_surveillance,2.2967851161956783,improved vaccine and surveillance
+2025-10-01,status_quo_vs_improved_vaccine_and_surveillance,2.074981212615966,improved vaccine and surveillance
+2026-01-01,status_quo_vs_improved_vaccine_and_surveillance,2.023487091064453,improved vaccine and surveillance
+2026-04-01,status_quo_vs_improved_vaccine_and_surveillance,3.5409028530120854,improved vaccine and surveillance
+2026-07-01,status_quo_vs_improved_vaccine_and_surveillance,3.194482326507569,improved vaccine and surveillance
+2026-10-01,status_quo_vs_improved_vaccine_and_surveillance,1.7199444770812988,improved vaccine and surveillance
+2027-01-01,status_quo_vs_improved_vaccine_and_surveillance,3.0089616775512695,improved vaccine and surveillance
+2027-04-01,status_quo_vs_improved_vaccine_and_surveillance,3.846858024597168,improved vaccine and surveillance
+2027-07-01,status_quo_vs_improved_vaccine_and_surveillance,2.090193510055542,improved vaccine and surveillance
+2027-10-01,status_quo_vs_improved_vaccine_and_surveillance,1.9817602634429932,improved vaccine and surveillance
+2028-01-01,status_quo_vs_improved_vaccine_and_surveillance,1.6990597248077393,improved vaccine and surveillance
+2028-04-01,status_quo_vs_improved_vaccine_and_surveillance,2.4440383911132812,improved vaccine and surveillance
+2028-07-01,status_quo_vs_improved_vaccine_and_surveillance,1.9185688495635986,improved vaccine and surveillance
+2028-10-01,status_quo_vs_improved_vaccine_and_surveillance,3.415333271026611,improved vaccine and surveillance
+2029-01-01,status_quo_vs_improved_vaccine_and_surveillance,4.777129888534545,improved vaccine and surveillance
+2029-04-01,status_quo_vs_improved_vaccine_and_surveillance,2.461177110671997,improved vaccine and surveillance
+2029-07-01,status_quo_vs_improved_vaccine_and_surveillance,1.6840407848358154,improved vaccine and surveillance
+2029-10-01,status_quo_vs_improved_vaccine_and_surveillance,2.2900805473327637,improved vaccine and surveillance
+2030-01-01,status_quo_vs_improved_vaccine_and_surveillance,1.9949641227722168,improved vaccine and surveillance
+2030-04-01,status_quo_vs_improved_vaccine_and_surveillance,1.368959665298462,improved vaccine and surveillance
+2030-07-01,status_quo_vs_improved_vaccine_and_surveillance,2.078566074371338,improved vaccine and surveillance
+2030-10-01,status_quo_vs_improved_vaccine_and_surveillance,2.007392406463623,improved vaccine and surveillance
+2031-01-01,status_quo_vs_improved_vaccine_and_surveillance,1.6341023445129395,improved vaccine and surveillance
+2031-04-01,status_quo_vs_improved_vaccine_and_surveillance,2.057015895843506,improved vaccine and surveillance
+2031-07-01,status_quo_vs_improved_vaccine_and_surveillance,3.2871856689453125,improved vaccine and surveillance
+2031-10-01,status_quo_vs_improved_vaccine_and_surveillance,2.791802406311035,improved vaccine and surveillance
+2032-01-01,status_quo_vs_improved_vaccine_and_surveillance,3.802447557449341,improved vaccine and surveillance
+2032-04-01,status_quo_vs_improved_vaccine_and_surveillance,3.6436336040496826,improved vaccine and surveillance
+2032-07-01,status_quo_vs_improved_vaccine_and_surveillance,1.4429876804351807,improved vaccine and surveillance
+2032-10-01,status_quo_vs_improved_vaccine_and_surveillance,2.358553171157837,improved vaccine and surveillance
+2033-01-01,status_quo_vs_improved_vaccine_and_surveillance,1.9070639610290527,improved vaccine and surveillance
+2033-04-01,status_quo_vs_improved_vaccine_and_surveillance,1.5701529979705824,improved vaccine and surveillance
+2033-07-01,status_quo_vs_improved_vaccine_and_surveillance,1.6277916431427002,improved vaccine and surveillance
+2033-10-01,status_quo_vs_improved_vaccine_and_surveillance,1.7099220752716064,improved vaccine and surveillance
+2034-01-01,status_quo_vs_improved_vaccine_and_surveillance,1.1544291973114005,improved vaccine and surveillance
+2034-04-01,status_quo_vs_improved_vaccine_and_surveillance,2.079281806945801,improved vaccine and surveillance
+2034-07-01,status_quo_vs_improved_vaccine_and_surveillance,2.567936420440674,improved vaccine and surveillance
+2034-10-01,status_quo_vs_improved_vaccine_and_surveillance,1.6707687377929688,improved vaccine and surveillance
+2035-01-01,status_quo_vs_improved_vaccine_and_surveillance,2.407034397125244,improved vaccine and surveillance
+2035-04-01,status_quo_vs_improved_vaccine_and_surveillance,3.097609043121338,improved vaccine and surveillance
+2035-07-01,status_quo_vs_improved_vaccine_and_surveillance,2.1231586933135986,improved vaccine and surveillance
+2035-10-01,status_quo_vs_improved_vaccine_and_surveillance,1.5311915874481197,improved vaccine and surveillance
+2036-01-01,status_quo_vs_improved_vaccine_and_surveillance,1.7235944271087646,improved vaccine and surveillance
+2036-04-01,status_quo_vs_improved_vaccine_and_surveillance,2.5354838371276855,improved vaccine and surveillance
+2036-07-01,status_quo_vs_improved_vaccine_and_surveillance,1.7428839206695557,improved vaccine and surveillance
+2036-10-01,status_quo_vs_improved_vaccine_and_surveillance,1.0470595359802246,improved vaccine and surveillance
+2037-01-01,status_quo_vs_improved_vaccine_and_surveillance,1.068271636962891,improved vaccine and surveillance
+2037-04-01,status_quo_vs_improved_vaccine_and_surveillance,0.24248981475830078,improved vaccine and surveillance
+2037-07-01,status_quo_vs_improved_vaccine_and_surveillance,2.2450649738311776,improved vaccine and surveillance
+2037-10-01,status_quo_vs_improved_vaccine_and_surveillance,2.893634796142578,improved vaccine and surveillance
+2038-01-01,status_quo_vs_improved_vaccine_and_surveillance,1.4562695026397705,improved vaccine and surveillance
+2038-04-01,status_quo_vs_improved_vaccine_and_surveillance,0.4938583374023433,improved vaccine and surveillance
+2038-07-01,status_quo_vs_improved_vaccine_and_surveillance,1.8416719436645508,improved vaccine and surveillance
+2038-10-01,status_quo_vs_improved_vaccine_and_surveillance,2.399998188018799,improved vaccine and surveillance
+2039-01-01,status_quo_vs_improved_vaccine_and_surveillance,1.3622448444366455,improved vaccine and surveillance
+2039-04-01,status_quo_vs_improved_vaccine_and_surveillance,1.2395792007446294,improved vaccine and surveillance
+2039-07-01,status_quo_vs_improved_vaccine_and_surveillance,0.9257884025573735,improved vaccine and surveillance
+2039-10-01,status_quo_vs_improved_vaccine_and_surveillance,1.9803535938262948,improved vaccine and surveillance
+2040-01-01,status_quo_vs_improved_vaccine_and_surveillance,2.4747359752655034,improved vaccine and surveillance
+2040-04-01,status_quo_vs_improved_vaccine_and_surveillance,3.2517733573913574,improved vaccine and surveillance
+2040-07-01,status_quo_vs_improved_vaccine_and_surveillance,2.309396266937256,improved vaccine and surveillance
+2040-10-01,status_quo_vs_improved_vaccine_and_surveillance,2.0113024711608887,improved vaccine and surveillance

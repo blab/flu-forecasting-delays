@@ -175,7 +175,7 @@ Thus, reducing how far we have to predict into the future increased both forecas
 %
 \figsupp[Distance to the future for simulated A/H3N2-like populations]
 {Distance to the future per timepoint (AAs) for simulated A/H3N2-like populations by forecast horizon and submission lag type based on forecasts from the ``true fitness'' model.
-  \figsuppdata{Distance to the future for simulated A/H3N2-like populations; see \url{https://doi.org/xxx}}}
+  \figsuppdata{Distances to the future for simulated A/H3N2-like populations; see \url{https://doi.org/xxx}}}
 {\includegraphics[width=6cm]{figures/simulated_distances_to_the_future_by_delay_and_horizon}}\label{figsupp:simulated_distances_to_the_future}
 %
 \figsupp[Optimal distance to the future for natural A/H3N2 populations]
@@ -186,7 +186,7 @@ Thus, reducing how far we have to predict into the future increased both forecas
 {Optimal distance to the future per timepoint (AAs) for simulated A/H3N2-like populations by forecast horizon and submission lag type based on posthoc empirical fitness of the initial population.}
 {\includegraphics[width=6cm]{figures/simulated_optimal_distances_to_the_future_by_delay_and_horizon}}\label{figsupp:simulated_optimal_distances_to_the_future}
 %
-\figdata{Distance to the future for natural A/H3N2 populations.}\label{figdata:h3n2_distances_to_the_future}
+\figdata{Distances to the future for natural A/H3N2 populations.}\label{figdata:h3n2_distances_to_the_future}
 \figsrccode{Jupyter notebook used to produce this figure and the supplemental figure lives in \texttt{workflow/notebooks/plot-distances-to-the-future-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:distances_to_the_future}
 \end{figure}
 
@@ -236,10 +236,10 @@ Dashed lines indicate the median error from the distribution of the lag type wit
 %
 \figsupp[Current clade frequency errors for simulated A/H3N2-like populations]
 {Clade frequency errors between simulated A/H3N2-like HA populations with ideal or realistic submission lags and populations without any submission lag.
-  \figsuppdata{Current frequencies per sequence in each simulated A/H3N2-like tree of the forecast analysis by lag type (none, ideal, and realistic); see \url{https://doi.org/xxx}}}
+  \figsuppdata{Current and future clade frequencies for simulated A/H3N2-like populations by forecast horizon and submission lag type; see \url{https://doi.org/xxx}}}
 {\includegraphics[width=6cm]{figures/simulated_current_frequency_errors_by_delay}}\label{figsupp:simulated_current_clade_frequency_errors}
 %
-\figdata{Current frequencies per sequence in each natural A/H3N2 tree of the forecast analysis by lag type (none, ideal, and observed).}\label{figdata:h3n2_tip_attributes}
+\figdata{Current and future clade frequencies for natural A/H3N2 populations by forecast horizon and submission lag type.}\label{figdata:h3n2_clade_frequencies}
 \figsrccode{Jupyter notebook used to produce this figure and the supplemental figure lives in \texttt{workflow/notebooks/plot-current-clade-frequency-errors-by-delay-type-for-populations.py.ipynb}.}\label{figsrccode:current_clade_frequency_errors}
 \end{figure}
 
@@ -264,21 +264,17 @@ We used absolute forecast errors to evaluate forecast accuracy and overall forec
 \label{fig:h3n2_absolute_forecast_clade_frequency_errors}
 %
 \figsupp[Absolute forecast clade frequency errors for simulated A/H3N2-like populations.]
-{Absolute forecast clade frequency errors for simulated A/H3N2-like HA populations by forecast horizon in months and submission lag type (none, ideal, or realistic) for A) small clades ($<$10\% initial frequency) and B) large clades ($\ge$10\% initial frequency).
-  \figsuppdata{Current, predicted future, and observed future clade frequencies per initial timepoint, forecast horizon, and submission lag type for simulated A/H3N2-like populations; see \url{https://doi.org/xxx}}}
+{Absolute forecast clade frequency errors for simulated A/H3N2-like HA populations by forecast horizon in months and submission lag type (none, ideal, or realistic) for A) small clades ($<$10\% initial frequency) and B) large clades ($\ge$10\% initial frequency).}
 {\includegraphics[width=6cm]{figures/simulated_absolute_forecast_frequency_errors_by_delay_and_horizon}}\label{figsupp:simulated_absolute_forecast_clade_frequency_errors}
 %
 \figsupp[Forecast clade frequency errors for natural A/H3N2 populations.]
-{Forecast clade frequency errors for natural A/H3N2 HA populations by forecast horizon in months and submission lag type (none, ideal, or realistic) for A) small clades ($<$10\% initial frequency) and B) large clades ($\ge$10\% initial frequency).
-  \figsuppdata{Current, predicted future, and observed future clade frequencies per initial timepoint, forecast horizon, and submission lag type for A/H3N2 populations; see \url{https://doi.org/xxx}}}
+{Forecast clade frequency errors for natural A/H3N2 HA populations by forecast horizon in months and submission lag type (none, ideal, or realistic) for A) small clades ($<$10\% initial frequency) and B) large clades ($\ge$10\% initial frequency).}
 {\includegraphics[width=6cm]{figures/h3n2_forecast_frequency_errors_by_delay_and_horizon}}\label{figsupp:h3n2_forecast_clade_frequency_errors}
 %
 \figsupp[Forecast clade frequency errors for simulated A/H3N2-like populations.]
-{Forecast clade frequency errors for simulated A/H3N2-like HA populations by forecast horizon in months and submission lag type (none, ideal, or realistic) for A) small clades ($<$10\% initial frequency) and B) large clades ($\ge$10\% initial frequency).
-  \figsuppdata{Current, predicted future, and observed future clade frequencies per initial timepoint, forecast horizon, and submission lag type for simulated A/H3N2-like populations; see \url{https://doi.org/xxx}}}
+{Forecast clade frequency errors for simulated A/H3N2-like HA populations by forecast horizon in months and submission lag type (none, ideal, or realistic) for A) small clades ($<$10\% initial frequency) and B) large clades ($\ge$10\% initial frequency).}
 {\includegraphics[width=6cm]{figures/simulated_forecast_frequency_errors_by_delay_and_horizon}}\label{figsupp:simulated_forecast_clade_frequency_errors}
 %
-\figdata{Current, predicted future, and observed future clade frequencies per initial timepoint, forecast horizon, and submission lag type for A/H3N2 populations.}\label{figdata:h3n2_clade_frequencies}
 \figsrccode{Jupyter notebook used to produce this figure and the supplemental figures lives in \texttt{workflow/notebooks/plot-forecast-clade-frequency-errors-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:forecast_clade_frequency_errors}
 \end{figure}
 
@@ -329,18 +325,16 @@ For all analyses, positive values represented improved forecast accuracy under a
 %
 \figsupp[Distribution of total absolute clade frequency errors summed across clades per future timepoint for A/H3N2 populations.]
 {Distribution of total absolute clade frequency errors summed across clades per future timepoint for A/H3N2 populations.\
-  We calculated the effects of interventions as the difference between these values per future timepoint under the status quo (12-month forecast horizon and realistic submission lag) and specific interventions.
-  \figsuppdata{Total absolute clade frequency errors per future timepoint for A/H3N2 populations; see \url{https://doi.org/xxx}}}
+  We calculated the effects of interventions as the difference between these values per future timepoint under the status quo (12-month forecast horizon and realistic submission lag) and specific interventions.}
 {\includegraphics[width=6cm]{figures/h3n2_total_absolute_forecast_frequency_errors_by_delay_and_horizon}}\label{figsupp:h3n2_total_absolute_clade_frequency_errors}
 %
 \figsupp[Improvement of clade frequency errors for simulated A/H3N2-like populations.]
 {Improvement of clade frequency errors for simulated A/H3N2-like populations between the status quo and realistic interventions.
-  \figsuppdata{Differences in absolute clade frequency error per future timepoint and clade between the status quo and realistic interventions for simulated A/H3N2-like populations; see \url{https://doi.org/xxx}}}
+  \figsuppdata{Differences in total absolute clade frequency error per future timepoint and clade between the status quo and realistic interventions for simulated A/H3N2-like populations; see \url{https://doi.org/xxx}}}
 {\includegraphics[width=6cm]{figures/simulated_effects_of_realistic_interventions}}\label{figsupp:simulated_effects_of_realistic_interventions}
 %
 \figsupp[Distribution of total absolute clade frequency errors summed across clades per future timepoint for simulated A/H3N2-like populations.]
-{Distribution of total absolute clade frequency errors summed across clades per future timepoint for simulated A/H3N2-like populations.\
-  \figsuppdata{Total absolute clade frequency errors per future timepoint for simulated A/H3N2-like populations; see \url{https://doi.org/xxx}}}
+{Distribution of total absolute clade frequency errors summed across clades per future timepoint for simulated A/H3N2-like populations.}
 {\includegraphics[width=6cm]{figures/simulated_total_absolute_forecast_frequency_errors_by_delay_and_horizon}}\label{figsupp:simulated_total_absolute_clade_frequency_errors}
 %
 \figsupp[Improvement of distances to the future (AAs) for A/H3N2 populations between the status quo (12-month forecast horizon and realistic submission lags) and realistic interventions.]
@@ -355,7 +349,7 @@ For all analyses, positive values represented improved forecast accuracy under a
   \figsuppdata{Improvement of distances to the future per future timepoint for simulated A/H3N2-like populations; see \url{https://doi.org/xxx}}}
 {\includegraphics[width=6cm]{figures/simulated_effects_of_realistic_interventions_on_distances_to_the_future}}\label{figsupp:simulated_effects_of_realistic_interventions_on_distances_to_the_future}
 %
-\figdata{Differences in absolute clade frequency error per future timepoint and clade between the status quo and realistic interventions for A/H3N2 populations.}\label{figdata:h3n2_effects_of_realistic_interventions}
+\figdata{Differences in total absolute clade frequency error per future timepoint and clade between the status quo and realistic interventions for A/H3N2 populations.}\label{figdata:h3n2_effects_of_realistic_interventions}
 \figsrccode{Jupyter notebook used to produce effects of interventions on total absolute clade frequency errors \texttt{workflow/notebooks/plot-forecast-clade-frequency-errors-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:effects_of_realistic_interventions}
 \figsrccode{Jupyter notebook used to produce effects of interventions on distances to the future lives in \texttt{workflow/notebooks/plot-distances-to-the-future-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:effects_of_realistic_interventions_on_distances_to_the_future}
 \end{figure}

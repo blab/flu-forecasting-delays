@@ -204,5 +204,4 @@ if __name__ == "__main__":
     all_clade_frequencies_df.to_csv(
         args.output,
         index=False,
-        sep="\t",
     )

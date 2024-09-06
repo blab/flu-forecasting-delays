@@ -317,8 +317,8 @@ rule all:
         "results/model_inputs_for_h3n2_populations.tsv",
         "results/tip_attributes_for_simulated.tsv",
         "results/tip_attributes_for_h3n2.tsv",
-        "results/clade_frequencies_for_simulated.tsv",
-        "results/clade_frequencies_for_h3n2.tsv",
+        "results/clade_frequencies_for_simulated.csv",
+        "results/clade_frequencies_for_h3n2.csv",
         "manuscript/figures/distribution_of_delays_and_horizons.pdf",
         "manuscript/figures/distribution_of_delays_by_pandemic_era.pdf",
         expand("manuscript/figures/{population}_distribution_of_sequences_per_timepoint_and_delay.pdf", population=POPULATIONS),
@@ -344,14 +344,20 @@ rule all:
         "manuscript/tables/simulated_total_absolute_forecast_frequency_errors_future_by_delay_and_horizon.tex",
         "manuscript/tables/h3n2_effects_of_realistic_interventions.tex",
         "manuscript/tables/simulated_effects_of_realistic_interventions.tex",
-        "manuscript/tables/h3n2_effects_of_realistic_interventions.tsv",
-        "manuscript/tables/simulated_effects_of_realistic_interventions.tsv",
+        "manuscript/tables/h3n2_effects_of_realistic_interventions.csv",
+        "manuscript/tables/h3n2_effects_of_realistic_interventions_on_distances_to_the_future.csv",
+        "manuscript/tables/h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future.csv",
+        "manuscript/tables/simulated_effects_of_realistic_interventions.csv",
+        "manuscript/tables/simulated_effects_of_realistic_interventions_on_distances_to_the_future.csv",
+        "manuscript/tables/simulated_optimal_effects_of_realistic_interventions_on_distances_to_the_future.csv",
+        "manuscript/figdata/h3n2_distances_to_the_future.csv",
+        "manuscript/figdata/simulated_distances_to_the_future.csv",
 
 # Build figures for manuscript.
 
 rule plot_forecast_frequency_errors_by_delay_and_horizon:
     input:
-        frequencies="results/clade_frequencies_for_{population}.tsv",
+        frequencies="results/clade_frequencies_for_{population}.csv",
     output:
         absolute_forecast_frequency_errors_by_delay_and_horizon="manuscript/figures/{population}_absolute_forecast_frequency_errors_by_delay_and_horizon.pdf",
         forecast_frequency_errors_by_delay_and_horizon="manuscript/figures/{population}_forecast_frequency_errors_by_delay_and_horizon.pdf",
@@ -360,7 +366,7 @@ rule plot_forecast_frequency_errors_by_delay_and_horizon:
         total_absolute_forecast_frequency_errors_summary_table="manuscript/tables/{population}_total_absolute_forecast_frequency_errors_future_by_delay_and_horizon.tex",
         effects_of_realistic_interventions="manuscript/figures/{population}_effects_of_realistic_interventions.pdf",
         effects_of_realistic_interventions_summary_table="manuscript/tables/{population}_effects_of_realistic_interventions.tex",
-        effects_of_realistic_interventions_source_table="manuscript/tables/{population}_effects_of_realistic_interventions.tsv",
+        effects_of_realistic_interventions_source_table="manuscript/tables/{population}_effects_of_realistic_interventions.csv",
     conda: "envs/notebook.yaml"
     params:
         large_frequency_lower_threshold=10.0,
@@ -373,7 +379,7 @@ rule plot_forecast_frequency_errors_by_delay_and_horizon:
 
 rule plot_current_frequency_errors_by_delay:
     input:
-        tip_attributes="results/clade_frequencies_for_{population}.tsv",
+        tip_attributes="results/clade_frequencies_for_{population}.csv",
     output:
         current_frequency_errors_by_delay="manuscript/figures/{population}_current_frequency_errors_by_delay.pdf",
     conda: "envs/notebook.yaml"
@@ -386,6 +392,17 @@ rule plot_current_frequency_errors_by_delay:
     notebook:
         "notebooks/plot-current-clade-frequency-errors-by-delay-type-for-populations.py.ipynb"
 
+rule make_figdata_for_distances_to_the_future:
+    input:
+        distances="results/model_inputs_for_{population}_populations.tsv",
+    output:
+        figdata="manuscript/figdata/{population}_distances_to_the_future.csv",
+    conda: "envs/csv.yaml"
+    shell:
+        """
+        csvtk tab2csv {input.distances} > {output.figdata}
+        """
+
 rule plot_distances_to_the_future_by_delay_and_horizon:
     input:
         distances="results/model_inputs_for_{population}_populations.tsv",
@@ -394,7 +411,9 @@ rule plot_distances_to_the_future_by_delay_and_horizon:
         distances_figure="manuscript/figures/{population}_distances_to_the_future_by_delay_and_horizon.pdf",
         optimal_distances_figure="manuscript/figures/{population}_optimal_distances_to_the_future_by_delay_and_horizon.pdf",
         effects_of_realistic_interventions="manuscript/figures/{population}_effects_of_realistic_interventions_on_distances_to_the_future.pdf",
+        effects_of_realistic_interventions_table="manuscript/tables/{population}_effects_of_realistic_interventions_on_distances_to_the_future.csv",
         optimal_effects_of_realistic_interventions="manuscript/figures/{population}_optimal_effects_of_realistic_interventions_on_distances_to_the_future.pdf",
+        optimal_effects_of_realistic_interventions_table="manuscript/tables/{population}_optimal_effects_of_realistic_interventions_on_distances_to_the_future.csv",
     log:
         "logs/notebooks/plot-distances-to-the-future-by-delay-type-and-horizon-for-{population}-population.py.ipynb"
     conda: "envs/notebook.yaml"
@@ -429,7 +448,7 @@ rule calculate_clade_frequencies:
         tips="results/tip_attributes_by_forecast_for_{population}.tsv",
         tip_clades="results/tip_clades_for_{population}.tsv",
     output:
-        frequencies="results/clade_frequencies_for_{population}.tsv",
+        frequencies="results/clade_frequencies_for_{population}.csv",
     conda: "envs/anaconda.python3.yaml"
     shell:
         """
