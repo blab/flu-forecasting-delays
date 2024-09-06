@@ -327,7 +327,9 @@ rule all:
         "manuscript/figures/simulated_distances_to_the_future_by_delay_and_horizon.pdf",
         "manuscript/figures/h3n2_current_frequency_errors_by_delay.pdf",
         "manuscript/figures/simulated_current_frequency_errors_by_delay.pdf",
+        "manuscript/figures/h3n2_absolute_forecast_frequency_errors_by_delay_and_horizon.pdf",
         "manuscript/figures/h3n2_forecast_frequency_errors_by_delay_and_horizon.pdf",
+        "manuscript/figures/simulated_absolute_forecast_frequency_errors_by_delay_and_horizon.pdf",
         "manuscript/figures/simulated_forecast_frequency_errors_by_delay_and_horizon.pdf",
         "manuscript/figures/h3n2_total_absolute_forecast_frequency_errors_by_delay_and_horizon.pdf",
         "manuscript/figures/simulated_total_absolute_forecast_frequency_errors_by_delay_and_horizon.pdf",
@@ -350,6 +352,7 @@ rule plot_forecast_frequency_errors_by_delay_and_horizon:
     input:
         frequencies="results/clade_frequencies_for_{population}.tsv",
     output:
+        absolute_forecast_frequency_errors_by_delay_and_horizon="manuscript/figures/{population}_absolute_forecast_frequency_errors_by_delay_and_horizon.pdf",
         forecast_frequency_errors_by_delay_and_horizon="manuscript/figures/{population}_forecast_frequency_errors_by_delay_and_horizon.pdf",
         forecast_frequency_errors_summary_table="manuscript/tables/{population}_forecast_frequency_errors_future_by_delay_and_horizon.tex",
         total_absolute_forecast_frequency_errors_by_delay_and_horizon="manuscript/figures/{population}_total_absolute_forecast_frequency_errors_by_delay_and_horizon.pdf",
