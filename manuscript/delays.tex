@@ -40,16 +40,16 @@
 \maketitle
 
 \begin{abstract}
-% Words: 316
+% Words: 314
 For the last decade, evolutionary forecasting models have influenced seasonal influenza vaccine design.
 These models attempt to predict which genetic variants circulating at the time of vaccine strain selection will be dominant 12 months later in the influenza season targeted by vaccination campaign.
 Forecasting models depend on hemagglutinin (HA) sequences from the WHO’s Global Influenza Surveillance and Response System to identify currently circulating groups of related strains (clades) and estimate clade fitness for forecasts.
-However, the average lag between collection of clinical sample and the submission of its sequence to the Global Initiative on Sharing All Influenza Data (GISAID) EpiFlu database is $\sim$3 months.
+However, the average lag between collection of a clinical sample and the submission of its sequence to the Global Initiative on Sharing All Influenza Data (GISAID) EpiFlu database is $\sim$3 months.
 Submission lags complicate the already difficult 12-month forecasting problem by reducing understanding of current clade frequencies at the time of forecasting.
 These constraints of a 12-month forecast horizon and 3-month average submission lags create an upper bound on the accuracy of any long-term forecasting model.
 The global response to the SARS-CoV-2 pandemic revealed that modern vaccine technology like mRNA vaccines can reduce how far we need to forecast into the future to 6 months or less and that expanded support for sequencing can reduce submission lags to GISAID to 1 month on average.
 To determine whether these recent advances could also improve long-term forecasts for seasonal influenza, we quantified the effects of reducing forecast horizons and submission lags on the accuracy of forecasts for A/H3N2 populations.
-We found that reducing forecast horizons from 12 months to 6 or 3 months reduced average absolute forecasting errors by 25\% and 50\%, respectively.
+We found that reducing forecast horizons from 12 months to 6 or 3 months reduced average absolute forecasting errors to 25\% and 50\% of the 12-month average, respectively.
 Reducing submission lags provided little improvement to forecasting accuracy but decreased the uncertainty in current clade frequencies by 50\%.
 These results show the potential to substantially improve the accuracy of existing influenza forecasting models by modernizing influenza vaccine development and increasing global sequencing capacity.
 \end{abstract}
@@ -317,9 +317,12 @@ For all analyses, positive values represented improved forecast accuracy under a
 
 \begin{figure}[htb!]
 \includegraphics[width=\linewidth]{figures/h3n2_effects_of_realistic_interventions}
-\caption{Improvement of clade frequency errors for A/H3N2 populations between the status quo (12-month forecast horizon and realistic submission lags) and realistic interventions.
+\caption{Improvement of clade frequency errors for A/H3N2 populations between the status quo (12-month forecast horizon and realistic submission lags) and realistic interventions of improved vaccine development (reducing 12-month to 6-month forecast horizon), improved surveillance (reducing submission lags from 3 months on average to 1 month), or a combination of both interventions.
   We measured improvements from the status quo as the difference in total absolute clade frequency error per future timepoint.
-  Each point represents the improvement of forecasts for a specific future timepoint under the given intervention.}
+  Positive values indicate increased forecast accuracy, while negative values indicate decreased accuracy.
+  Each point represents the improvement of forecasts for a specific future timepoint under the given intervention.
+  Horizontal dashed lines indicate median improvements.
+  Horizontal dotted lines indicate upper and lower quartiles of improvements.}
 \label{fig:h3n2_effects_of_realistic_interventions}
 %
 \figsupp[Distribution of total absolute clade frequency errors summed across clades per future timepoint for A/H3N2 populations.]
@@ -386,9 +389,12 @@ For this reason, we expect that simultaneous improvements to forecasting models 
 
 \begin{figure}[htb!]
 \includegraphics[width=\linewidth]{figures/h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future}
-\caption{Improvement of optimal distances to the future (AAs) for A/H3N2 populations between the status quo (12-month forecast horizon and realistic submission lags) and realistic interventions.
+\caption{Improvement of optimal distances to the future (AAs) for A/H3N2 populations between the status quo (12-month forecast horizon and realistic submission lags) and realistic interventions of improved vaccine development (reducing 12-month to 6-month forecast horizon), improved surveillance (reducing submission lags from 3 months on average to 1 month), or a combination of both interventions.
   We measured improvements from the status quo as the difference in optimal distances to the future per future timepoint.
-  Each point represents the improvement of forecasts for a specific future timepoint under the given intervention.}
+  Positive values indicate increased forecast accuracy, while negative values indicate decreased accuracy.
+  Each point represents the improvement of forecasts for a specific future timepoint under the given intervention.
+  Horizontal dashed lines indicate median improvements.
+  Horizontal dotted lines indicate upper and lower quartiles of improvements.}
 \label{fig:h3n2_optimal_effects_of_realistic_interventions}
 %
 \figsupp[Improvement of optimal distances to the future (AAs) for simulated A/H3N2-like populations between the status quo (12-month forecast horizon and realistic submission lags) and realistic interventions.]
@@ -405,7 +411,7 @@ For this reason, we expect that simultaneous improvements to forecasting models 
 In this work, we showed that decreasing the time to develop new vaccines for seasonal influenza A/H3N2 and decreasing submission lags of HA sequences to public databases improves our estimates of future and current populations, respectively.
 We confirmed that forecasts became more accurate and more precise with each 3-month reduction in forecast horizon from the status quo of 12 months.
 Although decreasing submission lags only marginally improved long-term forecast accuracy, shorter lags increased the accuracy of current clade frequency estimates, reduced the bias toward underestimating current and future frequencies of larger clades, and improved forecasts 3 months into the future.
-Under a realistic scenario where a faster vaccine development timeline allowed us to forecast from 6 months before the next season, we found a 53\% average improvement in forecasts of total absolute clade frequency and a 25\% improvement in forecasts of mean absolute frequencies for large clades.
+Under a realistic scenario where a faster vaccine development timeline allowed us to forecast from 6 months before the next season, we found a 53\% average improvement in forecasts of total absolute clade frequency and a 25\% reduction in average absolute forecast frequency errors for large clades from 20\% to 15\%.
 We confirmed these effects with a previously validated forecasting model using both simulated and natural populations and two different metrics of forecast accuracy including earth mover's distances between populations and clade frequencies.
 We expect that decreasing forecast horizons and submission lags will have similar relative effect sizes in other forecasting models, too.
 
