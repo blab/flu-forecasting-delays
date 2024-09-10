@@ -20,6 +20,8 @@ We found that reducing forecast horizons from 12 months to 6 or 3 months reduced
 Reducing submission lags provided little improvement to forecasting accuracy but decreased the uncertainty in current clade frequencies by 50\%.
 These results show the potential to substantially improve the accuracy of existing influenza forecasting models by modernizing influenza vaccine development and increasing global sequencing capacity.
 
+Supplemental data are available on Zenodo at https://zenodo.org/records/13742375.
+
 ## Analysis
 
 Run analysis on a SLURM cluster.
