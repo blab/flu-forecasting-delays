@@ -6,6 +6,8 @@ John Huddleston<sup>1,3</sup> and Trevor Bedford<sup>1,2</sup>
 1. Howard Hughes Medical Institute, Seattle, WA, USA
 1. Corresponding author (jhuddles@fredhutch.org)
 
+DOI: https://doi.org/10.1101/2024.09.11.24313489 
+
 ## Abstract
 
 For the last decade, evolutionary forecasting models have influenced seasonal influenza vaccine design.
