@@ -6,7 +6,7 @@ John Huddleston<sup>1,3</sup> and Trevor Bedford<sup>1,2</sup>
 1. Howard Hughes Medical Institute, Seattle, WA, USA
 1. Corresponding author (jhuddles@fredhutch.org)
 
-DOI: https://doi.org/10.1101/2024.09.11.24313489 
+DOI: [https://doi.org/10.7554/eLife.104282](https://doi.org/10.7554/eLife.104282)
 
 ## Abstract
 
@@ -22,7 +22,7 @@ We found that reducing forecast horizons from 12 months to 6 or 3 months reduced
 Reducing submission lags provided little improvement to forecasting accuracy but decreased the uncertainty in current clade frequencies by 50\%.
 These results show the potential to substantially improve the accuracy of existing influenza forecasting models by modernizing influenza vaccine development and increasing global sequencing capacity.
 
-Supplemental data are available on Zenodo at https://zenodo.org/records/13742375.
+Supplemental data are available on Zenodo at [https://zenodo.org/records/13742375](https://zenodo.org/records/13742375).
 
 ## Analysis
 
