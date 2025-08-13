@@ -424,9 +424,14 @@ Similarly, the range of 12-month forecast frequency errors under realistic lags 
 Long-term forecasts with incomplete current data are highly uncertain by their nature.
 To support informed decisions about vaccine updates, we must communicate that uncertainty of the present and future to decision-makers.
 One simple immediate strategy to provide these uncertainty estimates is to estimate current and future clade frequencies from count data with multinomial probability distributions.
+
 Another immediate improvement would be to develop models that can use all available data in a way that properly accounts for geographic and temporal biases.
-Current models based on phylogenetic trees need to evenly sample the diversity of currently circulating viruses to produce unbiased trees in a reasonable amount of time.
-Models that could estimate sample fitness and compare predicted and future populations without trees could use more available sequence data and reduce the uncertainty in current and future clade frequencies.
+For example, virus samples from North America and Europe are overrepresented in the GISAID EpiFlu database, while samples from Africa and Asia are underrepresented.
+Additionally, the number of sequences per year has increased consistently since 2010, creating a temporal bias.
+The model we used in this study does not account for geographic variability of viral fitness and relies on time-scaled phylogenetic trees which can be computationally costly to infer for large sample sizes.
+As a result, we needed to evenly sample the diversity of currently circulating viruses to produce unbiased trees in a reasonable amount of time.
+Models that could estimate sample fitness across geographic regions and without inferring trees could use more available sequence data and reduce the uncertainty in current and future clade frequencies.
+
 Finally, we could improve existing models by changing the start and end times of our long-term forecasts.
 We could change our forecasting target from the middle of the next season to the beginning of the season, reducing the forecast horizon from 12 to 9 months.
 We could also start forecasting from one month prior to the current date to minimize the effect of submission lags on our estimates of the current global influenza population.
@@ -452,6 +457,8 @@ We downloaded all A/H3N2 HA sequences and metadata from GISAID's EpiFlu database
 We evenly sampled sequences geographically and temporally as previously described \citep{Huddleston2020}.
 Briefly, we selected 90 sequences per month, evenly sampling from major continential regions (Africa, Europe, North America, China, South Asia, Japan and Korea, Oceania, South America, Southeast Asia, and West Asia) and excluding sequences labeled as egg-passaged or missing complete date annotations.
 For our forecasting analyses, we selected sequences collected between April 1, 2005 and October 1, 2019.
+This sampling approach accounts for known regional biases in sequence availability through time \citep{McCarron2022} and makes inference of divergence and time trees computationally tractable.
+This approach also exactly matches our previous study where we first trained the forecast models used in this study \citep{Huddleston2020}, allowing us to reuse those previously trained models.
 
 \subsection{Simulation of influenza A/H3N2-like HA sequences}
 
