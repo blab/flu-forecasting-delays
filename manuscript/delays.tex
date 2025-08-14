@@ -426,11 +426,12 @@ To support informed decisions about vaccine updates, we must communicate that un
 One simple immediate strategy to provide these uncertainty estimates is to estimate current and future clade frequencies from count data with multinomial probability distributions.
 
 Another immediate improvement would be to develop models that can use all available data in a way that properly accounts for geographic and temporal biases.
-For example, virus samples from North America and Europe are overrepresented in the GISAID EpiFlu database, while samples from Africa and Asia are underrepresented.
-Additionally, the number of sequences per year has increased consistently since 2010, creating a temporal bias.
-The model we used in this study does not account for geographic variability of viral fitness and relies on time-scaled phylogenetic trees which can be computationally costly to infer for large sample sizes.
+For example, virus samples from North America and Europe are overrepresented in the GISAID EpiFlu database, while samples from Africa and Asia are underrepresented \citep{McCarron2022}.
+As new H3N2 epidemics often originate from East and Southeast Asia and burn out in North America and Europe \citep{Bedford2015}, models that do not account for this geographic bias are more likely to incorrectly predict the success of lower fitness variants circulating in overrepresented regions and miss higher fitness variants emerging from underrepresented regions.
+Additionally, the number of H3N2 HA sequences per year in the GISAID EpiFlu database has increased consistently since 2010, creating a temporal bias where any given season a model forecasts to will have more sequences available than the season from which forecasts occur.
+The model we used in this study does not explicitly account for geographic variability of viral fitness and relies on time-scaled phylogenetic trees which can be computationally costly to infer for large sample sizes.
 As a result, we needed to evenly sample the diversity of currently circulating viruses to produce unbiased trees in a reasonable amount of time.
-Models that could estimate sample fitness across geographic regions and without inferring trees could use more available sequence data and reduce the uncertainty in current and future clade frequencies.
+Models that could estimate viral fitness per geographic region without inferring trees could use more available sequence data and reduce the uncertainty in current and future clade frequencies.
 
 Finally, we could improve existing models by changing the start and end times of our long-term forecasts.
 We could change our forecasting target from the middle of the next season to the beginning of the season, reducing the forecast horizon from 12 to 9 months.
