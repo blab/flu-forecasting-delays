@@ -25,7 +25,7 @@ wildcard_constraints:
     timepoint=r"\d{4}-\d{2}-\d{2}",
     output_type="(errors|coefficients)",
     delta_month="(3|6|9|12)",
-    population="(h3n2|simulated)",
+    population="(h3n2|h3n2_high_density|simulated)",
 
 # Load configuration parameters.
 configfile: "config/config.json"
@@ -352,6 +352,7 @@ rule all:
         "manuscript/tables/simulated_optimal_effects_of_realistic_interventions_on_distances_to_the_future.csv",
         "manuscript/figdata/h3n2_distances_to_the_future.csv",
         "manuscript/figdata/simulated_distances_to_the_future.csv",
+        "manuscript/figures/h3n2_high_density_optimal_effects_of_realistic_interventions_on_distances_to_the_future.pdf",
 
 # Build figures for manuscript.
 
