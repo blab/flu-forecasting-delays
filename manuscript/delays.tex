@@ -133,6 +133,15 @@ In this way, we show the potential to improve the accuracy of existing long-term
   B) Proportion of all simulated A/H3N2-like sequences without lag per timepoint and lag type.
 }
 {\includegraphics[width=6cm]{figures/simulated_distribution_of_sequences_per_timepoint_and_delay}}\label{figsupp:distribution_of_simulated_sequences_per_timepoint_and_delay}
+%
+\figsupp[Number of all available sequences per region and year and proportion of sequences sampled by two different subsampling methods]
+{
+  A) Number of all available sequences per region and year in the GISAID EpiFlu database for the study period between April 1, 2005 and October 1, 2019.
+  B) Proportion of sequences sampled per region and year with even subsampling across regions and year/month combinations at 90 viruses per month.
+  C) Proportion of sequences sampled per region and year with even subsampling across regions and year/month combinations at 270 viruses per month.
+}
+{\includegraphics[width=6cm]{figures/sequences_per_region}}\label{figsupp:sequences_per_region}
+%
 \figdata{Distribution of lags between sample collection and sequence submission in prepandemic and pandemic eras; see \url{https://zenodo.org/records/13742375}}\label{figdata:distribution_of_submission_lags}
 \end{figure}
 
@@ -426,7 +435,7 @@ To support informed decisions about vaccine updates, we must communicate that un
 One simple immediate strategy to provide these uncertainty estimates is to estimate current and future clade frequencies from count data with multinomial probability distributions.
 
 Another immediate improvement would be to develop models that can use all available data in a way that properly accounts for geographic and temporal biases.
-For example, virus samples from North America and Europe are overrepresented in the GISAID EpiFlu database, while samples from Africa and Asia are underrepresented \citep{McCarron2022}.
+For example, virus samples from North America and Europe are overrepresented in the GISAID EpiFlu database, while samples from Africa and Asia are underrepresented (\FIGSUPP[model_of_delays_and_horizons]{sequences_per_region}).
 As new H3N2 epidemics often originate from East and Southeast Asia and burn out in North America and Europe \citep{Bedford2015}, models that do not account for this geographic bias are more likely to incorrectly predict the success of lower fitness variants circulating in overrepresented regions and miss higher fitness variants emerging from underrepresented regions.
 Additionally, the number of H3N2 HA sequences per year in the GISAID EpiFlu database has increased consistently since 2010, creating a temporal bias where any given season a model forecasts to will have more sequences available than the season from which forecasts occur.
 The model we used in this study does not explicitly account for geographic variability of viral fitness and relies on time-scaled phylogenetic trees which can be computationally costly to infer for large sample sizes.
@@ -460,7 +469,7 @@ Briefly, we selected 90 sequences per month, evenly sampling from major continen
 For our forecasting analyses, we selected sequences collected between April 1, 2005 and October 1, 2019.
 This sampling approach accounts for known regional biases in sequence availability through time \citep{McCarron2022} and makes inference of divergence and time trees computationally tractable.
 This approach also exactly matches our previous study where we first trained the forecast models used in this study \citep{Huddleston2020}, allowing us to reuse those previously trained models.
-With this subsampling approach, we selected between 7\% (Europe) and 91\% (Southeast Asia) of all available sequences per region across the entire study period with an average of 50\% and median of 52\% across all 10 regions.
+With this subsampling approach, we selected between 7\% (Europe) and 91\% (Southeast Asia) of all available sequences per region across the entire study period with an average of 50\% and median of 52\% across all 10 regions (\FIGSUPP[model_of_delays_and_horizons]{sequences_per_region}).
 
 \subsection{Simulation of influenza A/H3N2-like HA sequences}
 
