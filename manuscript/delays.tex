@@ -394,6 +394,8 @@ We expected all interventions to maintain or improve the optimal distance to the
 As expected, all interventions improved on the optimal distance to the future for both populations (\FIG{h3n2_optimal_effects_of_realistic_interventions} and \FIGSUPP[h3n2_optimal_effects_of_realistic_interventions]{simulated_optimal_effects_of_realistic_interventions_on_distances_to_the_future}).
 For natural A/H3N2 populations, the average improvement of the vaccine intervention was 1.1 AAs and the improvement of the surveillance intervention was 0.27 AAs or approximately 25\% of the vaccine intervention.
 The average improvement of both interventions was only slightly less than additive at 1.28 AAs.
+To verify the robustness of these results, we replicated our entire analysis of A/H3N2 populations using a subsampling scheme that tripled the number of viruses selected per month from 90 to 270 (\FIGSUPP[model_of_delays_and_horizons]{sequences_per_region}C).
+We found the same pattern with this replication analysis, with average improvements of 0.93 AAs for the vaccine intervention, 0.21 AAs for the surveillance intervention, and 1.14 AAs for both interventions (\FIGSUPP[h3n2_optimal_effects_of_realistic_interventions]{h3n2_high_density_optimal_effects_of_realistic_interventions_on_distances_to_the_future}).
 These results confirmed the relatively stronger effect of reducing forecast horizons compared to submission lags.
 They also confirmed that reducing submission lags can improve forecasts under optimal forecasting conditions.
 For this reason, we expect that simultaneous improvements to forecasting models and genomic surveillance will have a mutually beneficial effect on forecast accuracy.
@@ -412,6 +414,10 @@ For this reason, we expect that simultaneous improvements to forecasting models 
 {Improvement of optimal distances to the future (AAs) for simulated A/H3N2-like populations between the status quo (12-month forecast horizon and realistic submission lags) and realistic interventions.\
   \figsuppdata{Improvement of optimal distances to the future per future timepoint for simulated A/H3N2-like populations; see \url{https://zenodo.org/records/13742375}}}
 {\includegraphics[width=6cm]{figures/simulated_optimal_effects_of_realistic_interventions_on_distances_to_the_future}}\label{figsupp:simulated_optimal_effects_of_realistic_interventions_on_distances_to_the_future}
+%
+\figsupp[Improvement of optimal distances to the future (AAs) for A/H3N2 populations sampled with higher density sampling (270 viruses per month).]
+{Improvement of optimal distances to the future (AAs) for A/H3N2 populations between the status quo (12-month forecast horizon and realistic submission lags) and realistic interventions using forecasts based on sampling 270 viruses per month instead of the 90 viruses-per-month sampling used in the main results.}
+{\includegraphics[width=6cm]{figures/h3n2_high_density_optimal_effects_of_realistic_interventions_on_distances_to_the_future}}\label{figsupp:h3n2_high_density_optimal_effects_of_realistic_interventions_on_distances_to_the_future}
 %
 \figdata{Differences in optimal distances to the future per future timepoint between the status quo and realistic interventions for A/H3N2 populations.}\label{figdata:h3n2_optimal_effects_of_realistic_interventions}
 \figsrccode{Jupyter notebook used to produce optimal effects of interventions on distances to the future lives in \texttt{workflow/notebooks/plot-distances-to-the-future-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:optimal_effects_of_realistic_interventions_on_distances_to_the_future}
@@ -470,6 +476,8 @@ For our forecasting analyses, we selected sequences collected between April 1, 2
 This sampling approach accounts for known regional biases in sequence availability through time \citep{McCarron2022} and makes inference of divergence and time trees computationally tractable.
 This approach also exactly matches our previous study where we first trained the forecast models used in this study \citep{Huddleston2020}, allowing us to reuse those previously trained models.
 With this subsampling approach, we selected between 7\% (Europe) and 91\% (Southeast Asia) of all available sequences per region across the entire study period with an average of 50\% and median of 52\% across all 10 regions (\FIGSUPP[model_of_delays_and_horizons]{sequences_per_region}).
+To verify the reproducibility and robustness of our results, we reran the full forecasting analysis with a high-density subsampling scheme that selected 270 sequences per month with the same even sampling across regions and time as the original scheme.
+With this approach, we selected between 17\% (Europe) and 97\% (Southeast Asia) of all available sequences per region with an average of 72\% sampled and a median of 83\% (\FIGSUPP[model_of_delays_and_horizons]{sequences_per_region}C).
 
 \subsection{Simulation of influenza A/H3N2-like HA sequences}
 
