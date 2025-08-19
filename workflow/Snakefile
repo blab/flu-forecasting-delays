@@ -439,6 +439,21 @@ rule plot_distances_to_the_future_by_delay_and_horizon:
     notebook:
         "notebooks/plot-distances-to-the-future-by-delay-type-and-horizon-for-population.py.ipynb"
 
+rule plot_optimal_effects_of_interventions_by_future_clade_entropy:
+    input:
+        clade_frequencies="results/clade_frequencies_for_h3n2.csv",
+        effects="manuscript/tables/h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future.csv",
+    output:
+        effects_by_entropy="manuscript/figures/h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future_by_future_clade_entropy.pdf",
+    conda: "envs/marimo.yaml"
+    shell:
+        r"""
+        python workflow/notebooks/plot-optimal-effects-of-interventions-by-clade-entropy.py \
+            --clade-frequencies {input.clade_frequencies} \
+            --effects {input.effects} \
+            --output {output.effects_by_entropy}
+        """
+
 rule plot_sequence_distribution_per_timepoint:
     input:
         metadata = "results/tip_attributes_for_{population}.tsv",
