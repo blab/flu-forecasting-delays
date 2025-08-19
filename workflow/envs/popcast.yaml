@@ -1,8 +1,8 @@
 name: popcast
 channels:
-- conda-forge
-- bioconda
-- defaults
+- https://conda-forge.fredhutch.org/conda-forge/
+- https://conda-forge.fredhutch.org/bioconda/
+- nodefaults
 dependencies:
 - opencv=4.5.5
 - pip=23.0.1

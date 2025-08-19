@@ -1,6 +1,7 @@
 name: notebook
 channels:
 - https://conda-forge.fredhutch.org/conda-forge/
+- nodefaults
 dependencies:
 - jupyter>=1.0.0
 - jupyterlab_code_formatter=2

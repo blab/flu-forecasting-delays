@@ -1,8 +1,8 @@
 name: flu_forecasting
 channels:
-- conda-forge
-- bioconda
-- defaults
+- https://conda-forge.fredhutch.org/conda-forge/
+- https://conda-forge.fredhutch.org/bioconda/
+- nodefaults
 dependencies:
 - augur==22.3.0
 - python=3.9

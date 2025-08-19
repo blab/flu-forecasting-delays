@@ -1,7 +1,7 @@
 name: csv
 channels:
-- conda-forge
-- bioconda
-- defaults
+- https://conda-forge.fredhutch.org/conda-forge/
+- https://conda-forge.fredhutch.org/bioconda/
+- nodefaults
 dependencies:
 - csvtk=0.25.0
