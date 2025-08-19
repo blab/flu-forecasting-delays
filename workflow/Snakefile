@@ -354,6 +354,8 @@ rule all:
         "manuscript/figdata/simulated_distances_to_the_future.csv",
         "manuscript/figures/sequences_per_region.pdf",
         "manuscript/figures/h3n2_high_density_optimal_effects_of_realistic_interventions_on_distances_to_the_future.pdf",
+        "manuscript/figures/h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future_by_future_clade_entropy.pdf",
+        "manuscript/figures/h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future_by_hemisphere.pdf",
 
 # Build figures for manuscript.
 
@@ -452,6 +454,19 @@ rule plot_optimal_effects_of_interventions_by_future_clade_entropy:
             --clade-frequencies {input.clade_frequencies} \
             --effects {input.effects} \
             --output {output.effects_by_entropy}
+        """
+
+rule plot_optimal_effects_of_interventions_by_hemisphere:
+    input:
+        effects="manuscript/tables/h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future.csv",
+    output:
+        effects_by_hemisphere="manuscript/figures/h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future_by_hemisphere.pdf",
+    conda: "envs/marimo.yaml"
+    shell:
+        r"""
+        python workflow/notebooks/plot-optimal-effects-of-interventions-by-hemisphere.py \
+            --effects {input.effects} \
+            --output {output.effects_by_hemisphere}
         """
 
 rule plot_sequence_distribution_per_timepoint:
