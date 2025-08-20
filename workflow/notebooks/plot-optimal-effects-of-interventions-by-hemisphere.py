@@ -47,7 +47,7 @@ def _(effects_of_interventions_path, pd):
     )
 
     effects_of_interventions["hemisphere"] = effects_of_interventions["future_timepoint"].apply(
-        lambda date: "northern" if date.split("-")[1] in ["10", "01"] else "southern"
+        lambda date: "Northern" if date.split("-")[1] in ["10", "01"] else "Southern"
     )
     return (effects_of_interventions,)
 
@@ -72,14 +72,18 @@ def _():
 def _(effects_of_interventions, intervention_order, output_path, plt, sns):
     fig, ax = plt.subplots(1, 1, figsize=(10, 5), dpi=300)
 
+    palette = [
+        "#d8b365",
+        "#5ab4ac",
+    ]
     sns.violinplot(
         x="intervention_name",
         y="difference_in_optimal_distance",
         hue="hemisphere",
-        hue_order=["northern", "southern"],
+        hue_order=["Northern", "Southern"],
+        palette=palette,
         data=effects_of_interventions,
         order=intervention_order,
-        #color="#FFFFFF",
         fill=False,
         cut=0,
         inner="quartile",
@@ -89,7 +93,8 @@ def _(effects_of_interventions, intervention_order, output_path, plt, sns):
         x="intervention_name",
         y="difference_in_optimal_distance",
         hue="hemisphere",
-        hue_order=["northern", "southern"],
+        hue_order=["Northern", "Southern"],
+        palette=palette,
         data=effects_of_interventions,
         order=intervention_order,
         alpha=0.35,
@@ -134,6 +139,29 @@ def _(effects_of_interventions, intervention_order, output_path, plt, sns):
     plt.tight_layout()
     plt.savefig(output_path)
     plt.show()
+    return
+
+
+@app.cell
+def _(effects_of_interventions):
+    effects_per_intervention_and_hemisphere = effects_of_interventions.groupby(["intervention_name", "hemisphere"]).aggregate(
+        min_improvement=("difference_in_optimal_distance", "min"),
+        mean_improvement=("difference_in_optimal_distance", "mean"),
+        median_improvement=("difference_in_optimal_distance", "median"),
+        max_improvement=("difference_in_optimal_distance", "max"),
+    ).round(2)
+    return (effects_per_intervention_and_hemisphere,)
+
+
+@app.cell
+def _(effects_per_intervention_and_hemisphere):
+    effects_per_intervention_and_hemisphere
+    return
+
+
+@app.cell
+def _(effects_per_intervention_and_hemisphere):
+    effects_per_intervention_and_hemisphere["max_improvement"] - effects_per_intervention_and_hemisphere["min_improvement"]
     return
 
 
