@@ -68,7 +68,7 @@ The fastest evolving influenza subtype A/H3N2 accumulates 3--4 HA amino acid sub
 Given the 12-month lag between the decision to update an influenza vaccine and the peak of the following influenza season, the vaccine composition decision is commonly framed as a long-term forecasting problem \citep{Lassig2017}.
 For this reason, the decision process is partially informed by computational models that attempt to predict the genetic composition of seasonal influenza populations 12 months in the future \citep{Morris2018}.
 The earliest of these models predicted future influenza populations from HA sequences alone \citep{Luksza:2014hj,Neher:2014eu,Steinbruck2014}.
-Recent models include phenotypic data from serological experiments \citep{Morris2018,Huddleston2020,Meijers2023,Meijers2024}.
+Recent models include phenotypic data from serological experiments \citep{Morris2018,Huddleston2020,Meijers2023,Meijers2025}.
 Since most serological experiments occur after genetic sequencing \citep{Hampson2017} and all forecasting models depend on HA sequences to determine the viruses circulating at the time of a forecast, sequence availability is the initial limiting factor for any influenza forecasts.
 Unfortunately, the average lag between collection of a seasonal influenza A/H3N2 HA sample and submission of its sequence had been $\sim$3 months in the era prior to the SARS-CoV-2 pandemic (\FIG{model_of_delays_and_horizons}A).
 While long-term forecasting models continue to improve technically, the constraints of a 12-month forecast horizon and the availability of enough recent, representative HA sequences impose an upper bound on the accuracy of long-term forecasts.
@@ -467,6 +467,8 @@ Despite the small effect that reducing sequence submission lags had on long-term
 Compared to estimates of current viral diversity, forecasts of future influenza populations only represent one component of the overall decision-making process for vaccine development.
 For example, virologists must choose potential vaccine candidates from the diversity of circulating clades months in advance of vaccine composition meetings to have time to grow virus in cells and eggs and measure antigenic drift with serological assays \citep{Morris2018,Loes2024}.
 Earlier detection of viral sequences with important antigenic substitutions could determine whether corresponding vaccine candidates are available at the time of the vaccine selection meeting or not.
+Newer methods to estimate influenza fitness use experimental measurements of viral escape from human sera \citep{Lee2019,Welsh2023,Meijers2025,Kikawa2025}, measurements of viral stability and cell entry \citep{Yu2025}, or sequences from neuraminidase, the other primary surface protein associated with antigenic drift \citep{Meijers2025}.
+These methodological improvements all depend fundamentally on timely genomic surveillance efforts and the GISAID EpiFlu database to identify relevant influenza variants to include in their experiments.
 Finally, our results here reflect uncorrelated submission lags for each sequence, but actual lags can strongly correlate between sequences from the same originating and submitting labs.
 These correlated lags could further decrease the accuracy of frequency estimates beyond our more conservative estimates.
 More rapid sequence submission will improve our understanding of the present and give decision-makers more choices for new vaccines.
