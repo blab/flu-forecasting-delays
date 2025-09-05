@@ -448,13 +448,15 @@ rule plot_optimal_effects_of_interventions_by_future_clade_entropy:
         effects="manuscript/tables/h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future.csv",
     output:
         effects_by_entropy="manuscript/figures/h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future_by_future_clade_entropy.pdf",
+        distance_by_entropy="manuscript/tables/h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future_by_future_clade_entropy.csv",
     conda: "envs/marimo.yaml"
     shell:
         r"""
         python workflow/notebooks/plot-optimal-effects-of-interventions-by-clade-entropy.py \
             --clade-frequencies {input.clade_frequencies} \
             --effects {input.effects} \
-            --output {output.effects_by_entropy}
+            --output-figure {output.effects_by_entropy} \
+            --output-table {output.distance_by_entropy}
         """
 
 rule plot_optimal_effects_of_interventions_by_hemisphere:

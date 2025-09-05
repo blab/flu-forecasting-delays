@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.14.17"
+__generated_with = "0.13.15"
 app = marimo.App(width="medium")
 
 
@@ -22,7 +22,8 @@ def _(argparse):
 
     parser.add_argument("--clade-frequencies", help="path to CSV of clade frequencies per timepoint, delay type, and forecast horizon")
     parser.add_argument("--effects", help="path to CSV with effects of realistic interventions on optimal distances to the future")
-    parser.add_argument("--output", help="plot showing intervention effects by future clade entropy")
+    parser.add_argument("--output-figure", help="plot showing intervention effects by future clade entropy")
+    parser.add_argument("--output-table", help="table of effects by intervention, timepoint, and future clade entropy")
 
     args = parser.parse_args()
     return (args,)
@@ -42,8 +43,14 @@ def _(args):
 
 @app.cell
 def _(args):
-    output_path = args.output if args.output else "manuscript/figures/h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future_by_future_clade_entropy.pdf"
+    output_path = args.output_figure if args.output_figure else "manuscript/figures/h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future_by_future_clade_entropy.pdf"
     return (output_path,)
+
+
+@app.cell
+def _(args):
+    output_table_path = args.output_table if args.output_table else "manuscript/tables/h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future_by_future_clade_entropy.csv"
+    return (output_table_path,)
 
 
 @app.cell
@@ -183,6 +190,24 @@ def _(alt, effects_of_interventions_with_entropy_and_r, output_path):
 
     chart.save(output_path, ppi=300)
     chart
+    return
+
+
+@app.cell
+def _(effects_of_interventions_with_entropy_and_r, output_table_path):
+    effects_of_interventions_with_entropy_and_r.sort_values([
+        "intervention_name_with_r",
+        "future_timepoint",
+    ]).to_csv(
+        output_table_path,
+        index=False,
+        columns=[
+            "intervention_name_with_r",
+            "future_timepoint",
+            "difference_in_optimal_distance",
+            "entropy",
+        ],
+    )
     return
 
 
