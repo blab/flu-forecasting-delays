@@ -287,7 +287,7 @@ def _(alt, full_count_by_region_date, merged_count_by_region_date):
     ).properties(
         width=width,
         height=height,
-        title="All sequences",
+        title=alt.Title("A. All sequences", anchor="start", fontSize=15),
     )
 
     _proportion_chart = alt.Chart(merged_count_by_region_date).mark_line(point=True).encode(
@@ -297,7 +297,7 @@ def _(alt, full_count_by_region_date, merged_count_by_region_date):
     ).properties(
         width=width,
         height=height,
-        title="Subsampled sequences (90 per month)",
+        title=alt.Title("B. Subsampled sequences (90 per month)", anchor="start", fontSize=15),
     )
 
     _high_proportion_chart = alt.Chart(merged_count_by_region_date).mark_line(point=True).encode(
@@ -307,11 +307,19 @@ def _(alt, full_count_by_region_date, merged_count_by_region_date):
     ).properties(
         width=width,
         height=height,
-        title="Subsampled sequences (270 per month)",
+        title=alt.Title("C. Subsampled sequences (270 per month)", anchor="start", fontSize=15),
     )
 
-    final_chart = _full_chart & _proportion_chart & _high_proportion_chart
-    final_chart
+    final_chart = (_full_chart & _proportion_chart & _high_proportion_chart).configure_axis(
+        grid=False,
+        labelFontSize=12,
+        titleFontSize=12,
+    ).configure_legend(
+        labelFontSize=12,
+        titleFontSize=12,
+    ).configure_view(
+        stroke=None
+    )
     return (final_chart,)
 
 
