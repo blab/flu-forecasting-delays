@@ -197,7 +197,7 @@ Thus, reducing how far we have to predict into the future increased both forecas
 {\includegraphics[width=6cm]{figures/simulated_optimal_distances_to_the_future_by_delay_and_horizon}}\label{figsupp:simulated_optimal_distances_to_the_future}
 %
 \figdata{Distances to the future for natural A/H3N2 populations.}\label{figdata:h3n2_distances_to_the_future}
-\figsrccode{Jupyter notebook used to produce this figure and the supplemental figure lives in \texttt{workflow/notebooks/plot-distances-to-the-future-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:distances_to_the_future}
+\figsrccode{Jupyter notebook used to produce this figure and the supplemental figure: \texttt{workflow/notebooks/plot-distances-to-the-future-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:distances_to_the_future}
 \end{figure}
 
 \begin{table}[htb]
@@ -250,7 +250,7 @@ Dashed lines indicate the median error from the distribution of the lag type wit
 {\includegraphics[width=6cm]{figures/simulated_current_frequency_errors_by_delay}}\label{figsupp:simulated_current_clade_frequency_errors}
 %
 \figdata{Current and future clade frequencies for natural A/H3N2 populations by forecast horizon and submission lag type.}\label{figdata:h3n2_clade_frequencies}
-\figsrccode{Jupyter notebook used to produce this figure and the supplemental figure lives in \texttt{workflow/notebooks/plot-current-clade-frequency-errors-by-delay-type-for-populations.py.ipynb}.}\label{figsrccode:current_clade_frequency_errors}
+\figsrccode{Jupyter notebook used to produce this figure and the supplemental figure: \texttt{workflow/notebooks/plot-current-clade-frequency-errors-by-delay-type-for-populations.py.ipynb}.}\label{figsrccode:current_clade_frequency_errors}
 \end{figure}
 
 Lagged submissions similarly affected clade frequencies for simulated A/H3N2-like populations (\FIGSUPP[h3n2_current_clade_frequency_errors]{simulated_current_clade_frequency_errors}).
@@ -285,7 +285,7 @@ We used absolute forecast errors to evaluate forecast accuracy and overall forec
 {Forecast clade frequency errors for simulated A/H3N2-like HA populations by forecast horizon in months and submission lag type (none, ideal, or realistic) for A) small clades ($<$10\% initial frequency) and B) large clades ($\ge$10\% initial frequency).}
 {\includegraphics[width=6cm]{figures/simulated_forecast_frequency_errors_by_delay_and_horizon}}\label{figsupp:simulated_forecast_clade_frequency_errors}
 %
-\figsrccode{Jupyter notebook used to produce this figure and the supplemental figures lives in \texttt{workflow/notebooks/plot-forecast-clade-frequency-errors-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:forecast_clade_frequency_errors}
+\figsrccode{Jupyter notebook used to produce this figure and the supplemental figures: \texttt{workflow/notebooks/plot-forecast-clade-frequency-errors-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:forecast_clade_frequency_errors}
 \end{figure}
 
 Absolute forecast errors trended strongly toward values less than 30\% with long tails reaching 80\% for both small and large clades (\FIG{h3n2_absolute_forecast_clade_frequency_errors}).
@@ -364,7 +364,7 @@ For all analyses, positive values represented improved forecast accuracy under a
 %
 \figdata{Differences in total absolute clade frequency error per future timepoint and clade between the status quo and realistic interventions for A/H3N2 populations.}\label{figdata:h3n2_effects_of_realistic_interventions}
 \figsrccode{Jupyter notebook used to produce effects of interventions on total absolute clade frequency errors \texttt{workflow/notebooks/plot-forecast-clade-frequency-errors-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:effects_of_realistic_interventions}
-\figsrccode{Jupyter notebook used to produce effects of interventions on distances to the future lives in \texttt{workflow/notebooks/plot-distances-to-the-future-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:effects_of_realistic_interventions_on_distances_to_the_future}
+\figsrccode{Jupyter notebook used to produce effects of interventions on distances to the future: \texttt{workflow/notebooks/plot-distances-to-the-future-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:effects_of_realistic_interventions_on_distances_to_the_future}
 \end{figure}
 
 \begin{table}[htb]
@@ -431,7 +431,11 @@ For this reason, we expect that simultaneous improvements to forecasting models 
 {\includegraphics[width=6cm]{figures/h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future_by_hemisphere}}\label{figsupp:h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future_by_hemisphere}
 %
 \figdata{Differences in optimal distances to the future per future timepoint between the status quo and realistic interventions for A/H3N2 populations.}\label{figdata:h3n2_optimal_effects_of_realistic_interventions}
-\figsrccode{Jupyter notebook used to produce optimal effects of interventions on distances to the future lives in \texttt{workflow/notebooks/plot-distances-to-the-future-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:optimal_effects_of_realistic_interventions_on_distances_to_the_future}
+\figdata{Differences in optimal distances to the future per future timepoint between the status quo and realistic interventions for A/H3N2 populations with high-density subsampling.}\label{figdata:h3n2_high_density_optimal_effects_of_realistic_interventions}
+\figdata{Differences in optimal distances to the future per future timepoint between the status quo and realistic interventions for A/H3N2 populations by entropy of clade frequencies at future timepoints.}\label{figdata:h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future_by_future_clade_entropy}
+\figsrccode{Python notebook used to produce optimal effects of interventions on distances to the future: \texttt{workflow/notebooks/plot-distances-to-the-future-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:optimal_effects_of_realistic_interventions_on_distances_to_the_future}
+\figsrccode{Python notebook used to plot optimal effects by future clade entropy: \texttt{workflow/notebooks/plot-optimal-effects-of-interventions-by-clade-entropy.py}.}\label{figsrccode:optimal_effects_of_realistic_interventions_by_future_clade_entropy}
+\figsrccode{Python notebook used to plot optimal effects by hemisphere: \texttt{workflow/notebooks/plot-optimal-effects-of-interventions-by-hemisphere.py}.}\label{figsrccode:optimal_effects_of_realistic_interventions_by_hemisphere}
 \end{figure}
 
 \section{Discussion}
