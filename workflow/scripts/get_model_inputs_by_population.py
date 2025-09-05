@@ -35,6 +35,9 @@ if __name__ == "__main__":
         "h3n2_no_delay": 0.0,
         "h3n2_ideal_delay": 1.0,
         "h3n2_realistic_delay": 3.0,
+        "h3n2_high_density_no_delay": 0.0,
+        "h3n2_high_density_ideal_delay": 1.0,
+        "h3n2_high_density_realistic_delay": 3.0,
     }
 
     df["delay"] = df["sample"].map(month_delay_by_sample)

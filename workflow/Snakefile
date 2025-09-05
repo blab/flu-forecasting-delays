@@ -351,6 +351,7 @@ rule all:
         "manuscript/tables/simulated_effects_of_realistic_interventions_on_distances_to_the_future.csv",
         "manuscript/tables/simulated_optimal_effects_of_realistic_interventions_on_distances_to_the_future.csv",
         "manuscript/figdata/h3n2_distances_to_the_future.csv",
+        "manuscript/figdata/h3n2_high_density_distances_to_the_future.csv",
         "manuscript/figdata/simulated_distances_to_the_future.csv",
         "manuscript/figures/sequences_per_region.pdf",
         "manuscript/figures/h3n2_high_density_optimal_effects_of_realistic_interventions_on_distances_to_the_future.pdf",
