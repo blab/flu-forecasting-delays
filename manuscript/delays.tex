@@ -13,6 +13,8 @@
 \usepackage{siunitx}
 \DeclareSIUnit\Molar{M}
 
+\graphicspath{{./figures/}{./}}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% ARTICLE SETUP
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -40,18 +42,18 @@
 \maketitle
 
 \begin{abstract}
-% Words: 314
+% Words: 326
 For the last decade, evolutionary forecasting models have influenced seasonal influenza vaccine design.
 These models attempt to predict which genetic variants circulating at the time of vaccine strain selection will be dominant 12 months later in the influenza season targeted by vaccination campaign.
-Forecasting models depend on hemagglutinin (HA) sequences from the WHO’s Global Influenza Surveillance and Response System to identify currently circulating groups of related strains (clades) and estimate clade fitness for forecasts.
+Forecasting models depend on hemagglutinin sequences from the WHO's Global Influenza Surveillance and Response System to identify currently circulating groups of related strains (clades) and estimate clade fitness for forecasts.
 However, the average lag between collection of a clinical sample and the submission of its sequence to the Global Initiative on Sharing All Influenza Data (GISAID) EpiFlu database is $\sim$3 months.
 Submission lags complicate the already difficult 12-month forecasting problem by reducing understanding of current clade frequencies at the time of forecasting.
-These constraints of a 12-month forecast horizon and 3-month average submission lags create an upper bound on the accuracy of any long-term forecasting model.
-The global response to the SARS-CoV-2 pandemic revealed that modern vaccine technology like mRNA vaccines can reduce how far we need to forecast into the future to 6 months or less and that expanded support for sequencing can reduce submission lags to GISAID to 1 month on average.
-To determine whether these recent advances could also improve long-term forecasts for seasonal influenza, we quantified the effects of reducing forecast horizons and submission lags on the accuracy of forecasts for A/H3N2 populations.
+Despite continued methodological improvements to long-term forecasting models, these constraints of a 12-month forecast horizon and 3-month average submission lags impose an upper bound on any model's accuracy.
+The global response to the SARS-CoV-2 pandemic revealed that the adoption of modern vaccine technology like mRNA vaccines can reduce how far we need to forecast into the future to 6 months or less and that expanded support for sequencing can reduce submission lags to GISAID to 1 month on average.
+To determine whether these public health policy changes could improve long-term forecasts for seasonal influenza, we quantified the effects of reducing forecast horizons and submission lags on the accuracy of forecasts for A/H3N2 populations.
 We found that reducing forecast horizons from 12 months to 6 or 3 months reduced average absolute forecasting errors to 25\% and 50\% of the 12-month average, respectively.
 Reducing submission lags provided little improvement to forecasting accuracy but decreased the uncertainty in current clade frequencies by 50\%.
-These results show the potential to substantially improve the accuracy of existing influenza forecasting models by modernizing influenza vaccine development and increasing global sequencing capacity.
+These results show the potential to substantially improve the accuracy of existing influenza forecasting models through the public health policy changes of modernizing influenza vaccine development and increasing global sequencing capacity.
 \end{abstract}
 
 \section{Introduction}
@@ -59,16 +61,17 @@ These results show the potential to substantially improve the accuracy of existi
 Seasonal influenza virus infections cause approximately half a million deaths per year \citep{flufactsheet}.
 Vaccination provides the best protection against hospitalization and death, but the rapid evolution of the influenza surface protein hemagglutinin (HA) allows viruses to escape existing immunity and requires regular updates to influenza vaccines \citep{Petrova2018}.
 The World Health Organization (WHO) meets twice a year to decide on vaccine updates for the Northern and Southern Hemispheres \citep{Morris2018}.
-The dominant influenza vaccine platform is an inactivated whole virus vaccine grown in chicken eggs \citep{Wong2013} which takes 6 to 8 months to develop and contains a single representative vaccine virus per seasonal influenza subtype including A/H1N1pdm, A/H3N2, and B/Victoria \citep{Morris2018}.
-As a result, the WHO must select a single immunologically-representative virus per subtype approximately 12 months before the peak of the next influenza season.
+The dominant influenza vaccine platform is an inactivated whole virus vaccine grown in chicken eggs \citep{Wong2013} which takes 6 to 8 months to develop, contains a single representative vaccine virus per seasonal influenza subtype including A/H1N1pdm, A/H3N2, and B/Victoria \citep{Morris2018}, and for which only the HA protein content is standardized \citep{Yamayoshi2019}.
+These constraints require the WHO to select a single virus per subtype that is immunologically-representative of the next season's dominant HA approximately 12 months before the peak of that next season.
 These selections depend on the diversity of currently circulating phylogenetic clades, groups of influenza viruses that all share a recent common ancestor.
 The WHO's understanding of that genetic diversity comes from HA sequences collected by the WHO's Global Influenza and Surveillance and Response System (GISRS) \citep{Hay2018} and submitted to the Global Initiative on Sharing All Influenza Data (GISAID) EpiFlu database \citep{gisaid}.
 The fastest evolving influenza subtype A/H3N2 accumulates 3--4 HA amino acid substitutions per year \citep{Smith2004,Kistler2023} such that the clades circulating 12 months after the vaccine decision can be antigenically distinct from clades that were circulating at the time of the decision.
 
 Given the 12-month lag between the decision to update an influenza vaccine and the peak of the following influenza season, the vaccine composition decision is commonly framed as a long-term forecasting problem \citep{Lassig2017}.
-For this reason, the decision process is partially informed by computational models that attempt to predict the genetic composition of seasonal influenza populations 12 months in the future based on current genetic and phenotypic data \citep{Morris2018}.
+For this reason, the decision process is partially informed by computational models that attempt to predict the genetic composition of seasonal influenza populations 12 months in the future \citep{Morris2018}.
 The earliest of these models predicted future influenza populations from HA sequences alone \citep{Luksza:2014hj,Neher:2014eu,Steinbruck2014}.
-Recent models include phenotypic data from serological experiments \citep{Morris2018,Huddleston2020,Meijers2023,Meijers2024}, but these models still heavily rely on HA sequences to determine the viruses circulating at the time of a forecast.
+Recent models include phenotypic data from serological experiments \citep{Morris2018,Huddleston2020,Meijers2023,Meijers2025}.
+Since most serological experiments occur after genetic sequencing \citep{Hampson2017} and all forecasting models depend on HA sequences to determine the viruses circulating at the time of a forecast, sequence availability is the initial limiting factor for any influenza forecasts.
 Unfortunately, the average lag between collection of a seasonal influenza A/H3N2 HA sample and submission of its sequence had been $\sim$3 months in the era prior to the SARS-CoV-2 pandemic (\FIG{model_of_delays_and_horizons}A).
 While long-term forecasting models continue to improve technically, the constraints of a 12-month forecast horizon and the availability of enough recent, representative HA sequences impose an upper bound on the accuracy of long-term forecasts.
 
@@ -82,8 +85,8 @@ By 2021, the average time between collection of a SARS-CoV-2 sample and submissi
 This reduction in submission lags reflects both increased emergency funding and the sustained efforts by more public health organizations to adopt best practices for genomic epidemiology \citep{Kalia2021,Black2020}.
 Assessments of SARS-CoV-2 short-term forecasts have shown how such reductions in forecast horizon and submission lags can improve the accuracy of short-term forecasts and real-time estimates of clade frequencies \citep{Abousamra2023}.
 
-These technological and societal changes in response to SARS-CoV-2 suggest that we could realistically expect the same outcomes for seasonal influenza.
-Work on mRNA vaccines for influenza viruses dates back over a decade \citep{Petsch2012,Brazzoli2016,Pardi2018,Feldman2019}.
+These technological and public health policy changes in response to SARS-CoV-2 suggest that we could realistically expect the same outcomes for seasonal influenza.
+Work on mRNA vaccines for influenza viruses dates back over a decade \citep{Petsch2012,Brazzoli2016,Pardi2018,Feldman2019}, and multiple vaccines have completed phase 3 trials by early 2025 \citep{Soens2025,NCT05540522}.
 A switch from the current egg-based inactivated virus vaccines to mRNA vaccines could reduce the time between vaccine design decisions and the peak influenza season from 12 months to 6 months.
 Similarly, the expanded global capacity for sequencing SARS-CoV-2 genomes could reasonably extend to broader and more rapid genomic surveillance for seasonal influenza, reducing submission lags from 3 months to 1 month on average.
 Even in the years immediately after the onset of the SARS-CoV-2 pandemic, we have observed a trend toward a reduced average submission lag of 2.5 months that we would expect from increased global capacity for genome sequencing (\FIGSUPP[model_of_delays_and_horizons]{distribution_of_delays_by_pandemic_era}).
@@ -103,11 +106,11 @@ In this way, we show the potential to improve the accuracy of existing long-term
 % 2. Forecast from N weeks earlier than the current date to have more reliable estimates of population composition
 
 \begin{figure}[htb!]
-\includegraphics[width=\linewidth]{figures/distribution_of_delays_and_horizons}
+\includegraphics[width=\linewidth]{distribution_of_delays_and_horizons}
 \caption{Model of forecast horizons and submission lags.
   A) Long-term forecasting models historically predicted 12 months into the future from April and October because of the time required to develop and distribute a new vaccine \citep{Luksza:2014hj}.
   We tested three additional shorter forecast horizons in three-month intervals of 9, 6, and 3 months prior to the same time in the future season.
-  For each forecast horizon, we calculated the accuracy of forecasts under each of the three submission lags reflected above including no lag (blue), realistic lag (green), and ideal lag (orange).
+  For each forecast horizon, we calculated the accuracy of forecasts under each of the three submission lags described below including no lag, realistic lag, and ideal lag.
   B) Observed lags in days between collection of viral samples and submission of corresponding HA sequences to GISAID (purple) for samples collected in 2019 have a mean of 98 days (approximately 3 months).
   A gamma distribution fit to the observed lag distribution with a similar mean and shape (green) represents a realistic submission lag that we sampled from to assign ``submission dates'' to simulated and natural A/H3N2 populations.
   A gamma distribution with a mean that is one third of the realistic distribution (orange) represents an ideal submission lag analogous to the 1-month average observed lags for SARS-CoV-2 genomes.
@@ -117,22 +120,31 @@ In this way, we show the potential to improve the accuracy of existing long-term
 \figsupp[Distribution of submission lags in days for the pre-pandemic era (2019-2020) and pandemic era (2022-2023)]
 {Distribution of submission lags in days for the pre-pandemic era (2019-2020 in blue) and pandemic era (2022-2023 in orange).
   Vertical dashed lines represent mean lags for each distribution.}
-{\includegraphics[width=6cm]{figures/distribution_of_delays_by_pandemic_era}}\label{figsupp:distribution_of_delays_by_pandemic_era}
+{\includegraphics[width=6cm]{distribution_of_delays_by_pandemic_era}}\label{figsupp:distribution_of_delays_by_pandemic_era}
 %
 \figsupp[Number and proportion of A/H3N2 sequences available per timepoint and lag type]
 {
   A) Number of A/H3N2 sequences available per timepoint and lag type.
   B) Proportion of all A/H3N2 sequences without lag per timepoint and lag type.
 }
-{\includegraphics[width=6cm]{figures/h3n2_distribution_of_sequences_per_timepoint_and_delay}}\label{figsupp:distribution_of_h3n2_sequences_per_timepoint_and_delay}
+{\includegraphics[width=6cm]{h3n2_distribution_of_sequences_per_timepoint_and_delay}}\label{figsupp:distribution_of_h3n2_sequences_per_timepoint_and_delay}
 %
 \figsupp[Number and proportion of simulated A/H3N2-like sequences available per timepoint and lag type]
 {
   A) Number of simulated A/H3N2-like sequences available per timepoint and lag type.
   B) Proportion of all simulated A/H3N2-like sequences without lag per timepoint and lag type.
 }
-{\includegraphics[width=6cm]{figures/simulated_distribution_of_sequences_per_timepoint_and_delay}}\label{figsupp:distribution_of_simulated_sequences_per_timepoint_and_delay}
-\figdata{Distribution of lags between sample collection and sequence submission in prepandemic and pandemic eras; see \url{https://zenodo.org/records/13742375}}\label{figdata:distribution_of_submission_lags}
+{\includegraphics[width=6cm]{simulated_distribution_of_sequences_per_timepoint_and_delay}}\label{figsupp:distribution_of_simulated_sequences_per_timepoint_and_delay}
+%
+\figsupp[Number of all available sequences per region and year and proportion of sequences sampled by two different subsampling methods]
+{
+  A) Number of all available sequences per region and year in the GISAID EpiFlu database for the study period between April 1, 2005 and October 1, 2019.
+  B) Proportion of sequences sampled per region and year with even subsampling across regions and year/month combinations at 90 viruses per month.
+  C) Proportion of sequences sampled per region and year with even subsampling across regions and year/month combinations at 270 viruses per month.
+}
+{\includegraphics[width=6cm]{sequences_per_region}}\label{figsupp:sequences_per_region}
+%
+\figdata{Distribution of lags between sample collection and sequence submission in prepandemic and pandemic eras; see \texttt{distribution\_of\_submission\_lags.csv} at \url{https://doi.org/10.5281/zenodo.17259448}.}\label{figdata:distribution_of_submission_lags}
 \end{figure}
 
 \section{Results}
@@ -167,7 +179,7 @@ We observed the same patterns for forecasts of simulated A/H3N2-like populations
 Thus, reducing how far we have to predict into the future increased both forecast accuracy and precision.
 
 \begin{figure}[htb]
-\includegraphics[width=\linewidth]{figures/h3n2_distances_to_the_future_by_delay_and_horizon}
+\includegraphics[width=\linewidth]{h3n2_distances_to_the_future_by_delay_and_horizon}
 \caption{Distance to the future per timepoint (AAs) for natural A/H3N2 populations by forecast horizon and submission lag type based on forecasts from the local branching index (LBI) and mutational load model.
   Each point represents a future timepoint whose population was predicted from the number of months earlier corresponding to the forecast horizon.
   Points are colored by submission lag type including forecasts made with no lag (blue), an ideal lag (orange), and a realistic lag (green).}
@@ -175,24 +187,24 @@ Thus, reducing how far we have to predict into the future increased both forecas
 %
 \figsupp[Distance to the future for simulated A/H3N2-like populations]
 {Distance to the future per timepoint (AAs) for simulated A/H3N2-like populations by forecast horizon and submission lag type based on forecasts from the ``true fitness'' model.
-  \figsuppdata{Distances to the future for simulated A/H3N2-like populations; see \url{https://zenodo.org/records/13742375}}}
-{\includegraphics[width=6cm]{figures/simulated_distances_to_the_future_by_delay_and_horizon}}\label{figsupp:simulated_distances_to_the_future}
+  \figsuppdata{Distance to the future for simulated A/H3N2-like populations; see \texttt{simulated\_distances\_to\_the\_future.csv} at \url{https://doi.org/10.5281/zenodo.17259448}.}}
+{\includegraphics[width=6cm]{simulated_distances_to_the_future_by_delay_and_horizon}}\label{figsupp:simulated_distances_to_the_future}
 %
 \figsupp[Optimal distance to the future for natural A/H3N2 populations]
 {Optimal distance to the future per timepoint (AAs) for natural A/H3N2 populations by forecast horizon and submission lag type based on posthoc empirical fitness of the initial population.}
-{\includegraphics[width=6cm]{figures/h3n2_optimal_distances_to_the_future_by_delay_and_horizon}}\label{figsupp:h3n2_optimal_distances_to_the_future}
+{\includegraphics[width=6cm]{h3n2_optimal_distances_to_the_future_by_delay_and_horizon}}\label{figsupp:h3n2_optimal_distances_to_the_future}
 %
 \figsupp[Optimal distance to the future for simulated A/H3N2-like populations]
 {Optimal distance to the future per timepoint (AAs) for simulated A/H3N2-like populations by forecast horizon and submission lag type based on posthoc empirical fitness of the initial population.}
-{\includegraphics[width=6cm]{figures/simulated_optimal_distances_to_the_future_by_delay_and_horizon}}\label{figsupp:simulated_optimal_distances_to_the_future}
+{\includegraphics[width=6cm]{simulated_optimal_distances_to_the_future_by_delay_and_horizon}}\label{figsupp:simulated_optimal_distances_to_the_future}
 %
-\figdata{Distances to the future for natural A/H3N2 populations.}\label{figdata:h3n2_distances_to_the_future}
-\figsrccode{Jupyter notebook used to produce this figure and the supplemental figure lives in \texttt{workflow/notebooks/plot-distances-to-the-future-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:distances_to_the_future}
+\figdata{Distance to the future for natural A/H3N2 populations; see \texttt{h3n2\_distances\_to\_the\_future.csv} at \url{https://doi.org/10.5281/zenodo.17259448}.}\label{figdata:h3n2_distances_to_the_future}
+\figsrccode{Jupyter notebook used to produce this figure and the supplemental figure: \texttt{workflow/notebooks/plot-distances-to-the-future-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:distances_to_the_future}
 \end{figure}
 
 \begin{table}[htb]
   \begin{center}
-    \input{tables/h3n2_distances_to_the_future_by_delay_and_horizon.tex}
+    \input{h3n2_distances_to_the_future_by_delay_and_horizon.tex}
     \caption{Distance to the future in amino acids (mean +/- standard deviation AAs) by forecast horizon (in months) and submission lag for A/H3N2 populations.}
     \label{tab:h3n2_distances_to_the_future}
   \end{center}
@@ -228,7 +240,7 @@ We observed a slight bias toward underestimation of large clades under the reali
 These results show that reducing submission lags for natural A/H3N2 populations from a 3-month average to a 1-month average could reduce the bias toward underestimated large clade frequencies and reduce the standard deviation of all current clade frequency errors by 50\%.
 
 \begin{figure}[htb!]
-\includegraphics[width=\linewidth]{figures/h3n2_current_frequency_errors_by_delay}
+\includegraphics[width=\linewidth]{h3n2_current_frequency_errors_by_delay}
 \caption{Clade frequency errors for natural A/H3N2 clades at the same timepoint calculated as the difference between clade frequencies without submission lag and corresponding frequencies with either A) ideal or B) realistic submission lags.
 Distributions of frequency errors appear normally distributed in both lag scenarios for both C) small clades ($>$0\% and $<$10\% frequency) and D) large clades ($\ge$10\%).
 Dashed lines indicate the median error from the distribution of the lag type with the same color.}
@@ -236,11 +248,11 @@ Dashed lines indicate the median error from the distribution of the lag type wit
 %
 \figsupp[Current clade frequency errors for simulated A/H3N2-like populations]
 {Clade frequency errors between simulated A/H3N2-like HA populations with ideal or realistic submission lags and populations without any submission lag.
-  \figsuppdata{Current and future clade frequencies for simulated A/H3N2-like populations by forecast horizon and submission lag type; see \url{https://zenodo.org/records/13742375}}}
-{\includegraphics[width=6cm]{figures/simulated_current_frequency_errors_by_delay}}\label{figsupp:simulated_current_clade_frequency_errors}
+  \figsuppdata{Current and future clade frequencies for simulated A/H3N2-like populations by forecast horizon and submission lag type; see \texttt{simulated\_clade\_frequencies.csv} at \url{https://doi.org/10.5281/zenodo.17259448}.}}
+{\includegraphics[width=6cm]{simulated_current_frequency_errors_by_delay}}\label{figsupp:simulated_current_clade_frequency_errors}
 %
-\figdata{Current and future clade frequencies for natural A/H3N2 populations by forecast horizon and submission lag type.}\label{figdata:h3n2_clade_frequencies}
-\figsrccode{Jupyter notebook used to produce this figure and the supplemental figure lives in \texttt{workflow/notebooks/plot-current-clade-frequency-errors-by-delay-type-for-populations.py.ipynb}.}\label{figsrccode:current_clade_frequency_errors}
+\figdata{Current and future clade frequencies for natural A/H3N2 populations by forecast horizon and submission lag type; see \texttt{h3n2\_clade\_frequencies.csv} at \url{https://doi.org/10.5281/zenodo.17259448}.}\label{figdata:h3n2_clade_frequencies}
+\figsrccode{Jupyter notebook used to produce this figure and the supplemental figure: \texttt{workflow/notebooks/plot-current-clade-frequency-errors-by-delay-type-for-populations.py.ipynb}.}\label{figsrccode:current_clade_frequency_errors}
 \end{figure}
 
 Lagged submissions similarly affected clade frequencies for simulated A/H3N2-like populations (\FIGSUPP[h3n2_current_clade_frequency_errors]{simulated_current_clade_frequency_errors}).
@@ -258,24 +270,24 @@ We calculated the error in forecast frequencies as the difference between predic
 We used absolute forecast errors to evaluate forecast accuracy and overall forecast errors to evaluate forecast bias.
 
 \begin{figure}[htb!]
-\includegraphics[width=\linewidth]{figures/h3n2_absolute_forecast_frequency_errors_by_delay_and_horizon}
+\includegraphics[width=\linewidth]{h3n2_absolute_forecast_frequency_errors_by_delay_and_horizon}
 \caption{Absolute forecast clade frequency errors for natural A/H3N2 populations by forecast horizon in months and submission lag type (none, ideal, or observed) for A) small clades ($<$10\% initial frequency) and B) large clades ($\ge$10\% initial frequency).
 }
 \label{fig:h3n2_absolute_forecast_clade_frequency_errors}
 %
 \figsupp[Absolute forecast clade frequency errors for simulated A/H3N2-like populations.]
 {Absolute forecast clade frequency errors for simulated A/H3N2-like HA populations by forecast horizon in months and submission lag type (none, ideal, or realistic) for A) small clades ($<$10\% initial frequency) and B) large clades ($\ge$10\% initial frequency).}
-{\includegraphics[width=6cm]{figures/simulated_absolute_forecast_frequency_errors_by_delay_and_horizon}}\label{figsupp:simulated_absolute_forecast_clade_frequency_errors}
+{\includegraphics[width=6cm]{simulated_absolute_forecast_frequency_errors_by_delay_and_horizon}}\label{figsupp:simulated_absolute_forecast_clade_frequency_errors}
 %
 \figsupp[Forecast clade frequency errors for natural A/H3N2 populations.]
 {Forecast clade frequency errors for natural A/H3N2 HA populations by forecast horizon in months and submission lag type (none, ideal, or realistic) for A) small clades ($<$10\% initial frequency) and B) large clades ($\ge$10\% initial frequency).}
-{\includegraphics[width=6cm]{figures/h3n2_forecast_frequency_errors_by_delay_and_horizon}}\label{figsupp:h3n2_forecast_clade_frequency_errors}
+{\includegraphics[width=6cm]{h3n2_forecast_frequency_errors_by_delay_and_horizon}}\label{figsupp:h3n2_forecast_clade_frequency_errors}
 %
 \figsupp[Forecast clade frequency errors for simulated A/H3N2-like populations.]
 {Forecast clade frequency errors for simulated A/H3N2-like HA populations by forecast horizon in months and submission lag type (none, ideal, or realistic) for A) small clades ($<$10\% initial frequency) and B) large clades ($\ge$10\% initial frequency).}
-{\includegraphics[width=6cm]{figures/simulated_forecast_frequency_errors_by_delay_and_horizon}}\label{figsupp:simulated_forecast_clade_frequency_errors}
+{\includegraphics[width=6cm]{simulated_forecast_frequency_errors_by_delay_and_horizon}}\label{figsupp:simulated_forecast_clade_frequency_errors}
 %
-\figsrccode{Jupyter notebook used to produce this figure and the supplemental figures lives in \texttt{workflow/notebooks/plot-forecast-clade-frequency-errors-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:forecast_clade_frequency_errors}
+\figsrccode{Jupyter notebook used to produce this figure and the supplemental figures: \texttt{workflow/notebooks/plot-forecast-clade-frequency-errors-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:forecast_clade_frequency_errors}
 \end{figure}
 
 Absolute forecast errors trended strongly toward values less than 30\% with long tails reaching 80\% for both small and large clades (\FIG{h3n2_absolute_forecast_clade_frequency_errors}).
@@ -290,7 +302,7 @@ We observed the same general patterns in simulated populations (\FIGSUPP[h3n2_ab
 
 \begin{table}[htb]
   \begin{center}
-    \input{tables/h3n2_forecast_frequency_errors_future_by_delay_and_horizon.tex}
+    \input{h3n2_forecast_frequency_errors_future_by_delay_and_horizon.tex}
     \caption{Errors in clade frequencies between observed and predicted values by forecast horizon (in months) and submission lag for A/H3N2 clades with an initial frequency $\geq$10\% under the given lag scenario.}
     \label{tab:h3n2_forecast_clade_frequency_errors}
   \end{center}
@@ -317,7 +329,7 @@ In addition to this clade-based analysis, we also estimated effects of intervent
 For all analyses, positive values represented improved forecast accuracy under a given intervention scenario and negative values represented a reduction in accuracy.
 
 \begin{figure}[htb!]
-\includegraphics[width=\linewidth]{figures/h3n2_effects_of_realistic_interventions}
+\includegraphics[width=\linewidth]{h3n2_effects_of_realistic_interventions}
 \caption{Improvement of clade frequency errors for A/H3N2 populations between the status quo (12-month forecast horizon and realistic submission lags) and realistic interventions of improved vaccine development (reducing 12-month to 6-month forecast horizon), improved surveillance (reducing submission lags from 3 months on average to 1 month), or a combination of both interventions.
   We measured improvements from the status quo as the difference in total absolute clade frequency error per future timepoint.
   Positive values indicate increased forecast accuracy, while negative values indicate decreased accuracy.
@@ -329,37 +341,37 @@ For all analyses, positive values represented improved forecast accuracy under a
 \figsupp[Distribution of total absolute clade frequency errors summed across clades per future timepoint for A/H3N2 populations.]
 {Distribution of total absolute clade frequency errors summed across clades per future timepoint for A/H3N2 populations.\
   We calculated the effects of interventions as the difference between these values per future timepoint under the status quo (12-month forecast horizon and realistic submission lag) and specific interventions.}
-{\includegraphics[width=6cm]{figures/h3n2_total_absolute_forecast_frequency_errors_by_delay_and_horizon}}\label{figsupp:h3n2_total_absolute_clade_frequency_errors}
+{\includegraphics[width=6cm]{h3n2_total_absolute_forecast_frequency_errors_by_delay_and_horizon}}\label{figsupp:h3n2_total_absolute_clade_frequency_errors}
 %
 \figsupp[Improvement of clade frequency errors for simulated A/H3N2-like populations.]
 {Improvement of clade frequency errors for simulated A/H3N2-like populations between the status quo and realistic interventions.
-  \figsuppdata{Differences in total absolute clade frequency error per future timepoint and clade between the status quo and realistic interventions for simulated A/H3N2-like populations; see \url{https://zenodo.org/records/13742375}}}
-{\includegraphics[width=6cm]{figures/simulated_effects_of_realistic_interventions}}\label{figsupp:simulated_effects_of_realistic_interventions}
+  \figsuppdata{Differences in total absolute clade frequency error per future timepoint and clade between the status quo and realistic interventions for simulated A/H3N2-like populations; see \texttt{simulated\_effects\_of\_realistic\_interventions.csv} at \url{https://doi.org/10.5281/zenodo.17259448}.}}
+{\includegraphics[width=6cm]{simulated_effects_of_realistic_interventions}}\label{figsupp:simulated_effects_of_realistic_interventions}
 %
 \figsupp[Distribution of total absolute clade frequency errors summed across clades per future timepoint for simulated A/H3N2-like populations.]
 {Distribution of total absolute clade frequency errors summed across clades per future timepoint for simulated A/H3N2-like populations.}
-{\includegraphics[width=6cm]{figures/simulated_total_absolute_forecast_frequency_errors_by_delay_and_horizon}}\label{figsupp:simulated_total_absolute_clade_frequency_errors}
+{\includegraphics[width=6cm]{simulated_total_absolute_forecast_frequency_errors_by_delay_and_horizon}}\label{figsupp:simulated_total_absolute_clade_frequency_errors}
 %
 \figsupp[Improvement of distances to the future (AAs) for A/H3N2 populations between the status quo (12-month forecast horizon and realistic submission lags) and realistic interventions.]
 {Improvement of distances to the future (AAs) for A/H3N2 populations between the status quo (12-month forecast horizon and realistic submission lags) and realistic interventions.\
   The effects of interventions are the differences between distances to the future per future timepoint under the status quo and specific interventions.
-  \figsuppdata{Improvement of distances to the future per future timepoint for A/H3N2 populations; see \url{https://zenodo.org/records/13742375}}}
-{\includegraphics[width=6cm]{figures/h3n2_effects_of_realistic_interventions_on_distances_to_the_future}}\label{figsupp:h3n2_effects_of_realistic_interventions_on_distances_to_the_future}
+  \figsuppdata{Improvement of distances to the future per future timepoint for A/H3N2 populations; see \texttt{h3n2\_effects\_of\_realistic\_interventions\_on\_distances\_to\_the\_future.csv} at \url{https://doi.org/10.5281/zenodo.17259448}.}}
+{\includegraphics[width=6cm]{h3n2_effects_of_realistic_interventions_on_distances_to_the_future}}\label{figsupp:h3n2_effects_of_realistic_interventions_on_distances_to_the_future}
 %
 \figsupp[Improvement of distances to the future (AAs) for simulated A/H3N2-like populations between the status quo (12-month forecast horizon and realistic submission lags) and realistic interventions.]
 {Improvement of distances to the future (AAs) for simulated A/H3N2-like populations between the status quo (12-month forecast horizon and realistic submission lags) and realistic interventions.\
   The effects of interventions are the differences between distances to the future per future timepoint under the status quo and specific interventions.
-  \figsuppdata{Improvement of distances to the future per future timepoint for simulated A/H3N2-like populations; see \url{https://zenodo.org/records/13742375}}}
-{\includegraphics[width=6cm]{figures/simulated_effects_of_realistic_interventions_on_distances_to_the_future}}\label{figsupp:simulated_effects_of_realistic_interventions_on_distances_to_the_future}
+  \figsuppdata{Improvement of distances to the future per future timepoint for simulated A/H3N2-like populations; see \texttt{simulated\_effects\_of\_realistic\_interventions\_on\_distances\_to\_the\_future.csv} at \url{https://doi.org/10.5281/zenodo.17259448}.}}
+{\includegraphics[width=6cm]{simulated_effects_of_realistic_interventions_on_distances_to_the_future}}\label{figsupp:simulated_effects_of_realistic_interventions_on_distances_to_the_future}
 %
-\figdata{Differences in total absolute clade frequency error per future timepoint and clade between the status quo and realistic interventions for A/H3N2 populations.}\label{figdata:h3n2_effects_of_realistic_interventions}
+\figdata{Differences in total absolute clade frequency error per future timepoint and clade between the status quo and realistic interventions for A/H3N2 populations; see \texttt{h3n2\_effects\_of\_realistic\_interventions.csv} at \url{https://doi.org/10.5281/zenodo.17259448}.}\label{figdata:h3n2_effects_of_realistic_interventions}
 \figsrccode{Jupyter notebook used to produce effects of interventions on total absolute clade frequency errors \texttt{workflow/notebooks/plot-forecast-clade-frequency-errors-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:effects_of_realistic_interventions}
-\figsrccode{Jupyter notebook used to produce effects of interventions on distances to the future lives in \texttt{workflow/notebooks/plot-distances-to-the-future-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:effects_of_realistic_interventions_on_distances_to_the_future}
+\figsrccode{Jupyter notebook used to produce effects of interventions on distances to the future: \texttt{workflow/notebooks/plot-distances-to-the-future-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:effects_of_realistic_interventions_on_distances_to_the_future}
 \end{figure}
 
 \begin{table}[htb]
   \begin{center}
-    \input{tables/h3n2_effects_of_realistic_interventions.tex}
+    \input{h3n2_effects_of_realistic_interventions.tex}
     \caption{Improvement in A/H3N2 clade frequency forecast accuracy under realistic interventions of improved vaccine development (reducing 12-month to 6-month forecast horizon), improved surveillance (reducing submission lags from 3 months on average to 1 month), or a combination of both interventions.
       We measured improvements from the status quo (12-month forecast horizon and 3-month average submission lag) as the difference in total absolute clade frequency error per future timepoint and the number and proportion of future timepoints for which forecasts improved under the intervention.}
     \label{tab:h3n2_effects_of_realistic_interventions}
@@ -381,15 +393,20 @@ Adding more sequences at initial timepoints where LBI already overestimates clad
 To test this hypothesis, we calculated the effects of the same interventions on the optimal distances to the future for both natural and simulated populations.
 Since optimal distances reflected the empirical fitnesses of the initial populations, the effects of interventions should be independent of biases from fitness metrics.
 We expected all interventions to maintain or improve the optimal distance to the future without any cases where an intervention decreased accuracy.
+
 As expected, all interventions improved on the optimal distance to the future for both populations (\FIG{h3n2_optimal_effects_of_realistic_interventions} and \FIGSUPP[h3n2_optimal_effects_of_realistic_interventions]{simulated_optimal_effects_of_realistic_interventions_on_distances_to_the_future}).
 For natural A/H3N2 populations, the average improvement of the vaccine intervention was 1.1 AAs and the improvement of the surveillance intervention was 0.27 AAs or approximately 25\% of the vaccine intervention.
 The average improvement of both interventions was only slightly less than additive at 1.28 AAs.
+To verify the robustness of these results, we replicated our entire analysis of A/H3N2 populations using a subsampling scheme that tripled the number of viruses selected per month from 90 to 270 (\FIGSUPP[model_of_delays_and_horizons]{sequences_per_region}C).
+We found the same pattern with this replication analysis, with average improvements of 0.93 AAs for the vaccine intervention, 0.21 AAs for the surveillance intervention, and 1.14 AAs for both interventions (\FIGSUPP[h3n2_optimal_effects_of_realistic_interventions]{h3n2_high_density_optimal_effects_of_realistic_interventions_on_distances_to_the_future}).
+These effects of realistic interventions appeared consistent across the range of genetic diversity at future timepoints (\FIGSUPP[h3n2_optimal_effects_of_realistic_interventions]{h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future_by_future_clade_entropy}) and for future seasons occurring in both Northern and Southern Hemispheres (\FIGSUPP[h3n2_optimal_effects_of_realistic_interventions]{h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future_by_hemisphere}).
+We noted a slightly greater median improvement in forecast accuracy associated with both improved vaccine interventions for the Southern Hemisphere seasons (1.03 and 1.42 AAs) compared to the Northern Hemisphere seasons (0.74 and 0.93 AAs).
 These results confirmed the relatively stronger effect of reducing forecast horizons compared to submission lags.
 They also confirmed that reducing submission lags can improve forecasts under optimal forecasting conditions.
 For this reason, we expect that simultaneous improvements to forecasting models and genomic surveillance will have a mutually beneficial effect on forecast accuracy.
 
 \begin{figure}[htb!]
-\includegraphics[width=\linewidth]{figures/h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future}
+\includegraphics[width=\linewidth]{h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future}
 \caption{Improvement of optimal distances to the future (AAs) for A/H3N2 populations between the status quo (12-month forecast horizon and realistic submission lags) and realistic interventions of improved vaccine development (reducing 12-month to 6-month forecast horizon), improved surveillance (reducing submission lags from 3 months on average to 1 month), or a combination of both interventions.
   We measured improvements from the status quo as the difference in optimal distances to the future per future timepoint.
   Positive values indicate increased forecast accuracy, while negative values indicate decreased accuracy.
@@ -400,21 +417,38 @@ For this reason, we expect that simultaneous improvements to forecasting models 
 %
 \figsupp[Improvement of optimal distances to the future (AAs) for simulated A/H3N2-like populations between the status quo (12-month forecast horizon and realistic submission lags) and realistic interventions.]
 {Improvement of optimal distances to the future (AAs) for simulated A/H3N2-like populations between the status quo (12-month forecast horizon and realistic submission lags) and realistic interventions.\
-  \figsuppdata{Improvement of optimal distances to the future per future timepoint for simulated A/H3N2-like populations; see \url{https://zenodo.org/records/13742375}}}
-{\includegraphics[width=6cm]{figures/simulated_optimal_effects_of_realistic_interventions_on_distances_to_the_future}}\label{figsupp:simulated_optimal_effects_of_realistic_interventions_on_distances_to_the_future}
+  \figsuppdata{Improvement of optimal distances to the future per future timepoint for simulated A/H3N2-like populations; see \texttt{simulated\_optimal\_effects\_of\_realistic\_interventions\_on\_distances\_to\_the\_future.csv} at \url{https://doi.org/10.5281/zenodo.17259448}.}}
+{\includegraphics[width=6cm]{simulated_optimal_effects_of_realistic_interventions_on_distances_to_the_future}}\label{figsupp:simulated_optimal_effects_of_realistic_interventions_on_distances_to_the_future}
 %
-\figdata{Differences in optimal distances to the future per future timepoint between the status quo and realistic interventions for A/H3N2 populations.}\label{figdata:h3n2_optimal_effects_of_realistic_interventions}
-\figsrccode{Jupyter notebook used to produce optimal effects of interventions on distances to the future lives in \texttt{workflow/notebooks/plot-distances-to-the-future-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:optimal_effects_of_realistic_interventions_on_distances_to_the_future}
+\figsupp[Improvement of optimal distances to the future (AAs) for A/H3N2 populations sampled with higher density sampling (270 viruses per month).]
+{Improvement of optimal distances to the future (AAs) for A/H3N2 populations between the status quo (12-month forecast horizon and realistic submission lags) and realistic interventions using forecasts based on sampling 270 viruses per month instead of the 90 viruses-per-month sampling used in the main results.
+  \figsuppdata{Improvement of optimal distances to the future per future timepoint for A/H3N2 populations with higher density sampling; see \texttt{h3n2\_high\_density\_optimal\_effects\_of\_realistic\_interventions\_on\_distances\_to\_the\_future.csv} at \url{https://doi.org/10.5281/zenodo.17259448}.}}
+{\includegraphics[width=6cm]{h3n2_high_density_optimal_effects_of_realistic_interventions_on_distances_to_the_future}}\label{figsupp:h3n2_high_density_optimal_effects_of_realistic_interventions_on_distances_to_the_future}
+%
+\figsupp[Improvement of optimal distances to the future (AAs) for A/H3N2 populations compared to the Shannon entropy of clade frequencies at the future timepoint being forecast to.]
+{Improvement of optimal distances to the future (AAs) for A/H3N2 populations compared to the Shannon entropy of clade frequencies (estimated without submission lags) at the future timepoint being forecast to. Panel titles include the Pearson $r$ value between the improvement in distance and the future clade entropy.
+  \figsuppdata{Improvement of optimal distances to the future for A/H3N2 populations compared to the Shannon entropy of clade frequencies at the future timepoint; see \texttt{h3n2\_optimal\_effects\_of\_realistic\_interventions\_on\_distances\_to\_the\_future\_by\_future\_clade\_entropy.csv} at \url{https://doi.org/10.5281/zenodo.17259448}.}}
+{\includegraphics[width=6cm]{h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future_by_future_clade_entropy}}\label{figsupp:h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future_by_future_clade_entropy}
+%
+\figsupp[Improvement of optimal distances to the future (AAs) for A/H3N2 populations by intervention and the hemisphere with an active season during the future timepoint being predicted.]
+{Improvement of optimal distances to the future (AAs) for A/H3N2 populations by intervention and the hemisphere with an active season during the future timepoint being predicted. We labeled future timepoints that occurred in October or January as ``Northern'' and ``Southern'' if the dates were in April or July.}
+{\includegraphics[width=6cm]{h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future_by_hemisphere}}\label{figsupp:h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future_by_hemisphere}
+%
+\figdata{Differences in optimal distances to the future per future timepoint between the status quo and realistic interventions for A/H3N2 populations; see \texttt{h3n2\_optimal\_effects\_of\_realistic\_interventions\_on\_distances\_to\_the\_future.csv} at \url{https://doi.org/10.5281/zenodo.17259448}.}\label{figdata:h3n2_optimal_effects_of_realistic_interventions}
+%
+\figsrccode{Python notebook used to produce optimal effects of interventions on distances to the future: \texttt{workflow/notebooks/plot-distances-to-the-future-by-delay-type-and-horizon-for-population.py.ipynb}.}\label{figsrccode:optimal_effects_of_realistic_interventions_on_distances_to_the_future}
+\figsrccode{Python notebook used to plot optimal effects by future clade entropy: \texttt{workflow/notebooks/plot-optimal-effects-of-interventions-by-clade-entropy.py}.}\label{figsrccode:optimal_effects_of_realistic_interventions_by_future_clade_entropy}
+\figsrccode{Python notebook used to plot optimal effects by hemisphere: \texttt{workflow/notebooks/plot-optimal-effects-of-interventions-by-hemisphere.py}.}\label{figsrccode:optimal_effects_of_realistic_interventions_by_hemisphere}
 \end{figure}
 
 \section{Discussion}
 
-In this work, we showed that decreasing the time to develop new vaccines for seasonal influenza A/H3N2 and decreasing submission lags of HA sequences to public databases improves our estimates of future and current populations, respectively.
+In this work, we showed that realistic public health policy changes that decrease the time to develop new vaccines for seasonal influenza A/H3N2 and decrease submission lags of HA sequences to public databases could improve our estimates of future and current populations, respectively.
 We confirmed that forecasts became more accurate and more precise with each 3-month reduction in forecast horizon from the status quo of 12 months.
 Although decreasing submission lags only marginally improved long-term forecast accuracy, shorter lags increased the accuracy of current clade frequency estimates, reduced the bias toward underestimating current and future frequencies of larger clades, and improved forecasts 3 months into the future.
-Under a realistic scenario where a faster vaccine development timeline allowed us to forecast from 6 months before the next season, we found a 53\% average improvement in forecasts of total absolute clade frequency and a 25\% reduction in average absolute forecast frequency errors for large clades from 20\% to 15\%.
+Under a realistic scenario where a shorter vaccine development timeline allowed us to forecast from 6 months before the next season, we found a 53\% average improvement in forecasts of total absolute clade frequency and a 25\% reduction in average absolute forecast frequency errors for large clades from 20\% to 15\%.
 We confirmed these effects with a previously validated forecasting model using both simulated and natural populations and two different metrics of forecast accuracy including earth mover's distances between populations and clade frequencies.
-We expect that decreasing forecast horizons and submission lags will have similar relative effect sizes in other forecasting models, too.
+Since all models to date rely on currently available HA sequences to determine the clades to be forecasted, we expect that decreasing forecast horizons and submission lags will have similar relative effect sizes across all forecasting models including those that integrate phenotypic and genetic data.
 
 Even without these recommended improvements to vaccine development and sequence submissions, these results inform important next steps to improve forecasting models.
 Current and future frequency estimates should be presented with corresponding uncertainty intervals.
@@ -423,18 +457,25 @@ Similarly, the range of 12-month forecast frequency errors under realistic lags 
 Long-term forecasts with incomplete current data are highly uncertain by their nature.
 To support informed decisions about vaccine updates, we must communicate that uncertainty of the present and future to decision-makers.
 One simple immediate strategy to provide these uncertainty estimates is to estimate current and future clade frequencies from count data with multinomial probability distributions.
+
 Another immediate improvement would be to develop models that can use all available data in a way that properly accounts for geographic and temporal biases.
-Current models based on phylogenetic trees need to evenly sample the diversity of currently circulating viruses to produce unbiased trees in a reasonable amount of time.
-Models that could estimate sample fitness and compare predicted and future populations without trees could use more available sequence data and reduce the uncertainty in current and future clade frequencies.
+For example, virus samples from North America and Europe are overrepresented in the GISAID EpiFlu database, while samples from Africa and Asia are underrepresented (\FIGSUPP[model_of_delays_and_horizons]{sequences_per_region}).
+As new H3N2 epidemics often originate from East and Southeast Asia and burn out in North America and Europe \citep{Bedford2015}, models that do not account for this geographic bias are more likely to incorrectly predict the success of lower fitness variants circulating in overrepresented regions and miss higher fitness variants emerging from underrepresented regions.
+Additionally, the number of H3N2 HA sequences per year in the GISAID EpiFlu database has increased consistently since 2010, creating a temporal bias where any given season a model forecasts to will have more sequences available than the season from which forecasts occur.
+The model we used in this study does not explicitly account for geographic variability of viral fitness and relies on time-scaled phylogenetic trees which can be computationally costly to infer for large sample sizes.
+As a result, we needed to evenly sample the diversity of currently circulating viruses to produce unbiased trees in a reasonable amount of time.
+Models that could estimate viral fitness per geographic region without inferring trees could use more available sequence data and reduce the uncertainty in current and future clade frequencies.
+
 Finally, we could improve existing models by changing the start and end times of our long-term forecasts.
 We could change our forecasting target from the middle of the next season to the beginning of the season, reducing the forecast horizon from 12 to 9 months.
 We could also start forecasting from one month prior to the current date to minimize the effect of submission lags on our estimates of the current global influenza population.
 
 Despite the small effect that reducing sequence submission lags had on long-term forecasting accuracy, we still see a need to continue funding global genomic surveillance at higher levels than the pre-pandemic period.
 Compared to estimates of current viral diversity, forecasts of future influenza populations only represent one component of the overall decision-making process for vaccine development.
-For example, virologists must choose potential vaccine candidates from the diversity of circulating clades well in advance of vaccine composition meetings to have time to grow virus in cells and eggs and measure antigenic drift with serological assays \citep{Morris2018,Loes2024}.
-Similarly, prospective measurements of antigenic escape from human sera allow researchers to predict substitutions that could escape global immunity \citep{Lee2019,Greaney2022,Welsh2023}.
-The finding of even a few sequences with a potentially important antigenic substitution could be enough to inform choices of vaccine candidate viruses.
+For example, virologists must choose potential vaccine candidates from the diversity of circulating clades months in advance of vaccine composition meetings to have time to grow virus in cells and eggs and measure antigenic drift with serological assays \citep{Morris2018,Loes2024}.
+Earlier detection of viral sequences with important antigenic substitutions could determine whether corresponding vaccine candidates are available at the time of the vaccine selection meeting or not.
+Newer methods to estimate influenza fitness use experimental measurements of viral escape from human sera \citep{Lee2019,Welsh2023,Meijers2025,Kikawa2025}, measurements of viral stability and cell entry \citep{Yu2025}, or sequences from neuraminidase, the other primary surface protein associated with antigenic drift \citep{Meijers2025}.
+These methodological improvements all depend fundamentally on timely genomic surveillance efforts and the GISAID EpiFlu database to identify relevant influenza variants to include in their experiments.
 Finally, our results here reflect uncorrelated submission lags for each sequence, but actual lags can strongly correlate between sequences from the same originating and submitting labs.
 These correlated lags could further decrease the accuracy of frequency estimates beyond our more conservative estimates.
 More rapid sequence submission will improve our understanding of the present and give decision-makers more choices for new vaccines.
@@ -449,8 +490,13 @@ Such reductions in submission lags depend on substantial, sustained funding and 
 
 We downloaded all A/H3N2 HA sequences and metadata from GISAID's EpiFlu database \citep{gisaid} as of November 2023.
 We evenly sampled sequences geographically and temporally as previously described \citep{Huddleston2020}.
-Briefly, we selected 90 sequences per month, evenly sampling from major continential regions (Africa, Europe, North America, China, South Asia, Japan and Korea, Oceania, South America, Southeast Asia, and West Asia) and excluding sequences labeled as egg-passaged or missing complete date annotations.
+Briefly, we selected 90 sequences per month, evenly sampling from major continental regions (Africa, Europe, North America, China, South Asia, Japan and Korea, Oceania, South America, Southeast Asia, and West Asia) and excluding sequences labeled as egg-passaged or missing complete date annotations.
 For our forecasting analyses, we selected sequences collected between April 1, 2005 and October 1, 2019.
+This sampling approach accounts for known regional biases in sequence availability through time \citep{McCarron2022} and makes inference of divergence and time trees computationally tractable.
+This approach also exactly matches our previous study where we first trained the forecast models used in this study \citep{Huddleston2020}, allowing us to reuse those previously trained models.
+With this subsampling approach, we selected between 7\% (Europe) and 91\% (Southeast Asia) of all available sequences per region across the entire study period with an average of 50\% and median of 52\% across all 10 regions (\FIGSUPP[model_of_delays_and_horizons]{sequences_per_region}).
+To verify the reproducibility and robustness of our results, we reran the full forecasting analysis with a high-density subsampling scheme that selected 270 sequences per month with the same even sampling across regions and time as the original scheme.
+With this approach, we selected between 17\% (Europe) and 97\% (Southeast Asia) of all available sequences per region with an average of 72\% sampled and a median of 83\% (\FIGSUPP[model_of_delays_and_horizons]{sequences_per_region}C).
 
 \subsection{Simulation of influenza A/H3N2-like HA sequences}
 
@@ -543,7 +589,7 @@ We calculated the accuracy of clade frequency forecasts as the difference betwee
 
 Sequence data are available from the GISAID EpiFlu Database using accessions provided in Supplemental File S1.
 Source code for the analysis workflow and manuscript are available in the project's GitHub repository (\url{https://github.com/blab/flu-forecasting-delays}).
-Supplemental data are available on Zenodo at DOI \href{https://zenodo.org/records/13742375}{10.5281/zenodo.13742375}.
+Supplemental data are available on Zenodo at DOI \href{https://doi.org/10.5281/zenodo.17259448}{10.5281/zenodo.17259448}.
 
 \section*{Acknowledgments}
 

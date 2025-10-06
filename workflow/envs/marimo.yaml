@@ -1,0 +1,10 @@
+name: marimo
+channels:
+- https://conda-forge.fredhutch.org/conda-forge/
+dependencies:
+- altair=5.5.0
+- matplotlib
+- marimo=0.14.17
+- pandas=2
+- seaborn
+- vl-convert-python

@@ -1,9 +1,9 @@
 name: notebook
 channels:
-- conda-forge
-- defaults
+- https://conda-forge.fredhutch.org/conda-forge/
+- nodefaults
 dependencies:
 - jupyter>=1.0.0
 - jupyterlab_code_formatter=2
-- python=3.11
+- python=3
 - seaborn=0.13.2

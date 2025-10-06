@@ -25,7 +25,7 @@ wildcard_constraints:
     timepoint=r"\d{4}-\d{2}-\d{2}",
     output_type="(errors|coefficients)",
     delta_month="(3|6|9|12)",
-    population="(h3n2|simulated)",
+    population="(h3n2|h3n2_high_density|simulated)",
 
 # Load configuration parameters.
 configfile: "config/config.json"
@@ -351,9 +351,31 @@ rule all:
         "manuscript/tables/simulated_effects_of_realistic_interventions_on_distances_to_the_future.csv",
         "manuscript/tables/simulated_optimal_effects_of_realistic_interventions_on_distances_to_the_future.csv",
         "manuscript/figdata/h3n2_distances_to_the_future.csv",
+        "manuscript/figdata/h3n2_high_density_distances_to_the_future.csv",
         "manuscript/figdata/simulated_distances_to_the_future.csv",
+        "manuscript/figures/sequences_per_region.pdf",
+        "manuscript/figures/h3n2_high_density_optimal_effects_of_realistic_interventions_on_distances_to_the_future.pdf",
+        "manuscript/figures/h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future_by_future_clade_entropy.pdf",
+        "manuscript/figures/h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future_by_hemisphere.pdf",
 
 # Build figures for manuscript.
+
+rule plot_sequence_availability:
+    input:
+        full_metadata="data/natural/h3n2/annotated_metadata.tsv",
+        subsampled_metadata="data/natural/h3n2/strains_metadata.tsv",
+        high_subsampled_metadata="data/natural/h3n2_high_density/strains_metadata.tsv",
+    output:
+        sequences_per_region="manuscript/figures/sequences_per_region.pdf",
+    conda: "envs/marimo.yaml"
+    shell:
+        r"""
+        python workflow/notebooks/plot-sequence-availability.py \
+            --full-metadata {input.full_metadata} \
+            --subsampled-metadata {input.subsampled_metadata} \
+            --high-subsampled-metadata {input.high_subsampled_metadata} \
+            --output-figure {output.sequences_per_region}
+        """
 
 rule plot_forecast_frequency_errors_by_delay_and_horizon:
     input:
@@ -419,6 +441,36 @@ rule plot_distances_to_the_future_by_delay_and_horizon:
     conda: "envs/notebook.yaml"
     notebook:
         "notebooks/plot-distances-to-the-future-by-delay-type-and-horizon-for-population.py.ipynb"
+
+rule plot_optimal_effects_of_interventions_by_future_clade_entropy:
+    input:
+        clade_frequencies="results/clade_frequencies_for_h3n2.csv",
+        effects="manuscript/tables/h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future.csv",
+    output:
+        effects_by_entropy="manuscript/figures/h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future_by_future_clade_entropy.pdf",
+        distance_by_entropy="manuscript/tables/h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future_by_future_clade_entropy.csv",
+    conda: "envs/marimo.yaml"
+    shell:
+        r"""
+        python workflow/notebooks/plot-optimal-effects-of-interventions-by-clade-entropy.py \
+            --clade-frequencies {input.clade_frequencies} \
+            --effects {input.effects} \
+            --output-figure {output.effects_by_entropy} \
+            --output-table {output.distance_by_entropy}
+        """
+
+rule plot_optimal_effects_of_interventions_by_hemisphere:
+    input:
+        effects="manuscript/tables/h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future.csv",
+    output:
+        effects_by_hemisphere="manuscript/figures/h3n2_optimal_effects_of_realistic_interventions_on_distances_to_the_future_by_hemisphere.pdf",
+    conda: "envs/marimo.yaml"
+    shell:
+        r"""
+        python workflow/notebooks/plot-optimal-effects-of-interventions-by-hemisphere.py \
+            --effects {input.effects} \
+            --output {output.effects_by_hemisphere}
+        """
 
 rule plot_sequence_distribution_per_timepoint:
     input:

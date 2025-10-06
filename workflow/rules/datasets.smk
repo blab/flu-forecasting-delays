@@ -382,14 +382,19 @@ if "RETHINK_HOST" in os.environ and "RETHINK_AUTH_KEY" in os.environ:
 
     rule build_gisaid_accessions_table:
         input:
-            metadata = "data/natural/h3n2/strains_metadata.tsv",
+            metadata = [
+                "data/natural/h3n2/strains_metadata.tsv",
+                "data/natural/h3n2_high_density/strains_metadata.tsv",
+            ],
         output:
             accessions_table = "results/gisaid_accessions.csv",
         conda: "../envs/csv.yaml"
         shell:
             """
-            csvtk -t cut -f strain,accession,originating_lab,submitting_lab {input.metadata} \
-                | csvtk tab2csv > {output.accessions_table}
+            csvtk concat -t {input.metadata} \
+                | csvtk -t cut -f strain,accession,originating_lab,submitting_lab \
+                | csvtk tab2csv \
+                | csvtk uniq > {output.accessions_table}
             """
 
 else:
