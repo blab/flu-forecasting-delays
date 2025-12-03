@@ -1,4 +1,4 @@
-# Timely vaccine strain selection and genomic surveillance improves evolutionary forecast accuracy of seasonal influenza A/H3N2
+# Timely vaccine strain selection and genomic surveillance improve evolutionary forecast accuracy of seasonal influenza A/H3N2
 
 John Huddleston<sup>1,3</sup> and Trevor Bedford<sup>1,2</sup>
 
